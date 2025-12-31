@@ -79,8 +79,6 @@ const PaymentOrdersApprovalPage = () => {
   return (
     <InnerPageLayout
       moduleId="supervision"
-      sectionId="aid-committee"
-      itemId="payment-orders"
       title="اعتماد أوامر الصرف"
       sectionTitle="لجنة المساعدات"
       moduleTitle="الإدارة الإشرافية والتنفيذية"

@@ -67,8 +67,6 @@ const AidCommitteeBalancePage = () => {
   return (
     <InnerPageLayout
       moduleId="supervision"
-      sectionId="aid-committee"
-      itemId="balance"
       title="إدارة رصيد لجنة المساعدات"
       sectionTitle="لجنة المساعدات"
       moduleTitle="الإدارة الإشرافية والتنفيذية"

@@ -67,8 +67,6 @@ const PurchaseVouchersApprovalPage = () => {
   return (
     <InnerPageLayout
       moduleId="supervision"
-      sectionId="aid-committee"
-      itemId="purchase-vouchers"
       title="اعتماد القسائم الشرائية"
       sectionTitle="لجنة المساعدات"
       moduleTitle="الإدارة الإشرافية والتنفيذية"

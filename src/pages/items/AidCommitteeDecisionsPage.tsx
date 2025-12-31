@@ -73,8 +73,6 @@ const AidCommitteeDecisionsPage = () => {
   return (
     <InnerPageLayout
       moduleId="supervision"
-      sectionId="aid-committee"
-      itemId="decisions"
       title="نماذج قرارات لجنة المساعدات"
       sectionTitle="لجنة المساعدات"
       moduleTitle="الإدارة الإشرافية والتنفيذية"

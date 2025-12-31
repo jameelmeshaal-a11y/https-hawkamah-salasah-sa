@@ -43,8 +43,6 @@ const PaymentConfirmationsManagementPage = () => {
   return (
     <InnerPageLayout
       moduleId="supervision"
-      sectionId="payment-confirmations"
-      itemId="management"
       title="إدارة تعميدات الصرف"
       sectionTitle="تعميدات الصرف"
       moduleTitle="الإدارة الإشرافية والتنفيذية"

@@ -61,8 +61,6 @@ const PaymentConfirmationsRecordsPage = () => {
   return (
     <InnerPageLayout
       moduleId="supervision"
-      sectionId="payment-confirmations"
-      itemId="records"
       title="سجلات تعميدات الصرف"
       sectionTitle="تعميدات الصرف"
       moduleTitle="الإدارة الإشرافية والتنفيذية"
