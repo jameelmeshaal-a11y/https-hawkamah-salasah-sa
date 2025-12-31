@@ -7,7 +7,7 @@ import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 interface InnerPageLayoutProps {
   children: ReactNode;
   moduleId: string;
-  itemSlug: string;
+  itemSlug?: string;
   title?: string;
   sectionTitle?: string;
   moduleTitle?: string;
