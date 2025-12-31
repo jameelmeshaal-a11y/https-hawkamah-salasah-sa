@@ -31,6 +31,7 @@ import BeneficiaryServicesContent from "./BeneficiaryServicesContent";
 import EvaluationFollowupContent from "./EvaluationFollowupContent";
 import ProjectsManagementContent from "./ProjectsManagementContent";
 import ProgramsDevelopmentContent from "./ProgramsDevelopmentContent";
+import EducationalAffairsContent from "./EducationalAffairsContent";
 
 interface ModuleData {
   icon: React.ElementType;
@@ -254,6 +255,8 @@ const ModulesSection = () => {
                 <ProjectsManagementContent />
               ) : module.value === "programs" ? (
                 <ProgramsDevelopmentContent />
+              ) : module.value === "educational" ? (
+                <EducationalAffairsContent />
               ) : (
                 <div className="px-4 pb-4 pt-0" dir="rtl">
                   <div className="flex flex-wrap gap-2 pr-14 text-right">
