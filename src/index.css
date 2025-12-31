@@ -2,105 +2,104 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap');
-
 /* Salasah ERP Design System - RTL Arabic Enterprise Dashboard */
+/* Colors extracted from logo: Dark Teal (#1E4D4D) and White */
 
 @layer base {
   :root {
-    /* Brand Colors */
+    /* Brand Colors - Based on Logo */
     --background: 0 0% 100%;
-    --foreground: 215 25% 20%;
+    --foreground: 173 43% 21%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 20%;
+    --card-foreground: 173 43% 21%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 20%;
+    --popover-foreground: 173 43% 21%;
 
-    /* Primary - Deep Blue #004aad */
-    --primary: 212 100% 34%;
+    /* Primary - Dark Teal from Logo */
+    --primary: 173 43% 21%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary - Light Blue Gray */
-    --secondary: 210 20% 96%;
-    --secondary-foreground: 215 25% 20%;
+    /* Secondary - Light Teal */
+    --secondary: 173 20% 96%;
+    --secondary-foreground: 173 43% 21%;
 
-    --muted: 210 20% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 173 15% 95%;
+    --muted-foreground: 173 20% 40%;
 
-    /* Accent - Teal from logo */
-    --accent: 173 40% 25%;
+    /* Accent - Slightly lighter teal */
+    --accent: 173 35% 30%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 212 100% 34%;
+    --border: 173 20% 88%;
+    --input: 173 20% 88%;
+    --ring: 173 43% 21%;
 
     --radius: 0.5rem;
 
     /* ERP-specific tokens */
-    --header-bg: 212 100% 34%;
+    --header-bg: 173 43% 21%;
     --header-foreground: 0 0% 100%;
-    --sidebar-bg: 212 80% 25%;
+    --sidebar-bg: 173 43% 21%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-hover: 212 70% 30%;
-    --sidebar-active: 212 60% 35%;
+    --sidebar-hover: 173 40% 26%;
+    --sidebar-active: 173 38% 30%;
     
-    /* KPI Card Colors */
+    /* KPI Card Colors - Teal-based palette */
     --kpi-warning: 45 100% 51%;
     --kpi-success: 142 71% 45%;
-    --kpi-info: 200 80% 50%;
+    --kpi-info: 173 50% 45%;
     --kpi-danger: 0 84% 60%;
-    --kpi-primary: 212 100% 34%;
+    --kpi-primary: 173 43% 21%;
     --kpi-purple: 280 60% 50%;
     
     /* Accordion styling */
-    --accordion-header: 210 20% 97%;
-    --accordion-border: 214 32% 91%;
+    --accordion-header: 173 15% 97%;
+    --accordion-border: 173 20% 88%;
   }
 
   .dark {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    --background: 173 40% 8%;
+    --foreground: 173 10% 95%;
 
-    --card: 222 47% 11%;
-    --card-foreground: 210 40% 98%;
+    --card: 173 40% 10%;
+    --card-foreground: 173 10% 95%;
 
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 173 40% 10%;
+    --popover-foreground: 173 10% 95%;
 
-    --primary: 212 100% 50%;
+    --primary: 173 43% 40%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 173 30% 15%;
+    --secondary-foreground: 173 10% 95%;
 
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 173 30% 15%;
+    --muted-foreground: 173 15% 60%;
 
-    --accent: 173 40% 35%;
+    --accent: 173 35% 35%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 173 10% 95%;
 
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 212 100% 50%;
+    --border: 173 30% 18%;
+    --input: 173 30% 18%;
+    --ring: 173 43% 40%;
 
-    --header-bg: 222 47% 8%;
+    --header-bg: 173 40% 6%;
     --header-foreground: 0 0% 100%;
-    --sidebar-bg: 222 47% 8%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-hover: 217 33% 17%;
-    --sidebar-active: 217 33% 22%;
+    --sidebar-bg: 173 40% 6%;
+    --sidebar-foreground: 173 10% 95%;
+    --sidebar-hover: 173 30% 15%;
+    --sidebar-active: 173 30% 20%;
     
-    --accordion-header: 217 33% 15%;
-    --accordion-border: 217 33% 20%;
+    --accordion-header: 173 30% 12%;
+    --accordion-border: 173 30% 18%;
   }
 }
 
@@ -114,7 +113,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-cairo antialiased;
+    @apply bg-background text-foreground font-tajawal antialiased;
   }
 }
 

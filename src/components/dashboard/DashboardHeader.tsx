@@ -122,7 +122,7 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
       </div>
 
       {/* Main Header with Logo and Clock */}
-      <div className="flex bg-[hsl(215,35%,32%)]">
+      <div className="flex bg-accent">
         {/* Left side - Welcome */}
         <div className="flex-1 flex items-center justify-start gap-6 py-6 px-6">
           <div className="text-center">
@@ -144,8 +144,8 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
         </div>
 
         {/* Right side - Logo Box with Add Post Button */}
-        <div className="bg-[hsl(212,55%,40%)] py-6 px-8 flex flex-col items-center justify-center min-w-[200px]">
-          <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded px-6 py-2 text-sm font-medium mb-4">
+        <div className="bg-primary py-6 px-8 flex flex-col items-center justify-center min-w-[200px]">
+          <Button className="bg-accent hover:bg-accent/90 text-white rounded px-6 py-2 text-sm font-medium mb-4">
             إضافة منشور
           </Button>
           <div className="text-4xl font-bold mb-1">سلاسة</div>
