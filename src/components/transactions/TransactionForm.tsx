@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -9,120 +10,144 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import FormRow from "@/components/shared/FormRow";
-import { Send, Paperclip } from "lucide-react";
+import { Paperclip } from "lucide-react";
+import { toast } from "sonner";
 
 interface TransactionFormProps {
-  transactionTypes?: { value: string; label: string }[];
-  recipients?: { value: string; label: string }[];
+  transactionTypes?: string[];
   onSubmit?: (data: TransactionFormData) => void;
 }
 
 export interface TransactionFormData {
   type: string;
-  subject: string;
-  recipient: string;
+  title: string;
   details: string;
   attachments: File[];
 }
 
 const defaultTypes = [
-  { value: "inquiry", label: "استفسار" },
-  { value: "request", label: "طلب" },
-  { value: "complaint", label: "شكوى" },
-  { value: "suggestion", label: "اقتراح" },
-  { value: "report", label: "تقرير" },
-];
-
-const defaultRecipients = [
-  { value: "hr", label: "الموارد البشرية" },
-  { value: "finance", label: "الشؤون المالية" },
-  { value: "admin", label: "الشؤون الإدارية" },
-  { value: "it", label: "تقنية المعلومات" },
-  { value: "management", label: "الإدارة العليا" },
+  "معاملة صادرة",
+  "معاملة واردة",
+  "معاملة داخلية",
+  "إحالة",
+  "طلب اعتماد",
 ];
 
 const TransactionForm = ({
   transactionTypes = defaultTypes,
-  recipients = defaultRecipients,
   onSubmit,
 }: TransactionFormProps) => {
   const [type, setType] = useState("");
-  const [subject, setSubject] = useState("");
-  const [recipient, setRecipient] = useState("");
+  const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
+  const [attachments, setAttachments] = useState<File[]>([]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!title.trim() || !details.trim()) {
+      toast.error("يرجى تعبئة جميع الحقول المطلوبة");
+      return;
+    }
+
     onSubmit?.({
       type,
-      subject,
-      recipient,
+      title,
       details,
-      attachments: [],
+      attachments,
     });
+
+    toast.success("تم إضافة السجل بنجاح");
+    
+    // Reset form
+    setType("");
+    setTitle("");
+    setDetails("");
+    setAttachments([]);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setAttachments(Array.from(e.target.files));
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <FormRow label="نوع المعاملة" required>
-        <Select value={type} onValueChange={setType}>
-          <SelectTrigger>
-            <SelectValue placeholder="اختر نوع المعاملة" />
-          </SelectTrigger>
-          <SelectContent>
-            {transactionTypes.map((t) => (
-              <SelectItem key={t.value} value={t.value}>
-                {t.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </FormRow>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="type">نوع المعاملة</Label>
+          <Select value={type} onValueChange={setType}>
+            <SelectTrigger id="type">
+              <SelectValue placeholder="اختر" />
+            </SelectTrigger>
+            <SelectContent>
+              {transactionTypes.map((t) => (
+                <SelectItem key={t} value={t}>
+                  {t}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-      <FormRow label="الموضوع" required>
-        <Input
-          value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-          placeholder="أدخل موضوع المعاملة"
-        />
-      </FormRow>
+        <div className="space-y-2">
+          <Label htmlFor="title">
+            عنوان المعاملة <span className="text-destructive">*</span>
+          </Label>
+          <Input
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="أدخل عنوان المعاملة"
+            required
+          />
+        </div>
+      </div>
 
-      <FormRow label="الجهة المستلمة" required>
-        <Select value={recipient} onValueChange={setRecipient}>
-          <SelectTrigger>
-            <SelectValue placeholder="اختر الجهة المستلمة" />
-          </SelectTrigger>
-          <SelectContent>
-            {recipients.map((r) => (
-              <SelectItem key={r.value} value={r.value}>
-                {r.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </FormRow>
-
-      <FormRow label="تفاصيل المعاملة" required>
+      <div className="space-y-2">
+        <Label htmlFor="details">
+          تفاصيل المعاملة <span className="text-destructive">*</span>
+        </Label>
         <Textarea
+          id="details"
           value={details}
           onChange={(e) => setDetails(e.target.value)}
-          placeholder="أدخل تفاصيل المعاملة..."
-          rows={5}
+          placeholder="أدخل تفاصيل المعاملة"
+          rows={4}
+          required
         />
-      </FormRow>
+      </div>
 
-      <FormRow label="المرفقات">
-        <Button type="button" variant="outline" className="w-full justify-start">
-          <Paperclip className="h-4 w-4 ml-2" />
-          إضافة مرفقات
-        </Button>
-      </FormRow>
+      <div className="space-y-2">
+        <Label>المرفقات</Label>
+        <div className="flex items-center gap-2">
+          <Input
+            type="file"
+            multiple
+            onChange={handleFileChange}
+            className="hidden"
+            id="attachments"
+          />
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => document.getElementById("attachments")?.click()}
+          >
+            <Paperclip className="h-4 w-4 ml-1" />
+            إضافة مرفقات
+          </Button>
+          {attachments.length > 0 && (
+            <span className="text-sm text-muted-foreground">
+              {attachments.length} ملف مرفق
+            </span>
+          )}
+        </div>
+      </div>
 
-      <div className="flex justify-end pt-4">
-        <Button type="submit" className="min-w-[140px]">
-          <Send className="h-4 w-4 ml-2" />
-          إرسال المعاملة
+      <div className="flex justify-start">
+        <Button type="submit" className="bg-green-600 hover:bg-green-700">
+          إضافة سجل
         </Button>
       </div>
     </form>
