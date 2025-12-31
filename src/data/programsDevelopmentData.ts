@@ -1,0 +1,92 @@
+import { FileText, Plus, Database, Search, CheckCircle, XCircle, Clock, Edit, Users, Settings, BarChart3, FolderKanban, Target, Wallet, Calendar, FileCheck, Trash2, RotateCcw, FileStack, PieChart, TrendingUp, ListChecks, Award, Layers, Activity, ClipboardList, Building2, Briefcase } from "lucide-react";
+import type { SubSection } from "./electronicOfficeData";
+
+export const programsDevelopmentSections: SubSection[] = [
+  {
+    title: "إدارة مقترحات البرامج",
+    items: [
+      { title: "إضافة مقترح برنامج", icon: Plus },
+      { title: "مقترحات برامج قيد المراجعة", icon: Clock },
+      { title: "مقترحات برامج معتمدة", icon: CheckCircle },
+      { title: "مقترحات برامج مرفوضة", icon: XCircle },
+      { title: "قاعدة بيانات المقترحات", icon: Database },
+      { title: "مقترحات برامج محذوفة", icon: Trash2 },
+      { title: "استعادة مقترح برنامج", icon: RotateCcw },
+      { title: "البحث في المقترحات", icon: Search },
+    ],
+  },
+  {
+    title: "اعتمادات مقترحات البرامج",
+    items: [
+      { title: "مقترحات بانتظار الاعتماد", icon: Clock },
+      { title: "اعتماد مقترح برنامج", icon: CheckCircle },
+      { title: "رفض مقترح برنامج", icon: XCircle },
+      { title: "إعادة مقترح للمراجعة", icon: RotateCcw },
+      { title: "تعديل مقترح برنامج", icon: Edit },
+      { title: "حذف مقترح برنامج", icon: Trash2 },
+      { title: "سجل اعتمادات المقترحات", icon: FileStack },
+      { title: "تقرير المقترحات المعتمدة", icon: FileText },
+      { title: "تقرير المقترحات المرفوضة", icon: FileText },
+    ],
+  },
+  {
+    title: "لوحة مديرين البرامج",
+    items: [
+      { title: "إضافة برنامج جديد", icon: Plus },
+      { title: "تعديل بيانات برنامج", icon: Edit },
+      { title: "إدارة فريق البرنامج", icon: Users },
+      { title: "إدارة ميزانية البرنامج", icon: Wallet },
+      { title: "إدارة مراحل البرنامج", icon: Layers },
+      { title: "إدارة أهداف البرنامج", icon: Target },
+      { title: "إدارة مؤشرات الأداء", icon: BarChart3 },
+      { title: "جدولة البرنامج", icon: Calendar },
+      { title: "لوحة متابعة البرنامج", icon: FolderKanban },
+      { title: "تقييم أداء البرنامج", icon: Award },
+      { title: "إعدادات البرنامج", icon: Settings },
+      { title: "أرشفة برنامج", icon: FileStack },
+      { title: "حذف برنامج", icon: Trash2 },
+      { title: "استعادة برنامج", icon: RotateCcw },
+      { title: "قاعدة بيانات البرامج", icon: Database },
+    ],
+  },
+  {
+    title: "لوحة عمليات البرامج",
+    items: [
+      { title: "إدارة أنشطة البرنامج", icon: Activity },
+      { title: "إدارة مهام البرنامج", icon: ListChecks },
+      { title: "إدارة مخرجات البرنامج", icon: FileCheck },
+      { title: "تسجيل إيراد برنامج", icon: TrendingUp },
+      { title: "تسجيل صرف برنامج", icon: Wallet },
+      { title: "إلحاق مستفيدين بالبرنامج", icon: Users },
+      { title: "متابعة تنفيذ البرنامج", icon: ClipboardList },
+      { title: "تقارير العمليات", icon: FileText },
+      { title: "سجل العمليات", icon: FileStack },
+      { title: "إحصائيات العمليات", icon: PieChart },
+      { title: "لوحة كانبان", icon: FolderKanban },
+    ],
+  },
+  {
+    title: "إجراءات البرامج الإدارية",
+    items: [
+      { title: "إدارة الشركاء", icon: Building2 },
+      { title: "إدارة الموردين", icon: Briefcase },
+      { title: "إدارة العقود", icon: FileText },
+    ],
+  },
+  {
+    title: "تقارير و إحصائيات البرامج",
+    items: [
+      { title: "تقرير البرامج النشطة", icon: FileText },
+      { title: "تقرير البرامج المكتملة", icon: FileCheck },
+      { title: "تقرير البرامج المتوقفة", icon: FileText },
+      { title: "تقرير الأداء العام", icon: BarChart3 },
+      { title: "تقرير الميزانيات", icon: Wallet },
+      { title: "تقرير المستفيدين", icon: Users },
+      { title: "تقرير مؤشرات الأداء", icon: Target },
+      { title: "إحصائيات البرامج", icon: PieChart },
+      { title: "لوحة المعلومات", icon: FolderKanban },
+      { title: "تقارير مخصصة", icon: FileStack },
+      { title: "تصدير التقارير", icon: FileText },
+    ],
+  },
+];
