@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import ElectronicOfficeContent from "./ElectronicOfficeContent";
 import SupervisoryManagementContent from "./SupervisoryManagementContent";
+import MembersManagementContent from "./MembersManagementContent";
 
 interface ModuleData {
   icon: React.ElementType;
@@ -233,6 +234,8 @@ const ModulesSection = () => {
                 <ElectronicOfficeContent />
               ) : module.value === "supervision" ? (
                 <SupervisoryManagementContent />
+              ) : module.value === "members" ? (
+                <MembersManagementContent />
               ) : (
                 <div className="px-4 pb-4 pt-0" dir="rtl">
                   <div className="flex flex-wrap gap-2 pr-14 text-right">
