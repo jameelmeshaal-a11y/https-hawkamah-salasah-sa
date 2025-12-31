@@ -23,16 +23,16 @@ import {
   FolderKanban,
 } from "lucide-react";
 import salasahLogo from "@/assets/salasah-logo.jpeg";
-import SidebarElectronicOffice from "./SidebarElectronicOffice";
+import SidebarExpandableContent from "./SidebarExpandableContent";
+import { isModuleExpandable } from "@/data/allModulesData";
 
 interface SidebarItem {
   icon: React.ElementType;
   label: string;
-  expandable?: boolean;
 }
 
 const sidebarItems: SidebarItem[] = [
-  { icon: Laptop, label: "المكتب الإلكتروني", expandable: true },
+  { icon: Laptop, label: "المكتب الإلكتروني" },
   { icon: Users, label: "الإدارة الإشرافية و التنفيذية" },
   { icon: UsersRound, label: "إدارة الأعضاء المشاركين" },
   { icon: Star, label: "إدارة التميز المؤسسي" },
@@ -65,7 +65,8 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
   const [expandedModule, setExpandedModule] = useState<string | null>(null);
 
   const handleItemClick = (item: SidebarItem) => {
-    if (item.expandable) {
+    const expandable = isModuleExpandable(item.label);
+    if (expandable) {
       setExpandedModule(expandedModule === item.label ? null : item.label);
     }
     setActiveItem(activeItem === item.label ? null : item.label);
@@ -102,10 +103,11 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
 
         {/* Navigation Items - Icons RIGHT, Text CENTER, Arrow LEFT */}
         <nav className="flex-1 overflow-y-auto scrollbar-thin py-2">
-          {sidebarItems.map((item, index) => {
+        {sidebarItems.map((item, index) => {
             const Icon = item.icon;
             const isActive = activeItem === item.label;
             const isExpanded = expandedModule === item.label;
+            const expandable = isModuleExpandable(item.label);
 
             return (
               <div key={index}>
@@ -116,11 +118,11 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
                     isActive ? "bg-sidebar-active" : "hover:bg-sidebar-hover"
                   }`}
                 >
-                  {/* Arrow on LEFT */}
+                  {/* Arrow on LEFT - only show for expandable modules */}
                   <ChevronDown
-                    className={`h-4 w-4 opacity-60 justify-self-start transition-transform duration-200 ${
-                      isExpanded ? "rotate-180" : ""
-                    }`}
+                    className={`h-4 w-4 justify-self-start transition-transform duration-200 ${
+                      expandable ? "opacity-60" : "opacity-0"
+                    } ${isExpanded ? "rotate-180" : ""}`}
                   />
 
                   {/* Text (Arabic RTL) */}
@@ -132,9 +134,10 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
                   <Icon className="h-5 w-5 text-sidebar-foreground opacity-80 justify-self-end" />
                 </button>
 
-                {/* Expandable Content for المكتب الإلكتروني */}
-                {item.expandable && isExpanded && (
-                  <SidebarElectronicOffice
+                {/* Expandable Content - uses generic component */}
+                {expandable && isExpanded && (
+                  <SidebarExpandableContent
+                    moduleLabel={item.label}
                     onItemClick={(title) => {
                       console.log("Selected:", title);
                     }}
