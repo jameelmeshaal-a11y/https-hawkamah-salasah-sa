@@ -63,6 +63,33 @@ const ApprovedRequestsPage = lazy(() => import("@/pages/items/ApprovedRequestsPa
 const RejectedRequestsPage = lazy(() => import("@/pages/items/RejectedRequestsPage"));
 const CompletedRequestsPage = lazy(() => import("@/pages/items/CompletedRequestsPage"));
 const CancelledRequestsPage = lazy(() => import("@/pages/items/CancelledRequestsPage"));
+// Internal Transactions pages
+const InternalTransactionPage = lazy(() => import("@/pages/items/InternalTransactionPage"));
+const CancelTransactionPage = lazy(() => import("@/pages/items/CancelTransactionPage"));
+const PendingFollowUpPage = lazy(() => import("@/pages/items/PendingFollowUpPage"));
+const RejectedFollowUpsPage = lazy(() => import("@/pages/items/RejectedFollowUpsPage"));
+const FollowedTransactionsPage = lazy(() => import("@/pages/items/FollowedTransactionsPage"));
+const OngoingTransactionsPage = lazy(() => import("@/pages/items/OngoingTransactionsPage"));
+const RejectedTransactionsPage = lazy(() => import("@/pages/items/RejectedTransactionsPage"));
+const CancelledTransactionsPage = lazy(() => import("@/pages/items/CancelledTransactionsPage"));
+const CompletedTransactionsPage = lazy(() => import("@/pages/items/CompletedTransactionsPage"));
+const ArchivedTransactionsPage = lazy(() => import("@/pages/items/ArchivedTransactionsPage"));
+
+// Reports and Records pages
+const IdCardPage = lazy(() => import("@/pages/items/IdCardPage"));
+const JobProfilePage = lazy(() => import("@/pages/items/JobProfilePage"));
+const JobHistoryPage = lazy(() => import("@/pages/items/JobHistoryPage"));
+const SystemTutorialsPage = lazy(() => import("@/pages/items/SystemTutorialsPage"));
+const InternalAlertsPage = lazy(() => import("@/pages/items/InternalAlertsPage"));
+const DirectedNotificationsPage = lazy(() => import("@/pages/items/DirectedNotificationsPage"));
+const NotesAlertsPage = lazy(() => import("@/pages/items/NotesAlertsPage"));
+const LeaveBalancesPage = lazy(() => import("@/pages/items/LeaveBalancesPage"));
+const AttendanceRecordsPage = lazy(() => import("@/pages/items/AttendanceRecordsPage"));
+const RejectedAttendancePage = lazy(() => import("@/pages/items/RejectedAttendancePage"));
+const MyTasksPage = lazy(() => import("@/pages/items/MyTasksPage"));
+const ProjectTasksPage = lazy(() => import("@/pages/items/ProjectTasksPage"));
+const StrategicPlanMapPage = lazy(() => import("@/pages/items/StrategicPlanMapPage"));
+const AssignedIndicatorsPage = lazy(() => import("@/pages/items/AssignedIndicatorsPage"));
 
 // Map of item slugs to their page components
 export const itemPages: Record<string, React.ComponentType> = {
@@ -101,6 +128,32 @@ export const itemPages: Record<string, React.ComponentType> = {
   "rejected-requests": RejectedRequestsPage,
   "completed-requests": CompletedRequestsPage,
   "cancelled-requests": CancelledRequestsPage,
+  // Internal Transactions
+  "internal-transaction": InternalTransactionPage,
+  "cancel-transaction": CancelTransactionPage,
+  "pending-follow-up": PendingFollowUpPage,
+  "rejected-follow-ups": RejectedFollowUpsPage,
+  "followed-transactions": FollowedTransactionsPage,
+  "ongoing-transactions": OngoingTransactionsPage,
+  "rejected-transactions": RejectedTransactionsPage,
+  "cancelled-transactions": CancelledTransactionsPage,
+  "completed-transactions": CompletedTransactionsPage,
+  "archived-transactions": ArchivedTransactionsPage,
+  // Reports and Records
+  "id-card": IdCardPage,
+  "job-profile": JobProfilePage,
+  "job-history": JobHistoryPage,
+  "system-tutorials": SystemTutorialsPage,
+  "internal-alerts": InternalAlertsPage,
+  "directed-notifications": DirectedNotificationsPage,
+  "notes-alerts": NotesAlertsPage,
+  "leave-balances": LeaveBalancesPage,
+  "attendance-records": AttendanceRecordsPage,
+  "rejected-attendance": RejectedAttendancePage,
+  "my-tasks": MyTasksPage,
+  "project-tasks": ProjectTasksPage,
+  "strategic-plan-map": StrategicPlanMapPage,
+  "assigned-indicators": AssignedIndicatorsPage,
 };
 
 // Get page component by slug
