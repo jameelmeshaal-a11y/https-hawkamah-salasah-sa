@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import {
   ChevronDown,
   Laptop,
@@ -25,6 +26,7 @@ import {
 import salasahLogo from "@/assets/salasah-logo.jpeg";
 import SidebarExpandableContent from "./SidebarExpandableContent";
 import { isModuleExpandable } from "@/data/allModulesData";
+import { moduleSlugToId } from "@/utils/itemRoutes";
 
 interface SidebarItem {
   icon: React.ElementType;
@@ -61,8 +63,24 @@ interface DashboardSidebarProps {
 }
 
 const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
+  const location = useLocation();
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const [expandedModule, setExpandedModule] = useState<string | null>(null);
+
+  // Auto-expand module based on current URL
+  useEffect(() => {
+    const match = location.pathname.match(/^\/module\/([^/]+)\//);
+    if (match) {
+      const currentModuleId = match[1];
+      // Find module label from ID
+      const moduleLabel = Object.entries(moduleSlugToId)
+        .find(([_, id]) => id === currentModuleId)?.[0];
+      if (moduleLabel) {
+        setExpandedModule(moduleLabel);
+        setActiveItem(moduleLabel);
+      }
+    }
+  }, [location.pathname]);
 
   const handleItemClick = (item: SidebarItem) => {
     const expandable = isModuleExpandable(item.label);
