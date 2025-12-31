@@ -26,6 +26,7 @@ import ElectronicOfficeContent from "./ElectronicOfficeContent";
 import SupervisoryManagementContent from "./SupervisoryManagementContent";
 import MembersManagementContent from "./MembersManagementContent";
 import InstitutionalExcellenceContent from "./InstitutionalExcellenceContent";
+import BeneficiariesManagementContent from "./BeneficiariesManagementContent";
 
 interface ModuleData {
   icon: React.ElementType;
@@ -239,6 +240,8 @@ const ModulesSection = () => {
                 <MembersManagementContent />
               ) : module.value === "excellence" ? (
                 <InstitutionalExcellenceContent />
+              ) : module.value === "beneficiary-accounts" ? (
+                <BeneficiariesManagementContent />
               ) : (
                 <div className="px-4 pb-4 pt-0" dir="rtl">
                   <div className="flex flex-wrap gap-2 pr-14 text-right">
