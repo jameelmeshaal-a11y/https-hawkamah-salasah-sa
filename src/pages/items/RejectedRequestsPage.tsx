@@ -23,7 +23,7 @@ const RejectedRequestsPage = () => {
           requests={requests}
           emptyMessage="لا توجد طلبات مرفوضة نهائياً"
           emptyIcon={XCircle}
-          showActions={false}
+          showActions={true}
         />
       </div>
     </InnerPageLayout>

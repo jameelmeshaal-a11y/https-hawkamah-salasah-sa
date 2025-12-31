@@ -27,6 +27,7 @@ const RejectedWithNotePage = () => {
           requests={requests}
           emptyMessage="لا توجد طلبات مرفوضة مع ملاحظات"
           emptyIcon={AlertCircle}
+          showActions={true}
         />
       </div>
     </InnerPageLayout>

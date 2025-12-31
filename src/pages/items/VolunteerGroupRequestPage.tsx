@@ -6,10 +6,23 @@ import { useState } from "react";
 
 const volunteerFields: RequestField[] = [
   {
-    name: "groupName",
-    label: "اسم المجموعة",
+    name: "title",
+    label: "عنوان الطلب",
     type: "text",
-    placeholder: "أدخل اسم المجموعة التطوعية",
+    placeholder: "أدخل عنوان الطلب",
+    required: true,
+  },
+  {
+    name: "classification",
+    label: "التصنيف",
+    type: "select",
+    options: [
+      { value: "charity", label: "خيري" },
+      { value: "educational", label: "تعليمي" },
+      { value: "health", label: "صحي" },
+      { value: "social", label: "اجتماعي" },
+      { value: "environmental", label: "بيئي" },
+    ],
     required: true,
   },
   {
@@ -21,33 +34,42 @@ const volunteerFields: RequestField[] = [
   },
   {
     name: "membersCount",
-    label: "عدد الأعضاء",
+    label: "العدد المطلوب",
     type: "number",
-    placeholder: "العدد المطلوب",
+    placeholder: "العدد المطلوب من المتطوعين",
     required: true,
   },
   {
-    name: "date",
-    label: "التاريخ",
+    name: "startDate",
+    label: "تاريخ البداية",
+    type: "date",
+    required: true,
+  },
+  {
+    name: "endDate",
+    label: "تاريخ الإنتهاء",
     type: "date",
     required: true,
   },
   {
     name: "certificates",
     label: "الشهادات المطلوبة",
-    type: "select",
-    options: [
-      { value: "none", label: "لا يوجد" },
-      { value: "participation", label: "شهادة مشاركة" },
-      { value: "training", label: "شهادة تدريب" },
-    ],
+    type: "text",
+    placeholder: "الشهادات المطلوبة للمتطوعين",
+  },
+  {
+    name: "qualifications",
+    label: "المؤهلات المطلوبة",
+    type: "text",
+    placeholder: "المؤهلات والخبرات المطلوبة",
   },
   {
     name: "details",
-    label: "تفاصيل الطلب",
+    label: "تفاصيل المهمة",
     type: "textarea",
-    placeholder: "أدخل تفاصيل المجموعة التطوعية...",
+    placeholder: "أدخل تفاصيل المهمة التطوعية...",
     colSpan: 2,
+    required: true,
   },
 ];
 
