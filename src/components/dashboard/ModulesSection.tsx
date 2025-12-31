@@ -1,30 +1,20 @@
+import { useState } from "react";
 import {
   Laptop,
   Users,
   Heart,
-  BookOpen,
   GraduationCap,
   FileEdit,
-  Building2,
   Wrench,
-  ClipboardList,
-  UserCog,
   Award,
-  Package,
   Radio,
   Shield,
   BarChart3,
   FileStack,
-  MessageSquareWarning,
   Settings,
-  Headphones,
-  Building,
-  FileQuestion,
-  Briefcase,
+  Monitor,
   UserCheck,
   FolderKanban,
-  Monitor,
-  Camera,
   Hand,
   ChevronDown,
   UsersRound,
@@ -32,12 +22,6 @@ import {
   Wallet,
   Coins,
 } from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 interface ModuleData {
   icon: React.ElementType;
@@ -198,28 +182,53 @@ const modulesData: ModuleData[] = [
 ];
 
 const ModulesSection = () => {
+  const [openItems, setOpenItems] = useState<string[]>([]);
+
+  const toggleItem = (value: string) => {
+    setOpenItems((prev) =>
+      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
+    );
+  };
+
   return (
-    <div className="bg-card rounded-lg shadow-sm border border-border">
-      <Accordion type="multiple" className="divide-y divide-border">
-        {modulesData.map((module) => {
-          const Icon = module.icon;
-          return (
-            <AccordionItem key={module.value} value={module.value} className="border-0">
-              <AccordionTrigger className="px-4 py-4 hover:no-underline hover:bg-muted/30 transition-colors">
-                <div className="flex items-center gap-4 flex-1 flex-row-reverse">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="text-right flex-1">
-                    <div className="font-bold text-foreground text-base">{module.title}</div>
-                    <div className="text-sm text-muted-foreground mt-1 line-clamp-1">
-                      {module.description}
-                    </div>
-                  </div>
+    <div className="bg-card rounded-lg shadow-sm border border-border divide-y divide-border">
+      {modulesData.map((module) => {
+        const Icon = module.icon;
+        const isOpen = openItems.includes(module.value);
+
+        return (
+          <div key={module.value}>
+            {/* Module Row: Arrow LEFT | Text CENTER | Icon RIGHT */}
+            <button
+              dir="ltr"
+              onClick={() => toggleItem(module.value)}
+              className="w-full grid grid-cols-[24px_1fr_48px] items-center gap-4 px-4 py-4 hover:bg-muted/30 transition-colors"
+            >
+              {/* Arrow on LEFT */}
+              <ChevronDown
+                className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${
+                  isOpen ? "rotate-180" : ""
+                }`}
+              />
+
+              {/* Text (Arabic RTL) */}
+              <div dir="rtl" className="text-right">
+                <div className="font-bold text-foreground text-base">{module.title}</div>
+                <div className="text-sm text-muted-foreground mt-1 line-clamp-1">
+                  {module.description}
                 </div>
-              </AccordionTrigger>
-              <AccordionContent className="px-4 pb-4 pt-0">
-                <div className="flex flex-wrap gap-2 mr-14">
+              </div>
+
+              {/* Icon on RIGHT */}
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center justify-self-end">
+                <Icon className="h-5 w-5 text-primary" />
+              </div>
+            </button>
+
+            {/* Expanded Content */}
+            {isOpen && (
+              <div className="px-4 pb-4 pt-0" dir="rtl">
+                <div className="flex flex-wrap gap-2 pr-14 text-right">
                   {module.subItems.map((item, index) => (
                     <a
                       key={index}
@@ -227,15 +236,17 @@ const ModulesSection = () => {
                       className="text-sm text-primary hover:text-primary/80 hover:underline"
                     >
                       {item}
-                      {index < module.subItems.length - 1 && <span className="text-muted-foreground">،</span>}
+                      {index < module.subItems.length - 1 && (
+                        <span className="text-muted-foreground">،</span>
+                      )}
                     </a>
                   ))}
                 </div>
-              </AccordionContent>
-            </AccordionItem>
-          );
-        })}
-      </Accordion>
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };
