@@ -54,8 +54,6 @@ const NotificationsManagementPage = () => {
   return (
     <InnerPageLayout
       moduleId="supervision"
-      sectionId="notifications"
-      itemId="management"
       title="إدارة الإشعارات"
       sectionTitle="إدارة الإشعارات"
       moduleTitle="الإدارة الإشرافية والتنفيذية"

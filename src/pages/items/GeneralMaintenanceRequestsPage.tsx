@@ -64,8 +64,6 @@ const GeneralMaintenanceRequestsPage = () => {
   return (
     <InnerPageLayout
       moduleId="supervision"
-      sectionId="pending-requests"
-      itemId="general-maintenance"
       title="طلبات الصيانة العامة"
       sectionTitle="الطلبات قيد الاعتماد"
       moduleTitle="الإدارة الإشرافية والتنفيذية"

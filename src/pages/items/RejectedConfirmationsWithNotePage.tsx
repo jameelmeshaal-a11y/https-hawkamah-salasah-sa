@@ -18,8 +18,6 @@ const RejectedConfirmationsWithNotePage = () => {
   return (
     <InnerPageLayout
       moduleId="supervision"
-      sectionId="payment-confirmations"
-      itemId="rejected-with-note"
       title="التعميدات المرفوضة مع ملاحظة"
       sectionTitle="تعميدات الصرف"
       moduleTitle="الإدارة الإشرافية والتنفيذية"
