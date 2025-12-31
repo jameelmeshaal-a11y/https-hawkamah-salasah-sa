@@ -1,23 +1,22 @@
-import { Bell, MessageSquare, CheckCircle, XCircle, AlertTriangle, FileText } from "lucide-react";
+import { Bell, Clock, CheckCircle, XCircle, AlertTriangle, Timer } from "lucide-react";
 
 interface KpiCardProps {
   icon: React.ReactNode;
   label: string;
   value: number;
-  color: string;
   bgColor: string;
 }
 
-const KpiCard = ({ icon, label, value, color, bgColor }: KpiCardProps) => {
+const KpiCard = ({ icon, label, value, bgColor }: KpiCardProps) => {
   return (
-    <div className="bg-card border border-border rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer p-4">
-      <div className="flex flex-col items-center text-center gap-2">
-        <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${bgColor}`}>
-          <div className={color}>{icon}</div>
+    <div className="bg-card border border-border rounded-lg shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5 cursor-pointer">
+      <div className="flex flex-col items-center text-center p-5">
+        <div className={`w-16 h-16 rounded-lg flex items-center justify-center ${bgColor} mb-3`}>
+          <div className="text-white">{icon}</div>
         </div>
-        <div className="text-2xl font-bold text-foreground">{value}</div>
-        <div className="text-sm text-muted-foreground">{label}</div>
-        <button className="text-xs text-primary hover:underline mt-1">
+        <div className="text-sm text-muted-foreground mb-2">{label}</div>
+        <div className="text-4xl font-bold text-foreground mb-3">{value}</div>
+        <button className="text-sm text-muted-foreground hover:text-primary hover:underline transition-colors">
           عرض التفاصيل
         </button>
       </div>
@@ -26,53 +25,48 @@ const KpiCard = ({ icon, label, value, color, bgColor }: KpiCardProps) => {
 };
 
 const KpiCards = () => {
+  // Order from right to left as shown in reference: المهام الجديدة, المهام الجارية, المهام المتعثرة, المهام المنتهية, المهام المنجزة, التنبيهات
   const kpiData = [
     {
-      icon: <AlertTriangle className="h-6 w-6" />,
+      icon: <AlertTriangle className="h-8 w-8" />,
+      label: "المهام الجديدة",
+      value: 0,
+      bgColor: "bg-purple-500",
+    },
+    {
+      icon: <Timer className="h-8 w-8" />,
+      label: "المهام الجارية",
+      value: 0,
+      bgColor: "bg-red-500",
+    },
+    {
+      icon: <XCircle className="h-8 w-8" />,
+      label: "المهام المتعثرة",
+      value: 0,
+      bgColor: "bg-slate-500",
+    },
+    {
+      icon: <CheckCircle className="h-8 w-8" />,
+      label: "المهام المنتهية",
+      value: 0,
+      bgColor: "bg-emerald-500",
+    },
+    {
+      icon: <Clock className="h-8 w-8" />,
+      label: "المهام المنجزة",
+      value: 10,
+      bgColor: "bg-sky-500",
+    },
+    {
+      icon: <Bell className="h-8 w-8" />,
       label: "التنبيهات الداخلية",
       value: 0,
-      color: "text-amber-500",
-      bgColor: "bg-amber-500/20",
-    },
-    {
-      icon: <MessageSquare className="h-6 w-6" />,
-      label: "المهام الجديدة",
-      value: 10,
-      color: "text-sky-500",
-      bgColor: "bg-sky-500/20",
-    },
-    {
-      icon: <CheckCircle className="h-6 w-6" />,
-      label: "المهام المكتملة",
-      value: 0,
-      color: "text-emerald-500",
-      bgColor: "bg-emerald-500/20",
-    },
-    {
-      icon: <XCircle className="h-6 w-6" />,
-      label: "المهام المعلقة",
-      value: 0,
-      color: "text-slate-500",
-      bgColor: "bg-slate-200",
-    },
-    {
-      icon: <Bell className="h-6 w-6" />,
-      label: "المهام الحرجة",
-      value: 0,
-      color: "text-rose-500",
-      bgColor: "bg-rose-500/20",
-    },
-    {
-      icon: <FileText className="h-6 w-6" />,
-      label: "التحديثات",
-      value: 0,
-      color: "text-primary",
-      bgColor: "bg-primary/20",
+      bgColor: "bg-amber-500",
     },
   ];
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
       {kpiData.map((kpi, index) => (
         <KpiCard key={index} {...kpi} />
       ))}

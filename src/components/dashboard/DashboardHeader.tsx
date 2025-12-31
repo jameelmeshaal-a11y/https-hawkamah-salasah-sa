@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Bell, Globe, User, ChevronDown, Menu } from "lucide-react";
+import { Bell, Globe, User, ChevronDown, Menu, Search, ListFilter } from "lucide-react";
 import salasahLogo from "@/assets/salasah-logo.jpeg";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,17 +24,24 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
   }, []);
 
   const formatArabicDate = (date: Date) => {
-    const options: Intl.DateTimeFormatOptions = {
+    return date.toLocaleDateString("ar-SA", {
       weekday: "long",
-      year: "numeric",
-      month: "long",
       day: "numeric",
-    };
-    return date.toLocaleDateString("ar-SA", options);
+      month: "long",
+      year: "numeric",
+    });
+  };
+
+  const formatHijriDate = (date: Date) => {
+    return date.toLocaleDateString("ar-SA-u-ca-islamic", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
   };
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString("ar-SA", {
+    return date.toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
@@ -45,40 +52,56 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
   return (
     <header className="bg-header text-header-foreground">
       {/* Top Bar */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-primary-foreground/10">
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between px-4 py-2">
+        <div className="flex items-center gap-2">
           <div className="relative">
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-header-foreground/60" />
             <input
               type="search"
               placeholder="بحث..."
-              className="bg-primary-foreground/10 border-0 rounded-md px-4 py-1.5 text-sm text-header-foreground placeholder:text-header-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary-foreground/30 w-36"
+              className="bg-primary-foreground/10 border-0 rounded-full pr-10 pl-4 py-2 text-sm text-header-foreground placeholder:text-header-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary-foreground/30 w-44"
             />
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="text-header-foreground hover:bg-sidebar-hover relative">
-            <Bell className="h-5 w-5" />
-            <span className="absolute -top-1 -left-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-              5
-            </span>
+        <div className="flex items-center gap-1">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="text-header-foreground hover:bg-sidebar-hover gap-2 rounded-full px-3">
+                <ListFilter className="h-4 w-4" />
+                <span className="text-sm hidden sm:inline">المهام</span>
+                <ChevronDown className="h-3 w-3" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem>جميع المهام</DropdownMenuItem>
+              <DropdownMenuItem>المهام المعلقة</DropdownMenuItem>
+              <DropdownMenuItem>المهام المكتملة</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Button variant="ghost" size="sm" className="text-header-foreground hover:bg-sidebar-hover gap-2 rounded-full px-3 relative">
+            <Bell className="h-4 w-4" />
+            <span className="text-sm hidden sm:inline">التنبيهات</span>
+            <span className="bg-amber-500 text-white text-xs px-1.5 py-0.5 rounded-full font-bold min-w-[28px]">155</span>
           </Button>
 
-          <div className="flex items-center gap-2">
-            <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded">YouTube</span>
-            <span className="text-xs">التشغيلات</span>
-          </div>
-
-          <Button variant="ghost" size="sm" className="text-header-foreground hover:bg-sidebar-hover gap-2">
+          <Button variant="ghost" size="sm" className="text-header-foreground hover:bg-sidebar-hover gap-2 rounded-full px-3">
             <Globe className="h-4 w-4" />
-            <span className="text-sm hidden sm:inline">الموقع الإلكتروني</span>
+            <span className="text-sm hidden md:inline">الموقع الإلكتروني</span>
           </Button>
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-header-foreground hover:bg-sidebar-hover gap-2">
-                <span className="text-sm">مدير النظام التقني</span>
-                <ChevronDown className="h-4 w-4" />
+              <Button variant="ghost" size="sm" className="text-header-foreground hover:bg-sidebar-hover gap-2 rounded-full px-3">
+                <div className="w-6 h-6 rounded-full bg-primary-foreground/20 flex items-center justify-center">
+                  <User className="h-3 w-3" />
+                </div>
+                <div className="text-right hidden sm:block">
+                  <div className="text-sm leading-tight">مدير النظام التقني</div>
+                  <div className="text-xs opacity-60 leading-tight">مدير النظام التقني</div>
+                </div>
+                <ChevronDown className="h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -99,25 +122,32 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
         </div>
       </div>
 
-      {/* Main Header */}
-      <div className="flex items-center justify-between px-6 py-4">
+      {/* Add Post Button Bar */}
+      <div className="px-4 py-2 bg-[hsl(215,30%,28%)]">
+        <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded px-4 py-1.5 text-sm font-medium">
+          إضافة منشور
+        </Button>
+      </div>
+
+      {/* Main Header with Clock and Logo */}
+      <div className="grid grid-cols-1 md:grid-cols-2 bg-[hsl(215,35%,32%)]">
         {/* Clock Section */}
-        <div className="text-center">
-          <div className="text-sm opacity-80">تاريخ اليوم</div>
-          <div className="text-sm">{formatArabicDate(currentTime)}</div>
-          <div className="text-2xl font-bold mt-1">{formatTime(currentTime)}</div>
-          <div className="text-xs opacity-70">الوقت الآن</div>
+        <div className="text-center py-6 px-4 order-2 md:order-1">
+          <div className="text-sm opacity-80 mb-1">تاريخ اليوم</div>
+          <div className="text-sm mb-3">{formatHijriDate(currentTime)}هـ، {formatArabicDate(currentTime)}</div>
+          <div className="text-sm opacity-80 mb-1">الوقت الآن</div>
+          <div className="text-4xl font-bold tracking-wider">{formatTime(currentTime)}</div>
         </div>
 
         {/* Logo Section */}
-        <div className="flex items-center gap-4">
-          <div className="text-left">
-            <div className="text-2xl font-bold">سلاسة</div>
-            <div className="text-sm opacity-80">SALASAH</div>
-            <div className="text-xs opacity-60">نظام إدارة موارد المؤسسة</div>
+        <div className="bg-[hsl(212,55%,38%)] py-6 px-6 flex items-center justify-center gap-6 order-1 md:order-2">
+          <div className="text-right">
+            <div className="text-sm opacity-70 mb-1">مرحبا بك</div>
+            <div className="text-xl font-bold">مدير النظام التقني</div>
           </div>
-          <div className="w-16 h-16 bg-accent rounded-lg flex items-center justify-center overflow-hidden">
-            <img src={salasahLogo} alt="سلاسة" className="w-full h-full object-cover" />
+          <div className="flex flex-col items-center">
+            <div className="text-4xl font-bold mb-1">سلاسة</div>
+            <div className="text-sm opacity-80 tracking-widest">SALASAH</div>
           </div>
         </div>
       </div>
