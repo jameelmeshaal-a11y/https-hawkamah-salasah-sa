@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
-import { Link } from "react-router-dom";
-import { Home, ChevronLeft } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Home, ChevronLeft, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface InnerPageLayoutProps {
   children: ReactNode;
@@ -19,14 +20,28 @@ const InnerPageLayout = ({
   sectionTitle,
   moduleTitle 
 }: InnerPageLayoutProps) => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-background flex flex-col" dir="rtl">
       {/* Header */}
       <header className="bg-primary text-primary-foreground px-4 py-3">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-lg font-bold hover:opacity-80 transition-opacity">
-            نظام سلاسة الإلكتروني
-          </Link>
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate(-1)}
+              className="text-primary-foreground hover:bg-primary-foreground/10"
+            >
+              <ArrowRight className="h-5 w-5 ml-1" />
+              رجوع
+            </Button>
+            <span className="text-muted-foreground/50">|</span>
+            <Link to="/" className="text-lg font-bold hover:opacity-80 transition-opacity">
+              نظام سلاسة الإلكتروني
+            </Link>
+          </div>
         </div>
       </header>
 
