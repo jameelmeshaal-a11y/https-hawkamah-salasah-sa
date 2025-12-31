@@ -38,6 +38,11 @@ import FinancialResourcesContent from "./FinancialResourcesContent";
 import HumanResourcesContent from "./HumanResourcesContent";
 import WarehousesContent from "./WarehousesContent";
 import PublicRelationsContent from "./PublicRelationsContent";
+import MovementMaintenanceContent from "./MovementMaintenanceContent";
+import VolunteeringContent from "./VolunteeringContent";
+import DocumentationContent from "./DocumentationContent";
+import ReportsStatisticsContent from "./ReportsStatisticsContent";
+import TechnicalEnablementContent from "./TechnicalEnablementContent";
 
 interface ModuleData {
   icon: React.ElementType;
@@ -275,6 +280,16 @@ const ModulesSection = () => {
                 <WarehousesContent />
               ) : module.value === "public-relations" ? (
                 <PublicRelationsContent />
+              ) : module.value === "maintenance" ? (
+                <MovementMaintenanceContent />
+              ) : module.value === "volunteering" ? (
+                <VolunteeringContent />
+              ) : module.value === "documentation" ? (
+                <DocumentationContent />
+              ) : module.value === "reports" ? (
+                <ReportsStatisticsContent />
+              ) : module.value === "tech-enablement" ? (
+                <TechnicalEnablementContent />
               ) : (
                 <div className="px-4 pb-4 pt-0" dir="rtl">
                   <div className="flex flex-wrap gap-2 pr-14 text-right">
