@@ -121,35 +121,29 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
         </div>
       </div>
 
-      {/* Main Header with Logo and Clock */}
-      <div className="flex bg-accent">
-        {/* Left side - Welcome */}
-        <div className="flex-1 flex items-center justify-start gap-6 py-6 px-6">
-          <div className="text-center">
-            <div className="text-4xl font-bold mb-1">سلاسة</div>
-            <div className="text-sm opacity-80 tracking-widest">SALASAH</div>
-          </div>
-          <div className="text-right">
-            <div className="text-sm opacity-70 mb-1">مرحبا بك</div>
-            <div className="text-xl font-bold">مدير النظام التقني</div>
-          </div>
-        </div>
-
-        {/* Center - Clock Section */}
-        <div className="flex-1 text-center py-6 px-4">
-          <div className="text-sm opacity-80 mb-1">تاريخ اليوم</div>
-          <div className="text-sm mb-4">{formatFullDate(currentTime)}</div>
-          <div className="text-sm opacity-80 mb-1">الوقت الآن</div>
+      {/* Two Cards Section */}
+      <div className="flex gap-0">
+        {/* LEFT Card - Date & Time (Light/Gray) */}
+        <div className="flex-1 bg-secondary text-foreground py-6 px-8 text-center">
+          <div className="text-sm text-muted-foreground mb-1">تاريخ اليوم</div>
+          <div className="text-base font-medium mb-4">{formatFullDate(currentTime)}</div>
+          <div className="text-sm text-muted-foreground mb-1">الوقت الآن</div>
           <div className="text-4xl font-bold tracking-wider">{formatTime(currentTime)}</div>
         </div>
 
-        {/* Right side - Logo Box with Add Post Button */}
-        <div className="bg-primary py-6 px-8 flex flex-col items-center justify-center min-w-[200px]">
-          <Button className="bg-accent hover:bg-accent/90 text-white rounded px-6 py-2 text-sm font-medium mb-4">
-            إضافة منشور
-          </Button>
-          <div className="text-4xl font-bold mb-1">سلاسة</div>
-          <div className="text-sm opacity-90 tracking-widest">SALASAH</div>
+        {/* RIGHT Card - Logo & Welcome (Dark Teal) */}
+        <div className="bg-primary text-primary-foreground py-6 px-8 flex items-center gap-6 min-w-[350px]">
+          {/* Welcome Text */}
+          <div className="text-right flex-1">
+            <div className="text-sm opacity-80 mb-1">مرحبا بك</div>
+            <div className="text-xl font-bold">مدير النظام التقني</div>
+          </div>
+          
+          {/* Logo */}
+          <div className="text-center border-r border-primary-foreground/20 pr-6">
+            <div className="text-4xl font-bold mb-1">سلاسة</div>
+            <div className="text-sm opacity-80 tracking-widest">SALASAH</div>
+          </div>
         </div>
       </div>
     </header>
