@@ -71,72 +71,62 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
         />
       )}
 
-      {/* Sidebar Container - On RIGHT side for RTL */}
+      {/* Sidebar - On RIGHT side for RTL */}
       <aside
-        className={`fixed top-0 right-0 h-full bg-sidebar text-sidebar-foreground z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static flex flex-row-reverse ${
+        className={`fixed top-0 right-0 h-full bg-sidebar text-sidebar-foreground z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static w-72 flex flex-col ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Quick Access Icons - Far RIGHT (vertical icon bar) */}
-        <div className="w-12 bg-[hsl(215,40%,22%)] flex flex-col items-center py-4 gap-1 overflow-y-auto">
+        {/* Logo Section */}
+        <div className="p-4 border-b border-sidebar-foreground/10">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-16 h-16 bg-accent rounded-lg overflow-hidden">
+              <img src={salasahLogo} alt="سلاسة" className="w-full h-full object-cover" />
+            </div>
+            <div className="text-center">
+              <div className="font-bold text-base">سلاسة للخدمات المؤسسية</div>
+              <div className="text-xs opacity-70">Salasah for Corporate Services</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation Items - Icons RIGHT, Text CENTER, Arrow LEFT */}
+        <nav className="flex-1 overflow-y-auto scrollbar-thin py-2">
           {sidebarItems.map((item, index) => {
             const Icon = item.icon;
+            const isActive = activeItem === item.label;
+
             return (
               <button
                 key={index}
-                className="w-9 h-9 rounded-lg hover:bg-sidebar-hover flex items-center justify-center transition-colors"
-                title={item.label}
+                onClick={() => setActiveItem(isActive ? null : item.label)}
+                className={`w-full flex items-center gap-3 px-4 py-3 transition-colors border-b border-sidebar-foreground/5 ${
+                  isActive ? "bg-sidebar-active" : "hover:bg-sidebar-hover"
+                }`}
               >
-                <Icon className="h-4 w-4 text-sidebar-foreground/80" />
+                {/* Arrow on LEFT (start of row in LTR render, appears left visually) */}
+                <ChevronDown 
+                  className={`h-4 w-4 opacity-60 flex-shrink-0 transition-transform duration-200 ${
+                    isActive ? "rotate-180" : ""
+                  }`} 
+                />
+                
+                {/* Text in CENTER */}
+                <span className="text-sm flex-1 text-right">{item.label}</span>
+                
+                {/* Icon on RIGHT (end of row in LTR render, appears right visually) */}
+                <Icon className="h-5 w-5 flex-shrink-0 text-primary opacity-80" />
               </button>
             );
           })}
-        </div>
+        </nav>
 
-        {/* Main Sidebar */}
-        <div className="w-64 flex flex-col border-r border-sidebar-foreground/10">
-          {/* Logo Section */}
-          <div className="p-4 border-b border-sidebar-foreground/10">
-            <div className="flex flex-col items-center gap-3">
-              <div className="w-16 h-16 bg-accent rounded-lg overflow-hidden">
-                <img src={salasahLogo} alt="سلاسة" className="w-full h-full object-cover" />
-              </div>
-              <div className="text-center">
-                <div className="font-bold text-base">سلاسة للخدمات المؤسسية</div>
-                <div className="text-xs opacity-70">Salasah for Corporate Services</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Navigation Items */}
-          <nav className="flex-1 overflow-y-auto scrollbar-thin py-2">
-            {sidebarItems.map((item, index) => {
-              const Icon = item.icon;
-              const isActive = activeItem === item.label;
-
-              return (
-                <button
-                  key={index}
-                  onClick={() => setActiveItem(item.label)}
-                  className={`w-full flex items-center gap-3 px-4 py-2.5 transition-colors text-right ${
-                    isActive ? "bg-sidebar-active" : "hover:bg-sidebar-hover"
-                  }`}
-                >
-                  <ChevronDown className="h-4 w-4 opacity-50 flex-shrink-0" />
-                  <span className="text-sm flex-1">{item.label}</span>
-                  <Icon className="h-4 w-4 flex-shrink-0 opacity-70" />
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Footer */}
-          <div className="p-4 border-t border-sidebar-foreground/10 text-center">
-            <div className="text-xs opacity-60 mb-2">نظام سلاسة الإلكتروني</div>
-            <div className="flex flex-col items-center">
-              <div className="text-2xl font-bold">سلاسة</div>
-              <div className="text-xs opacity-70">SALASAH</div>
-            </div>
+        {/* Footer */}
+        <div className="p-4 border-t border-sidebar-foreground/10 text-center bg-[hsl(215,40%,22%)]">
+          <div className="text-xs opacity-60 mb-2">نظام سلاسة الإلكتروني</div>
+          <div className="flex flex-col items-center">
+            <div className="text-2xl font-bold">سلاسة</div>
+            <div className="text-xs opacity-70">SALASAH</div>
           </div>
         </div>
       </aside>
