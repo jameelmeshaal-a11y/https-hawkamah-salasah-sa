@@ -99,23 +99,26 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
             return (
               <button
                 key={index}
+                dir="ltr"
                 onClick={() => setActiveItem(isActive ? null : item.label)}
-                className={`w-full flex items-center gap-3 px-4 py-3 transition-colors border-b border-sidebar-foreground/5 ${
+                className={`w-full grid grid-cols-[20px_1fr_20px] items-center px-4 py-3 transition-colors border-b border-sidebar-foreground/5 ${
                   isActive ? "bg-sidebar-active" : "hover:bg-sidebar-hover"
                 }`}
               >
-                {/* Arrow on LEFT (start of row in LTR render, appears left visually) */}
-                <ChevronDown 
-                  className={`h-4 w-4 opacity-60 flex-shrink-0 transition-transform duration-200 ${
+                {/* Arrow on LEFT */}
+                <ChevronDown
+                  className={`h-4 w-4 opacity-60 justify-self-start transition-transform duration-200 ${
                     isActive ? "rotate-180" : ""
-                  }`} 
+                  }`}
                 />
-                
-                {/* Text in CENTER */}
-                <span className="text-sm flex-1 text-right">{item.label}</span>
-                
-                {/* Icon on RIGHT (end of row in LTR render, appears right visually) */}
-                <Icon className="h-5 w-5 flex-shrink-0 text-primary opacity-80" />
+
+                {/* Text (Arabic RTL) */}
+                <span dir="rtl" className="text-sm text-right">
+                  {item.label}
+                </span>
+
+                {/* Icon on RIGHT */}
+                <Icon className="h-5 w-5 text-primary opacity-80 justify-self-end" />
               </button>
             );
           })}
