@@ -91,6 +91,17 @@ const ProjectTasksPage = lazy(() => import("@/pages/items/ProjectTasksPage"));
 const StrategicPlanMapPage = lazy(() => import("@/pages/items/StrategicPlanMapPage"));
 const AssignedIndicatorsPage = lazy(() => import("@/pages/items/AssignedIndicatorsPage"));
 
+// Supervision Module pages
+const AidCommitteeBalancePage = lazy(() => import("@/pages/items/AidCommitteeBalancePage"));
+const AidCommitteeDecisionsPage = lazy(() => import("@/pages/items/AidCommitteeDecisionsPage"));
+const PaymentOrdersApprovalPage = lazy(() => import("@/pages/items/PaymentOrdersApprovalPage"));
+const PurchaseVouchersApprovalPage = lazy(() => import("@/pages/items/PurchaseVouchersApprovalPage"));
+const GeneralMaintenanceRequestsPage = lazy(() => import("@/pages/items/GeneralMaintenanceRequestsPage"));
+const PaymentConfirmationsManagementPage = lazy(() => import("@/pages/items/PaymentConfirmationsManagementPage"));
+const RejectedConfirmationsWithNotePage = lazy(() => import("@/pages/items/RejectedConfirmationsWithNotePage"));
+const PaymentConfirmationsRecordsPage = lazy(() => import("@/pages/items/PaymentConfirmationsRecordsPage"));
+const NotificationsManagementPage = lazy(() => import("@/pages/items/NotificationsManagementPage"));
+
 // Map of item slugs to their page components
 export const itemPages: Record<string, React.ComponentType> = {
   // Office Services
@@ -154,6 +165,16 @@ export const itemPages: Record<string, React.ComponentType> = {
   "project-tasks": ProjectTasksPage,
   "strategic-plan-map": StrategicPlanMapPage,
   "assigned-indicators": AssignedIndicatorsPage,
+  // Supervision Module
+  "aid-committee-balance": AidCommitteeBalancePage,
+  "aid-committee-decisions": AidCommitteeDecisionsPage,
+  "payment-orders-approval": PaymentOrdersApprovalPage,
+  "purchase-vouchers-approval": PurchaseVouchersApprovalPage,
+  "general-maintenance-requests": GeneralMaintenanceRequestsPage,
+  "payment-confirmations-management": PaymentConfirmationsManagementPage,
+  "rejected-confirmations-with-note": RejectedConfirmationsWithNotePage,
+  "payment-confirmations-records": PaymentConfirmationsRecordsPage,
+  "notifications-management": NotificationsManagementPage,
 };
 
 // Get page component by slug
