@@ -31,12 +31,34 @@ const PersonalNotesPage = lazy(() => import("@/pages/items/PersonalNotesPage"));
 const InquiriesPage = lazy(() => import("@/pages/items/InquiriesPage"));
 const ChangePasswordPage = lazy(() => import("@/pages/items/ChangePasswordPage"));
 
+// Admin Office pages
+const DepartmentTasksPage = lazy(() => import("@/pages/items/DepartmentTasksPage"));
+const CreateTaskPage = lazy(() => import("@/pages/items/CreateTaskPage"));
+const ManageTasksPage = lazy(() => import("@/pages/items/ManageTasksPage"));
+const CompleteTaskPage = lazy(() => import("@/pages/items/CompleteTaskPage"));
+const DeleteTaskPage = lazy(() => import("@/pages/items/DeleteTaskPage"));
+const EmployeeReviewsPage = lazy(() => import("@/pages/items/EmployeeReviewsPage"));
+const EmployeeNotificationsPage = lazy(() => import("@/pages/items/EmployeeNotificationsPage"));
+const OwnedIndicatorsPage = lazy(() => import("@/pages/items/OwnedIndicatorsPage"));
+const CurrentAttendancePage = lazy(() => import("@/pages/items/CurrentAttendancePage"));
+
 // Map of item slugs to their page components
 export const itemPages: Record<string, React.ComponentType> = {
+  // Office Services
   "attendance": AttendancePage,
   "personal-notes": PersonalNotesPage,
   "inquiries": InquiriesPage,
   "change-password": ChangePasswordPage,
+  // Admin Office
+  "department-tasks": DepartmentTasksPage,
+  "create-task": CreateTaskPage,
+  "manage-tasks": ManageTasksPage,
+  "complete-task": CompleteTaskPage,
+  "delete-task": DeleteTaskPage,
+  "employee-reviews": EmployeeReviewsPage,
+  "employee-notifications": EmployeeNotificationsPage,
+  "owned-indicators": OwnedIndicatorsPage,
+  "current-attendance": CurrentAttendancePage,
 };
 
 // Get page component by slug
