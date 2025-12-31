@@ -121,6 +121,14 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
         </div>
       </div>
 
+      {/* Add Post Button */}
+      <div className="flex justify-end px-4 pt-4">
+        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg px-6 py-2 flex items-center gap-2">
+          <span className="text-lg font-bold">+</span>
+          <span>إضافة منشور</span>
+        </Button>
+      </div>
+
       {/* Two Floating Cards Section */}
       <div dir="ltr" className="flex gap-4 p-4">
         {/* LEFT Card - Date & Time (Light/Gray) */}
