@@ -16,12 +16,12 @@ const SidebarSubItem = ({ title, icon: Icon, moduleId, slug, onClick }: SidebarS
 
   const baseClasses = "w-full flex items-center gap-3 px-4 py-2.5 text-right transition-colors border-b border-border/10";
   const activeClasses = isActive 
-    ? "bg-primary text-primary-foreground" 
+    ? "bg-emerald-600 text-white" 
     : "hover:bg-primary/10";
 
   const content = (
     <>
-      <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-primary-foreground" : "text-primary"}`} />
+      <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-white" : "text-primary"}`} />
       <span className={`text-xs ${isActive ? "text-primary-foreground font-medium" : "text-foreground"}`}>{title}</span>
     </>
   );
