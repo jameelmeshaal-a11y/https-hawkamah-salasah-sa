@@ -34,6 +34,8 @@ import ProgramsDevelopmentContent from "./ProgramsDevelopmentContent";
 import EducationalAffairsContent from "./EducationalAffairsContent";
 import DeceasedCareContent from "./DeceasedCareContent";
 import FinancialAffairsContent from "./FinancialAffairsContent";
+import FinancialResourcesContent from "./FinancialResourcesContent";
+import HumanResourcesContent from "./HumanResourcesContent";
 
 interface ModuleData {
   icon: React.ElementType;
@@ -263,6 +265,10 @@ const ModulesSection = () => {
                 <DeceasedCareContent />
               ) : module.value === "financial" ? (
                 <FinancialAffairsContent />
+              ) : module.value === "financial-resources" ? (
+                <FinancialResourcesContent />
+              ) : module.value === "hr" ? (
+                <HumanResourcesContent />
               ) : (
                 <div className="px-4 pb-4 pt-0" dir="rtl">
                   <div className="flex flex-wrap gap-2 pr-14 text-right">
