@@ -14,6 +14,11 @@ import { financialResourcesSections } from "./financialResourcesData";
 import { humanResourcesSections } from "./humanResourcesData";
 import { warehousesSections } from "./warehousesData";
 import { publicRelationsSections } from "./publicRelationsData";
+import { movementMaintenanceSections } from "./movementMaintenanceData";
+import { volunteeringSections } from "./volunteeringData";
+import { documentationSections } from "./documentationData";
+import { reportsStatisticsSections } from "./reportsStatisticsData";
+import { technicalEnablementSections } from "./technicalEnablementData";
 
 // Map module labels to their data sections
 export const modulesDataMap: Record<string, SubSection[]> = {
@@ -33,6 +38,11 @@ export const modulesDataMap: Record<string, SubSection[]> = {
   "إدارة الموارد البشرية": humanResourcesSections,
   "إدارة المخازن و المستودعات": warehousesSections,
   "إدارة العلاقات العامة و الإعلام": publicRelationsSections,
+  "إدارة الحركة و الصيانة": movementMaintenanceSections,
+  "إدارة التطوع": volunteeringSections,
+  "إدارة التوثيق و المستندات": documentationSections,
+  "إدارة التقارير و الإحصائيات": reportsStatisticsSections,
+  "إدارة التمكين التقني": technicalEnablementSections,
 };
 
 // List of expandable module labels
