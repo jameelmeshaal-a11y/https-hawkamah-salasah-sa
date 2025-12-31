@@ -12,6 +12,8 @@ import { deceasedCareSections } from "./deceasedCareData";
 import { financialAffairsSections } from "./financialAffairsData";
 import { financialResourcesSections } from "./financialResourcesData";
 import { humanResourcesSections } from "./humanResourcesData";
+import { warehousesSections } from "./warehousesData";
+import { publicRelationsSections } from "./publicRelationsData";
 
 // Map module labels to their data sections
 export const modulesDataMap: Record<string, SubSection[]> = {
@@ -29,6 +31,8 @@ export const modulesDataMap: Record<string, SubSection[]> = {
   "إدارة الشؤون المالية": financialAffairsSections,
   "إدارة الموارد المالية": financialResourcesSections,
   "إدارة الموارد البشرية": humanResourcesSections,
+  "إدارة المخازن و المستودعات": warehousesSections,
+  "إدارة العلاقات العامة و الإعلام": publicRelationsSections,
 };
 
 // List of expandable module labels
