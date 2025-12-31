@@ -5,7 +5,7 @@ const VolunteeringContent = () => {
   return (
     <div className="p-4 bg-muted/30">
       {volunteeringSections.map((section, index) => (
-        <SubSectionGrid key={index} section={section} />
+        <SubSectionGrid key={index} section={section} moduleId="volunteering" />
       ))}
     </div>
   );
