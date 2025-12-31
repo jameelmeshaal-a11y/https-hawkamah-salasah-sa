@@ -7,6 +7,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 interface DashboardHeaderProps {
   onMenuToggle: () => void;
@@ -14,6 +23,8 @@ interface DashboardHeaderProps {
 
 const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [isPostDialogOpen, setIsPostDialogOpen] = useState(false);
+  const [postContent, setPostContent] = useState("");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -123,11 +134,48 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
 
       {/* Add Post Button */}
       <div className="flex justify-end px-4 pt-4">
-        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg px-6 py-2 flex items-center gap-2">
+        <Button 
+          onClick={() => setIsPostDialogOpen(true)}
+          className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg px-6 py-2 flex items-center gap-2"
+        >
           <span className="text-lg font-bold">+</span>
           <span>إضافة منشور</span>
         </Button>
       </div>
+
+      {/* Add Post Dialog */}
+      <Dialog open={isPostDialogOpen} onOpenChange={setIsPostDialogOpen}>
+        <DialogContent className="sm:max-w-md" dir="rtl">
+          <DialogHeader>
+            <DialogTitle className="text-center">إضافة منشور</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <Input
+              placeholder="قم بكتابة محتوى المنشور"
+              value={postContent}
+              onChange={(e) => setPostContent(e.target.value)}
+              className="text-right"
+            />
+          </div>
+          <DialogFooter className="flex gap-2 sm:justify-start">
+            <Button 
+              onClick={() => {
+                // Handle post submission here
+                setPostContent("");
+                setIsPostDialogOpen(false);
+              }}
+              className="bg-primary hover:bg-primary/90"
+            >
+              إضافة
+            </Button>
+            <DialogClose asChild>
+              <Button variant="outline">
+                إلغاء
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Two Floating Cards Section */}
       <div dir="ltr" className="flex gap-4 p-4">
