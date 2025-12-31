@@ -22,6 +22,7 @@ import {
   Wallet,
   Coins,
 } from "lucide-react";
+import ElectronicOfficeContent from "./ElectronicOfficeContent";
 
 interface ModuleData {
   icon: React.ElementType;
@@ -227,22 +228,26 @@ const ModulesSection = () => {
 
             {/* Expanded Content */}
             {isOpen && (
-              <div className="px-4 pb-4 pt-0" dir="rtl">
-                <div className="flex flex-wrap gap-2 pr-14 text-right">
-                  {module.subItems.map((item, index) => (
-                    <a
-                      key={index}
-                      href="#"
-                      className="text-sm text-primary hover:text-primary/80 hover:underline"
-                    >
-                      {item}
-                      {index < module.subItems.length - 1 && (
-                        <span className="text-muted-foreground">،</span>
-                      )}
-                    </a>
-                  ))}
+              module.value === "office" ? (
+                <ElectronicOfficeContent />
+              ) : (
+                <div className="px-4 pb-4 pt-0" dir="rtl">
+                  <div className="flex flex-wrap gap-2 pr-14 text-right">
+                    {module.subItems.map((item, index) => (
+                      <a
+                        key={index}
+                        href="#"
+                        className="text-sm text-primary hover:text-primary/80 hover:underline"
+                      >
+                        {item}
+                        {index < module.subItems.length - 1 && (
+                          <span className="text-muted-foreground">،</span>
+                        )}
+                      </a>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )
             )}
           </div>
         );

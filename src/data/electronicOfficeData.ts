@@ -1,0 +1,142 @@
+import {
+  Clock,
+  FileText,
+  MessageCircleQuestion,
+  Lock,
+  ListTodo,
+  UserPlus,
+  Users,
+  CheckSquare,
+  Trash2,
+  Star,
+  Bell,
+  BarChart3,
+  CalendarCheck,
+  Mail,
+  FileEdit,
+  LayoutTemplate,
+  Settings,
+  CalendarPlus,
+  FileCheck,
+  DollarSign,
+  Briefcase,
+  Car,
+  XCircle,
+  CheckCircle,
+  Ban,
+  ClipboardList,
+  FilePlus,
+  FileX,
+  Eye,
+  AlertCircle,
+  Send,
+  Folder,
+  IdCard,
+  UserCircle,
+  History,
+  BookOpen,
+  BellRing,
+  MessageSquare,
+  Calendar,
+  MapPin,
+  Target,
+  type LucideIcon,
+} from "lucide-react";
+
+export interface SubItem {
+  title: string;
+  icon: LucideIcon;
+}
+
+export interface SubSection {
+  title: string;
+  items: SubItem[];
+}
+
+export const electronicOfficeSections: SubSection[] = [
+  {
+    title: "الخدمات المكتبية",
+    items: [
+      { title: "تسجيل الحضور والانصراف", icon: Clock },
+      { title: "إدارة المذكرات الشخصية", icon: FileText },
+      { title: "مسائلات بحاجة إلى رد", icon: MessageCircleQuestion },
+      { title: "تغيير كلمة المرور", icon: Lock },
+    ],
+  },
+  {
+    title: "المكتب الإداري",
+    items: [
+      { title: "المهام المعينة للإدارة", icon: ListTodo },
+      { title: "إنشاء مهمة لموظف", icon: UserPlus },
+      { title: "إدارة مهام الموظفين", icon: Users },
+      { title: "إنجاز مهمة منتهية", icon: CheckSquare },
+      { title: "حذف مهمة", icon: Trash2 },
+      { title: "إدارة تقييمات الموظفين", icon: Star },
+      { title: "إدارة إشعارات الموظفين", icon: Bell },
+      { title: "إدارة المؤشرات المملوكة", icon: BarChart3 },
+      { title: "سجل حضور الموظفين الحالي", icon: CalendarCheck },
+    ],
+  },
+  {
+    title: "التواصل الداخلي",
+    items: [
+      { title: "البريد", icon: Mail },
+      { title: "المسودات", icon: FileEdit },
+      { title: "إدارة القوالب", icon: LayoutTemplate },
+      { title: "تفضيلات البريد", icon: Settings },
+    ],
+  },
+  {
+    title: "الطلبات الإدارية",
+    items: [
+      { title: "تقديم طلب إجازة", icon: CalendarPlus },
+      { title: "تقديم طلب إذن", icon: FileCheck },
+      { title: "تقديم طلب مالي", icon: DollarSign },
+      { title: "تقديم طلب عام", icon: Briefcase },
+      { title: "تقديم طلب مجموعة تطوعية", icon: Users },
+      { title: "إلغاء تقديم طلب", icon: XCircle },
+      { title: "سجل الطلبات قيد الاعتماد", icon: ClipboardList },
+      { title: "تقديم طلب شراء", icon: FilePlus },
+      { title: "طلب توفير سيارة", icon: Car },
+      { title: "الطلبات المرفوضة مع ملاحظة", icon: AlertCircle },
+      { title: "سجل الطلبات المعتمدة", icon: CheckCircle },
+      { title: "سجل الطلبات المرفوضة نهائياً", icon: Ban },
+      { title: "سجل الطلبات المكتملة", icon: CheckSquare },
+      { title: "سجل الطلبات الملغاة", icon: FileX },
+    ],
+  },
+  {
+    title: "المعاملات الداخلية",
+    items: [
+      { title: "طلب معاملة داخلية", icon: FilePlus },
+      { title: "إلغاء طلب معاملة", icon: XCircle },
+      { title: "معاملات بحاجة للمتابعة", icon: Eye },
+      { title: "متابعات مرفوضة مع ملاحظة", icon: AlertCircle },
+      { title: "معاملات قمت بمتابعتها", icon: Send },
+      { title: "سجل المعاملات الجارية", icon: ClipboardList },
+      { title: "سجل المعاملات المرفوضة", icon: Ban },
+      { title: "سجل المعاملات الملغاة", icon: FileX },
+      { title: "سجل المعاملات المكتملة", icon: CheckCircle },
+      { title: "المعاملات المؤرشفة", icon: Folder },
+    ],
+  },
+  {
+    title: "التقارير والسجلات",
+    items: [
+      { title: "بطاقة التعريف", icon: IdCard },
+      { title: "الملف الوظيفي", icon: UserCircle },
+      { title: "السجل الوظيفي", icon: History },
+      { title: "شروحات النظام", icon: BookOpen },
+      { title: "التنبيهات الداخلية", icon: BellRing },
+      { title: "الإشعارات الموجهة", icon: MessageSquare },
+      { title: "تنبيهات المذكرات الشخصية", icon: Bell },
+      { title: "سجلات أرصدة الأجازات", icon: Calendar },
+      { title: "سجلات الحضور والإنصراف", icon: Clock },
+      { title: "سجلات الحضور المرفوضة", icon: XCircle },
+      { title: "سجل مهامي", icon: ListTodo },
+      { title: "سجل مهام المشاريع", icon: Briefcase },
+      { title: "خارطة مهام الخطة الإستراتيجية", icon: MapPin },
+      { title: "مؤشرات الخطة المسندة", icon: Target },
+    ],
+  },
+];
