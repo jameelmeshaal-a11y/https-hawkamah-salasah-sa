@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Laptop,
   Users,
@@ -202,6 +202,122 @@ const modulesData: ModuleData[] = [
   },
 ];
 
+// Animated content wrapper component
+const AnimatedContent = ({ 
+  isOpen, 
+  children 
+}: { 
+  isOpen: boolean; 
+  children: React.ReactNode;
+}) => {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState(0);
+  const [shouldRender, setShouldRender] = useState(isOpen);
+
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setHeight(isOpen ? contentRef.current.scrollHeight : 0);
+    }
+  }, [isOpen, shouldRender]);
+
+  const handleTransitionEnd = () => {
+    if (!isOpen) {
+      setShouldRender(false);
+    }
+  };
+
+  if (!shouldRender) return null;
+
+  return (
+    <div
+      style={{ height: isOpen ? height : 0 }}
+      className="overflow-hidden transition-all duration-300 ease-out"
+      onTransitionEnd={handleTransitionEnd}
+    >
+      <div 
+        ref={contentRef}
+        className={`transform transition-all duration-300 ease-out ${
+          isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+        }`}
+      >
+        {children}
+      </div>
+    </div>
+  );
+};
+
+const getModuleContent = (moduleValue: string, subItems: string[]) => {
+  switch (moduleValue) {
+    case "office":
+      return <ElectronicOfficeContent />;
+    case "supervision":
+      return <SupervisoryManagementContent />;
+    case "members":
+      return <MembersManagementContent />;
+    case "excellence":
+      return <InstitutionalExcellenceContent />;
+    case "beneficiary-accounts":
+      return <BeneficiariesManagementContent />;
+    case "beneficiary-services":
+      return <BeneficiaryServicesContent />;
+    case "evaluation":
+      return <EvaluationFollowupContent />;
+    case "projects":
+      return <ProjectsManagementContent />;
+    case "programs":
+      return <ProgramsDevelopmentContent />;
+    case "educational":
+      return <EducationalAffairsContent />;
+    case "deceased-honor":
+      return <DeceasedCareContent />;
+    case "financial":
+      return <FinancialAffairsContent />;
+    case "financial-resources":
+      return <FinancialResourcesContent />;
+    case "hr":
+      return <HumanResourcesContent />;
+    case "warehouse":
+      return <WarehousesContent />;
+    case "public-relations":
+      return <PublicRelationsContent />;
+    case "maintenance":
+      return <MovementMaintenanceContent />;
+    case "volunteering":
+      return <VolunteeringContent />;
+    case "documentation":
+      return <DocumentationContent />;
+    case "reports":
+      return <ReportsStatisticsContent />;
+    case "tech-enablement":
+      return <TechnicalEnablementContent />;
+    default:
+      return (
+        <div className="px-4 pb-4 pt-0" dir="rtl">
+          <div className="flex flex-wrap gap-2 pr-14 text-right">
+            {subItems.map((item, index) => (
+              <a
+                key={index}
+                href="#"
+                className="text-sm text-primary hover:text-primary/80 hover:underline"
+              >
+                {item}
+                {index < subItems.length - 1 && (
+                  <span className="text-muted-foreground">،</span>
+                )}
+              </a>
+            ))}
+          </div>
+        </div>
+      );
+  }
+};
+
 const ModulesSection = () => {
   const [openItems, setOpenItems] = useState<string[]>([]);
 
@@ -218,97 +334,46 @@ const ModulesSection = () => {
         const isOpen = openItems.includes(module.value);
 
         return (
-          <div key={module.value}>
+          <div key={module.value} className="overflow-hidden">
             {/* Module Row: Arrow LEFT | Text CENTER | Icon RIGHT */}
             <button
               dir="ltr"
               onClick={() => toggleItem(module.value)}
-              className="w-full grid grid-cols-[24px_1fr_48px] items-center gap-4 px-4 py-4 hover:bg-muted/30 transition-colors"
+              className={`w-full grid grid-cols-[24px_1fr_48px] items-center gap-4 px-4 py-4 transition-all duration-200 ${
+                isOpen ? "bg-muted/40" : "hover:bg-muted/30"
+              }`}
             >
               {/* Arrow on LEFT */}
               <ChevronDown
-                className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${
+                className={`h-4 w-4 text-muted-foreground transition-transform duration-300 ease-out ${
                   isOpen ? "rotate-180" : ""
                 }`}
               />
 
               {/* Text (Arabic RTL) */}
               <div dir="rtl" className="text-right">
-                <div className="font-bold text-foreground text-base">{module.title}</div>
+                <div className={`font-bold text-base transition-colors duration-200 ${
+                  isOpen ? "text-primary" : "text-foreground"
+                }`}>
+                  {module.title}
+                </div>
                 <div className="text-sm text-muted-foreground mt-1 line-clamp-1">
                   {module.description}
                 </div>
               </div>
 
               {/* Icon on RIGHT */}
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center justify-self-end">
-                <Icon className="h-5 w-5 text-primary" />
+              <div className={`w-10 h-10 rounded-lg flex items-center justify-center justify-self-end transition-all duration-300 ${
+                isOpen ? "bg-primary text-primary-foreground scale-110" : "bg-primary/10 text-primary"
+              }`}>
+                <Icon className="h-5 w-5" />
               </div>
             </button>
 
-            {/* Expanded Content */}
-            {isOpen && (
-              module.value === "office" ? (
-                <ElectronicOfficeContent />
-              ) : module.value === "supervision" ? (
-                <SupervisoryManagementContent />
-              ) : module.value === "members" ? (
-                <MembersManagementContent />
-              ) : module.value === "excellence" ? (
-                <InstitutionalExcellenceContent />
-              ) : module.value === "beneficiary-accounts" ? (
-                <BeneficiariesManagementContent />
-              ) : module.value === "beneficiary-services" ? (
-                <BeneficiaryServicesContent />
-              ) : module.value === "evaluation" ? (
-                <EvaluationFollowupContent />
-              ) : module.value === "projects" ? (
-                <ProjectsManagementContent />
-              ) : module.value === "programs" ? (
-                <ProgramsDevelopmentContent />
-              ) : module.value === "educational" ? (
-                <EducationalAffairsContent />
-              ) : module.value === "deceased-honor" ? (
-                <DeceasedCareContent />
-              ) : module.value === "financial" ? (
-                <FinancialAffairsContent />
-              ) : module.value === "financial-resources" ? (
-                <FinancialResourcesContent />
-              ) : module.value === "hr" ? (
-                <HumanResourcesContent />
-              ) : module.value === "warehouse" ? (
-                <WarehousesContent />
-              ) : module.value === "public-relations" ? (
-                <PublicRelationsContent />
-              ) : module.value === "maintenance" ? (
-                <MovementMaintenanceContent />
-              ) : module.value === "volunteering" ? (
-                <VolunteeringContent />
-              ) : module.value === "documentation" ? (
-                <DocumentationContent />
-              ) : module.value === "reports" ? (
-                <ReportsStatisticsContent />
-              ) : module.value === "tech-enablement" ? (
-                <TechnicalEnablementContent />
-              ) : (
-                <div className="px-4 pb-4 pt-0" dir="rtl">
-                  <div className="flex flex-wrap gap-2 pr-14 text-right">
-                    {module.subItems.map((item, index) => (
-                      <a
-                        key={index}
-                        href="#"
-                        className="text-sm text-primary hover:text-primary/80 hover:underline"
-                      >
-                        {item}
-                        {index < module.subItems.length - 1 && (
-                          <span className="text-muted-foreground">،</span>
-                        )}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )
-            )}
+            {/* Expanded Content with Animation */}
+            <AnimatedContent isOpen={isOpen}>
+              {getModuleContent(module.value, module.subItems)}
+            </AnimatedContent>
           </div>
         );
       })}
