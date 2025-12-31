@@ -42,6 +42,28 @@ const EmployeeNotificationsPage = lazy(() => import("@/pages/items/EmployeeNotif
 const OwnedIndicatorsPage = lazy(() => import("@/pages/items/OwnedIndicatorsPage"));
 const CurrentAttendancePage = lazy(() => import("@/pages/items/CurrentAttendancePage"));
 
+// Internal Communication pages
+const MailPage = lazy(() => import("@/pages/items/MailPage"));
+const DraftsPage = lazy(() => import("@/pages/items/DraftsPage"));
+const TemplatesPage = lazy(() => import("@/pages/items/TemplatesPage"));
+const MailPreferencesPage = lazy(() => import("@/pages/items/MailPreferencesPage"));
+
+// Admin Requests pages
+const LeaveRequestPage = lazy(() => import("@/pages/items/LeaveRequestPage"));
+const PermissionRequestPage = lazy(() => import("@/pages/items/PermissionRequestPage"));
+const FinancialRequestPage = lazy(() => import("@/pages/items/FinancialRequestPage"));
+const GeneralRequestPage = lazy(() => import("@/pages/items/GeneralRequestPage"));
+const VolunteerGroupRequestPage = lazy(() => import("@/pages/items/VolunteerGroupRequestPage"));
+const CancelRequestPage = lazy(() => import("@/pages/items/CancelRequestPage"));
+const PendingRequestsPage = lazy(() => import("@/pages/items/PendingRequestsPage"));
+const PurchaseRequestPage = lazy(() => import("@/pages/items/PurchaseRequestPage"));
+const CarRequestPage = lazy(() => import("@/pages/items/CarRequestPage"));
+const RejectedWithNotePage = lazy(() => import("@/pages/items/RejectedWithNotePage"));
+const ApprovedRequestsPage = lazy(() => import("@/pages/items/ApprovedRequestsPage"));
+const RejectedRequestsPage = lazy(() => import("@/pages/items/RejectedRequestsPage"));
+const CompletedRequestsPage = lazy(() => import("@/pages/items/CompletedRequestsPage"));
+const CancelledRequestsPage = lazy(() => import("@/pages/items/CancelledRequestsPage"));
+
 // Map of item slugs to their page components
 export const itemPages: Record<string, React.ComponentType> = {
   // Office Services
@@ -59,6 +81,26 @@ export const itemPages: Record<string, React.ComponentType> = {
   "employee-notifications": EmployeeNotificationsPage,
   "owned-indicators": OwnedIndicatorsPage,
   "current-attendance": CurrentAttendancePage,
+  // Internal Communication
+  "mail": MailPage,
+  "drafts": DraftsPage,
+  "templates": TemplatesPage,
+  "mail-preferences": MailPreferencesPage,
+  // Admin Requests
+  "leave-request": LeaveRequestPage,
+  "permission-request": PermissionRequestPage,
+  "financial-request": FinancialRequestPage,
+  "general-request": GeneralRequestPage,
+  "volunteer-group-request": VolunteerGroupRequestPage,
+  "cancel-request": CancelRequestPage,
+  "pending-requests": PendingRequestsPage,
+  "purchase-request": PurchaseRequestPage,
+  "car-request": CarRequestPage,
+  "rejected-with-note": RejectedWithNotePage,
+  "approved-requests": ApprovedRequestsPage,
+  "rejected-requests": RejectedRequestsPage,
+  "completed-requests": CompletedRequestsPage,
+  "cancelled-requests": CancelledRequestsPage,
 };
 
 // Get page component by slug
