@@ -23,14 +23,16 @@ import {
   FolderKanban,
 } from "lucide-react";
 import salasahLogo from "@/assets/salasah-logo.jpeg";
+import SidebarElectronicOffice from "./SidebarElectronicOffice";
 
 interface SidebarItem {
   icon: React.ElementType;
   label: string;
+  expandable?: boolean;
 }
 
 const sidebarItems: SidebarItem[] = [
-  { icon: Laptop, label: "المكتب الإلكتروني" },
+  { icon: Laptop, label: "المكتب الإلكتروني", expandable: true },
   { icon: Users, label: "الإدارة الإشرافية و التنفيذية" },
   { icon: UsersRound, label: "إدارة الأعضاء المشاركين" },
   { icon: Star, label: "إدارة التميز المؤسسي" },
@@ -60,6 +62,14 @@ interface DashboardSidebarProps {
 
 const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
   const [activeItem, setActiveItem] = useState<string | null>(null);
+  const [expandedModule, setExpandedModule] = useState<string | null>(null);
+
+  const handleItemClick = (item: SidebarItem) => {
+    if (item.expandable) {
+      setExpandedModule(expandedModule === item.label ? null : item.label);
+    }
+    setActiveItem(activeItem === item.label ? null : item.label);
+  };
 
   return (
     <>
@@ -95,31 +105,42 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
           {sidebarItems.map((item, index) => {
             const Icon = item.icon;
             const isActive = activeItem === item.label;
+            const isExpanded = expandedModule === item.label;
 
             return (
-              <button
-                key={index}
-                dir="ltr"
-                onClick={() => setActiveItem(isActive ? null : item.label)}
-                className={`w-full grid grid-cols-[20px_1fr_20px] items-center px-4 py-3 transition-colors border-b border-sidebar-foreground/5 ${
-                  isActive ? "bg-sidebar-active" : "hover:bg-sidebar-hover"
-                }`}
-              >
-                {/* Arrow on LEFT */}
-                <ChevronDown
-                  className={`h-4 w-4 opacity-60 justify-self-start transition-transform duration-200 ${
-                    isActive ? "rotate-180" : ""
+              <div key={index}>
+                <button
+                  dir="ltr"
+                  onClick={() => handleItemClick(item)}
+                  className={`w-full grid grid-cols-[20px_1fr_20px] items-center px-4 py-3 transition-colors border-b border-sidebar-foreground/5 ${
+                    isActive ? "bg-sidebar-active" : "hover:bg-sidebar-hover"
                   }`}
-                />
+                >
+                  {/* Arrow on LEFT */}
+                  <ChevronDown
+                    className={`h-4 w-4 opacity-60 justify-self-start transition-transform duration-200 ${
+                      isExpanded ? "rotate-180" : ""
+                    }`}
+                  />
 
-                {/* Text (Arabic RTL) */}
-                <span dir="rtl" className="text-sm text-right">
-                  {item.label}
-                </span>
+                  {/* Text (Arabic RTL) */}
+                  <span dir="rtl" className="text-sm text-right">
+                    {item.label}
+                  </span>
 
-                {/* Icon on RIGHT */}
-                <Icon className="h-5 w-5 text-sidebar-foreground opacity-80 justify-self-end" />
-              </button>
+                  {/* Icon on RIGHT */}
+                  <Icon className="h-5 w-5 text-sidebar-foreground opacity-80 justify-self-end" />
+                </button>
+
+                {/* Expandable Content for المكتب الإلكتروني */}
+                {item.expandable && isExpanded && (
+                  <SidebarElectronicOffice
+                    onItemClick={(title) => {
+                      console.log("Selected:", title);
+                    }}
+                  />
+                )}
+              </div>
             );
           })}
         </nav>
