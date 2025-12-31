@@ -23,6 +23,7 @@ import {
   Coins,
 } from "lucide-react";
 import ElectronicOfficeContent from "./ElectronicOfficeContent";
+import SupervisoryManagementContent from "./SupervisoryManagementContent";
 
 interface ModuleData {
   icon: React.ElementType;
@@ -230,6 +231,8 @@ const ModulesSection = () => {
             {isOpen && (
               module.value === "office" ? (
                 <ElectronicOfficeContent />
+              ) : module.value === "supervision" ? (
+                <SupervisoryManagementContent />
               ) : (
                 <div className="px-4 pb-4 pt-0" dir="rtl">
                   <div className="flex flex-wrap gap-2 pr-14 text-right">
