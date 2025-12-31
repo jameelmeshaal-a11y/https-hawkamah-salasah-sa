@@ -23,7 +23,7 @@ const ApprovedRequestsPage = () => {
           requests={requests}
           emptyMessage="لا توجد طلبات معتمدة"
           emptyIcon={CheckCircle}
-          showActions={false}
+          showActions={true}
         />
       </div>
     </InnerPageLayout>

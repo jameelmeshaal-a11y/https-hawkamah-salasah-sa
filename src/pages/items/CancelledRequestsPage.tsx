@@ -23,7 +23,7 @@ const CancelledRequestsPage = () => {
           requests={requests}
           emptyMessage="لا توجد طلبات ملغاة"
           emptyIcon={Ban}
-          showActions={false}
+          showActions={true}
         />
       </div>
     </InnerPageLayout>

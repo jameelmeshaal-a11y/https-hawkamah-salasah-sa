@@ -23,7 +23,7 @@ const CompletedRequestsPage = () => {
           requests={requests}
           emptyMessage="لا توجد طلبات مكتملة"
           emptyIcon={CheckSquare}
-          showActions={false}
+          showActions={true}
         />
       </div>
     </InnerPageLayout>

@@ -6,41 +6,25 @@ import { useState } from "react";
 
 const purchaseFields: RequestField[] = [
   {
-    name: "itemName",
-    label: "اسم الصنف",
+    name: "statement",
+    label: "بيان الطلبة",
     type: "text",
-    placeholder: "أدخل اسم الصنف المطلوب",
-    required: true,
-  },
-  {
-    name: "quantity",
-    label: "الكمية",
-    type: "number",
-    placeholder: "الكمية المطلوبة",
+    placeholder: "أدخل بيان طلب الشراء",
     required: true,
   },
   {
     name: "estimatedCost",
-    label: "التكلفة التقديرية",
+    label: "المبلغ المتوقع",
     type: "number",
-    placeholder: "التكلفة بالريال",
+    placeholder: "التكلفة التقديرية بالريال",
   },
   {
-    name: "urgency",
-    label: "درجة الاستعجال",
-    type: "select",
-    options: [
-      { value: "low", label: "عادي" },
-      { value: "medium", label: "متوسط" },
-      { value: "high", label: "عاجل" },
-    ],
+    name: "items",
+    label: "العناصر المطلوبة",
+    type: "dynamic-list",
+    placeholder: "أدخل اسم العنصر",
+    itemLabel: "إضافة عنصر",
     required: true,
-  },
-  {
-    name: "details",
-    label: "تفاصيل الطلب",
-    type: "textarea",
-    placeholder: "أدخل تفاصيل طلب الشراء...",
     colSpan: 2,
   },
 ];

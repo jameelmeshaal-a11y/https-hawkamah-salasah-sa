@@ -23,7 +23,8 @@ const PendingRequestsPage = () => {
           requests={requests}
           emptyMessage="لا توجد طلبات قيد الاعتماد"
           emptyIcon={Clock}
-          showActions={false}
+          showActions={true}
+          showCancelAction={false}
         />
       </div>
     </InnerPageLayout>

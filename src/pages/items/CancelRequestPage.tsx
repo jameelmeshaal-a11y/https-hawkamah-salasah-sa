@@ -1,11 +1,14 @@
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
 import RequestsTable, { RequestRecord } from "@/components/requests/RequestsTable";
-import { Button } from "@/components/ui/button";
 import { XCircle } from "lucide-react";
 import { useState } from "react";
 
 const CancelRequestPage = () => {
   const [requests] = useState<RequestRecord[]>([]);
+
+  const handleCancel = (id: string) => {
+    console.log("Cancel request:", id);
+  };
 
   return (
     <InnerPageLayout
@@ -28,6 +31,9 @@ const CancelRequestPage = () => {
           requests={requests}
           emptyMessage="لا توجد طلبات قابلة للإلغاء"
           emptyIcon={XCircle}
+          showCancelAction={true}
+          showActions={true}
+          onCancel={handleCancel}
         />
       </div>
     </InnerPageLayout>
