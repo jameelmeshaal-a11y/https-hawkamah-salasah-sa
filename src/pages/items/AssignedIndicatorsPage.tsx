@@ -1,27 +1,20 @@
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
-import RecordsTable from "@/components/records/RecordsTable";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Target } from "lucide-react";
 
-const columns = [
-  { key: "indicatorName", label: "اسم المؤشر" },
-  { key: "target", label: "المستهدف" },
-  { key: "actual", label: "المحقق" },
-  { key: "percentage", label: "نسبة الإنجاز" },
-  { 
-    key: "status", 
-    label: "الحالة",
-    render: (value: unknown) => {
-      const status = value as string;
-      const variants: Record<string, "default" | "secondary" | "destructive"> = {
-        "متحقق": "default",
-        "قيد التنفيذ": "secondary",
-        "متأخر": "destructive",
-      };
-      return <Badge variant={variants[status] || "secondary"}>{status}</Badge>;
-    }
-  },
+const tableColumns = [
+  "الخطة الإستراتيجية",
+  "المنظور",
+  "الهدف الإستراتيجي",
+  "عنوان المؤشر",
+  "نوع المؤشر",
+  "دورية القياس",
+  "نوع القياس",
+  "الإجمالي الإستراتيجي",
+  "الإجمالي المتحقق",
+  "تاريخ البداية",
+  "تاريخ النهاية",
 ];
 
 const AssignedIndicatorsPage = () => {
@@ -35,18 +28,33 @@ const AssignedIndicatorsPage = () => {
     >
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-lg">
             <Target className="h-5 w-5" />
             مؤشرات الخطة المسندة
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <RecordsTable
-            columns={columns}
-            records={[]}
-            emptyMessage="لا توجد مؤشرات مسندة"
-            emptyIcon={Target}
-          />
+          <div className="rounded-lg border overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/50">
+                  {tableColumns.map((column, index) => (
+                    <TableHead key={index} className="text-center whitespace-nowrap">
+                      {column}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell colSpan={tableColumns.length} className="text-center py-12 text-muted-foreground">
+                    <Target className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                    لا تملك مؤشرات
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </InnerPageLayout>
