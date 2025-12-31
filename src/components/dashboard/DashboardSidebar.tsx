@@ -118,14 +118,14 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
                 </span>
 
                 {/* Icon on RIGHT */}
-                <Icon className="h-5 w-5 text-primary opacity-80 justify-self-end" />
+                <Icon className="h-5 w-5 text-sidebar-foreground opacity-80 justify-self-end" />
               </button>
             );
           })}
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-sidebar-foreground/10 text-center bg-[hsl(215,40%,22%)]">
+        <div className="p-4 border-t border-sidebar-foreground/10 text-center bg-accent">
           <div className="text-xs opacity-60 mb-2">نظام سلاسة الإلكتروني</div>
           <div className="flex flex-col items-center">
             <div className="text-2xl font-bold">سلاسة</div>
