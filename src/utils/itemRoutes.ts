@@ -27,10 +27,16 @@ export const moduleSlugToId: Record<string, string> = {
 
 // Lazy load page components
 const AttendancePage = lazy(() => import("@/pages/items/AttendancePage"));
+const PersonalNotesPage = lazy(() => import("@/pages/items/PersonalNotesPage"));
+const InquiriesPage = lazy(() => import("@/pages/items/InquiriesPage"));
+const ChangePasswordPage = lazy(() => import("@/pages/items/ChangePasswordPage"));
 
 // Map of item slugs to their page components
 export const itemPages: Record<string, React.ComponentType> = {
   "attendance": AttendancePage,
+  "personal-notes": PersonalNotesPage,
+  "inquiries": InquiriesPage,
+  "change-password": ChangePasswordPage,
 };
 
 // Get page component by slug
