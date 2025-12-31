@@ -78,8 +78,8 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
         }`}
       >
         {/* Quick Access Icons - Far RIGHT (vertical icon bar) */}
-        <div className="w-12 bg-[hsl(215,40%,22%)] flex flex-col items-center py-4 gap-1 order-first">
-          {sidebarItems.slice(0, 12).map((item, index) => {
+        <div className="w-12 bg-[hsl(215,40%,22%)] flex flex-col items-center py-4 gap-1 overflow-y-auto">
+          {sidebarItems.map((item, index) => {
             const Icon = item.icon;
             return (
               <button
