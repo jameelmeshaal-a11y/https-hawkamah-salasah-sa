@@ -20,13 +20,7 @@ import {
   Wallet,
   Coins,
   Hand,
-  Lightbulb,
-  LayoutDashboard,
-  MessageCircle,
-  HelpCircle,
   FolderKanban,
-  Bookmark,
-  Pen,
 } from "lucide-react";
 import salasahLogo from "@/assets/salasah-logo.jpeg";
 
@@ -59,17 +53,6 @@ const sidebarItems: SidebarItem[] = [
   { icon: Monitor, label: "إدارة التمكين التقني" },
 ];
 
-const quickAccessItems = [
-  { icon: LayoutDashboard, label: "لوحة التحكم" },
-  { icon: Bookmark, label: "المفضلة" },
-  { icon: MessageCircle, label: "الرسائل" },
-  { icon: HelpCircle, label: "المساعدة" },
-  { icon: Lightbulb, label: "الأفكار" },
-  { icon: Star, label: "التميز" },
-  { icon: Heart, label: "المستفيدين" },
-  { icon: Pen, label: "الطلبات" },
-];
-
 interface DashboardSidebarProps {
   isOpen: boolean;
   onClose: () => void;
@@ -88,20 +71,30 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
         />
       )}
 
-      {/* Sidebar Container */}
+      {/* Sidebar Container - On RIGHT side for RTL */}
       <aside
-        className={`fixed top-0 right-0 h-full bg-sidebar text-sidebar-foreground z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static flex ${
+        className={`fixed top-0 right-0 h-full bg-sidebar text-sidebar-foreground z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static flex flex-row-reverse ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Main Sidebar */}
-        <div className="w-64 flex flex-col border-l border-sidebar-foreground/10">
-          {/* Top Header - Organization Name */}
-          <div className="px-4 py-3 border-b border-sidebar-foreground/10 text-right">
-            <div className="text-xs opacity-70">نظام سلاسة الإلكتروني</div>
-            <div className="text-sm font-bold">سلاسة للخدمات المؤسسية</div>
-          </div>
+        {/* Quick Access Icons - Far RIGHT (vertical icon bar) */}
+        <div className="w-12 bg-[hsl(215,40%,22%)] flex flex-col items-center py-4 gap-1 order-first">
+          {sidebarItems.slice(0, 12).map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={index}
+                className="w-9 h-9 rounded-lg hover:bg-sidebar-hover flex items-center justify-center transition-colors"
+                title={item.label}
+              >
+                <Icon className="h-4 w-4 text-sidebar-foreground/80" />
+              </button>
+            );
+          })}
+        </div>
 
+        {/* Main Sidebar */}
+        <div className="w-64 flex flex-col border-r border-sidebar-foreground/10">
           {/* Logo Section */}
           <div className="p-4 border-b border-sidebar-foreground/10">
             <div className="flex flex-col items-center gap-3">
@@ -113,12 +106,6 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
                 <div className="text-xs opacity-70">Salasah for Corporate Services</div>
               </div>
             </div>
-          </div>
-
-          {/* Welcome Section */}
-          <div className="px-4 py-3 border-b border-sidebar-foreground/10 text-right">
-            <div className="text-xs opacity-60">مرحباً</div>
-            <div className="text-base font-bold">مدير</div>
           </div>
 
           {/* Navigation Items */}
@@ -151,22 +138,6 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
               <div className="text-xs opacity-70">SALASAH</div>
             </div>
           </div>
-        </div>
-
-        {/* Quick Access Icons - Far Right */}
-        <div className="w-12 bg-[hsl(215,40%,22%)] flex flex-col items-center py-4 gap-1">
-          {quickAccessItems.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <button
-                key={index}
-                className="w-9 h-9 rounded-lg hover:bg-sidebar-hover flex items-center justify-center transition-colors"
-                title={item.label}
-              >
-                <Icon className="h-4 w-4 text-sidebar-foreground/80" />
-              </button>
-            );
-          })}
         </div>
       </aside>
     </>
