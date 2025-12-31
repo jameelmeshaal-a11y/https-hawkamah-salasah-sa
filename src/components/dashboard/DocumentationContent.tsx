@@ -5,7 +5,7 @@ const DocumentationContent = () => {
   return (
     <div className="p-4 bg-muted/30">
       {documentationSections.map((section, index) => (
-        <SubSectionGrid key={index} section={section} />
+        <SubSectionGrid key={index} section={section} moduleId="documentation" />
       ))}
     </div>
   );

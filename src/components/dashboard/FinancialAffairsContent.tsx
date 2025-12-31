@@ -5,7 +5,7 @@ const FinancialAffairsContent = () => {
   return (
     <div className="p-4">
       {financialAffairsSections.map((section, index) => (
-        <SubSectionGrid key={index} section={section} />
+        <SubSectionGrid key={index} section={section} moduleId="financial" />
       ))}
     </div>
   );

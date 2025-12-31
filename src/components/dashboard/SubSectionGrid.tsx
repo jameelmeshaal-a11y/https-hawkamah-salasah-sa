@@ -3,9 +3,10 @@ import SubItemCard from "./SubItemCard";
 
 interface SubSectionGridProps {
   section: SubSection;
+  moduleId: string;
 }
 
-const SubSectionGrid = ({ section }: SubSectionGridProps) => {
+const SubSectionGrid = ({ section, moduleId }: SubSectionGridProps) => {
   return (
     <div className="mb-6">
       {/* Section Title Bar */}
@@ -21,6 +22,8 @@ const SubSectionGrid = ({ section }: SubSectionGridProps) => {
               key={index}
               title={item.title}
               icon={item.icon}
+              moduleId={moduleId}
+              slug={item.slug}
               onClick={() => console.log(`Clicked: ${item.title}`)}
             />
           ))}

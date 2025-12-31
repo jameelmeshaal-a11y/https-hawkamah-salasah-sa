@@ -5,7 +5,7 @@ const InstitutionalExcellenceContent = () => {
   return (
     <div className="px-4 pb-4 pt-2" dir="rtl">
       {institutionalExcellenceSections.map((section, index) => (
-        <SubSectionGrid key={index} section={section} />
+        <SubSectionGrid key={index} section={section} moduleId="excellence" />
       ))}
     </div>
   );

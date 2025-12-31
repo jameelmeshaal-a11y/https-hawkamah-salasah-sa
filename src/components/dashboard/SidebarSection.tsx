@@ -4,15 +4,17 @@ import SidebarSubItem from "./SidebarSubItem";
 interface SubItem {
   title: string;
   icon: LucideIcon;
+  slug?: string;
 }
 
 interface SidebarSectionProps {
   title: string;
   items: SubItem[];
+  moduleId?: string;
   onItemClick?: (title: string) => void;
 }
 
-const SidebarSection = ({ title, items, onItemClick }: SidebarSectionProps) => {
+const SidebarSection = ({ title, items, moduleId, onItemClick }: SidebarSectionProps) => {
   return (
     <div className="mb-1">
       {/* Section Header */}
@@ -30,6 +32,8 @@ const SidebarSection = ({ title, items, onItemClick }: SidebarSectionProps) => {
             key={index}
             title={item.title}
             icon={item.icon}
+            moduleId={moduleId}
+            slug={item.slug}
             onClick={() => onItemClick?.(item.title)}
           />
         ))}

@@ -1,4 +1,5 @@
 import { getModuleSections } from "@/data/allModulesData";
+import { getModuleId } from "@/utils/itemRoutes";
 import SidebarSection from "./SidebarSection";
 
 interface SidebarExpandableContentProps {
@@ -11,6 +12,7 @@ const SidebarExpandableContent = ({
   onItemClick 
 }: SidebarExpandableContentProps) => {
   const sections = getModuleSections(moduleLabel);
+  const moduleId = getModuleId(moduleLabel);
 
   if (!sections) {
     return null;
@@ -23,6 +25,7 @@ const SidebarExpandableContent = ({
           key={index}
           title={section.title}
           items={section.items}
+          moduleId={moduleId}
           onItemClick={onItemClick}
         />
       ))}
