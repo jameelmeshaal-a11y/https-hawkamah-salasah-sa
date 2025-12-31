@@ -1,10 +1,12 @@
 import { electronicOfficeSections, type SubSection } from "./electronicOfficeData";
 import { supervisoryManagementSections } from "./supervisoryManagementData";
+import { membersManagementSections } from "./membersManagementData";
 
 // Map module labels to their data sections
 export const modulesDataMap: Record<string, SubSection[]> = {
   "المكتب الإلكتروني": electronicOfficeSections,
   "الإدارة الإشرافية و التنفيذية": supervisoryManagementSections,
+  "إدارة الأعضاء المشاركين": membersManagementSections,
 };
 
 // List of expandable module labels
