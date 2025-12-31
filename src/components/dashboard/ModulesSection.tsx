@@ -205,8 +205,8 @@ const ModulesSection = () => {
           const Icon = module.icon;
           return (
             <AccordionItem key={module.value} value={module.value} className="border-0">
-              <AccordionTrigger className="px-4 py-4 hover:no-underline hover:bg-muted/30 transition-colors flex-row-reverse">
-                <div className="flex items-center gap-4 flex-1">
+              <AccordionTrigger className="px-4 py-4 hover:no-underline hover:bg-muted/30 transition-colors">
+                <div className="flex items-center gap-4 flex-1 flex-row-reverse">
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <Icon className="h-5 w-5 text-primary" />
                   </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Bell, Globe, User, ChevronDown, Menu, Search, ListFilter } from "lucide-react";
+import { Bell, Globe, User, ChevronDown, Menu, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -121,16 +121,9 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
         </div>
       </div>
 
-      {/* Add Post Button Bar */}
-      <div className="px-4 py-2 bg-[hsl(215,30%,28%)] flex justify-start">
-        <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded px-4 py-1.5 text-sm font-medium">
-          إضافة منشور
-        </Button>
-      </div>
-
       {/* Main Header with Logo and Clock */}
       <div className="flex bg-[hsl(215,35%,32%)]">
-        {/* Left side - Welcome and Salasah text */}
+        {/* Left side - Welcome */}
         <div className="flex-1 flex items-center justify-start gap-6 py-6 px-6">
           <div className="text-center">
             <div className="text-4xl font-bold mb-1">سلاسة</div>
@@ -150,10 +143,13 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
           <div className="text-4xl font-bold tracking-wider">{formatTime(currentTime)}</div>
         </div>
 
-        {/* Right side - Logo Box */}
+        {/* Right side - Logo Box with Add Post Button */}
         <div className="bg-[hsl(212,55%,40%)] py-6 px-8 flex flex-col items-center justify-center min-w-[200px]">
-          <div className="text-5xl font-bold mb-2">سلاسة</div>
-          <div className="text-lg opacity-90 tracking-widest">SALASAH</div>
+          <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded px-6 py-2 text-sm font-medium mb-4">
+            إضافة منشور
+          </Button>
+          <div className="text-4xl font-bold mb-1">سلاسة</div>
+          <div className="text-sm opacity-90 tracking-widest">SALASAH</div>
         </div>
       </div>
     </header>
