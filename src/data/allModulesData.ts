@@ -4,6 +4,7 @@ import { membersManagementSections } from "./membersManagementData";
 import { institutionalExcellenceSections } from "./institutionalExcellenceData";
 import { beneficiariesManagementSections } from "./beneficiariesManagementData";
 import { beneficiaryServicesSections } from "./beneficiaryServicesData";
+import { evaluationFollowupSections } from "./evaluationFollowupData";
 
 // Map module labels to their data sections
 export const modulesDataMap: Record<string, SubSection[]> = {
@@ -13,6 +14,7 @@ export const modulesDataMap: Record<string, SubSection[]> = {
   "إدارة التميز المؤسسي": institutionalExcellenceSections,
   "إدارة حسابات المستفيدين": beneficiariesManagementSections,
   "إدارة خدمات المستفيدين": beneficiaryServicesSections,
+  "إدارة التقييم و المتابعة": evaluationFollowupSections,
 };
 
 // List of expandable module labels
