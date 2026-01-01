@@ -102,7 +102,7 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
 
       {/* Sidebar - On RIGHT side for RTL - Sticky on desktop */}
       <aside
-        className={`fixed top-0 right-0 h-screen bg-sidebar text-sidebar-foreground z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:relative lg:h-auto lg:self-stretch w-72 flex flex-col flex-shrink-0 ${
+        className={`fixed top-0 right-0 h-screen bg-sidebar text-sidebar-foreground z-50 transform transition-transform duration-300 ease-in-out w-72 flex flex-col flex-shrink-0 lg:sticky lg:top-0 lg:h-[calc(100vh-60px)] lg:translate-x-0 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
