@@ -26,7 +26,7 @@ const InnerPageLayout = ({
 
   return (
     <div className="min-h-screen bg-background flex flex-col" dir="rtl">
-      {/* Header - Full Width */}
+      {/* Header - Full Width (Top Bar Only) */}
       <header className="bg-primary text-primary-foreground px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -56,7 +56,7 @@ const InnerPageLayout = ({
         </div>
       </header>
 
-      {/* Main Layout - Sidebar + Content */}
+      {/* Main Layout - Sidebar + Content (Both start at same level) */}
       <div className="flex flex-1 w-full">
         {/* Sidebar */}
         <DashboardSidebar 

@@ -4,16 +4,17 @@ import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import KpiCards from "@/components/dashboard/KpiCards";
 import ModulesSection from "@/components/dashboard/ModulesSection";
 import SupportButton from "@/components/dashboard/SupportButton";
+import WelcomeCards from "@/components/dashboard/WelcomeCards";
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background flex flex-col" dir="rtl">
-      {/* Header - Full Width */}
+      {/* Header - Full Width (Top Bar Only) */}
       <DashboardHeader onMenuToggle={() => setSidebarOpen(true)} />
 
-      {/* Main Layout - Sidebar + Content */}
+      {/* Main Layout - Sidebar + Content (Both start at same level) */}
       <div className="flex flex-1 w-full">
         {/* Sidebar */}
         <DashboardSidebar
@@ -23,9 +24,11 @@ const Index = () => {
 
         {/* Main Content */}
         <div className="flex-1 flex flex-col overflow-auto">
-
           {/* Content Area */}
           <main className="flex-1 p-6">
+            {/* Welcome Cards - Only on Home Page */}
+            <WelcomeCards />
+
             {/* KPI Cards */}
             <KpiCards />
 
