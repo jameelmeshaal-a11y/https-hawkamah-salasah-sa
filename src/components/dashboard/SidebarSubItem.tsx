@@ -14,15 +14,15 @@ const SidebarSubItem = ({ title, icon: Icon, moduleId, slug, onClick }: SidebarS
   const itemPath = slug && moduleId ? `/module/${moduleId}/${slug}` : null;
   const isActive = itemPath && location.pathname === itemPath;
 
-  const baseClasses = "w-full flex items-center gap-3 px-4 py-2.5 text-right transition-colors border-b border-border/10";
+  const baseClasses = "w-full flex items-center gap-3 px-4 py-2.5 text-right transition-colors border-b border-sidebar-border/20";
   const activeClasses = isActive 
-    ? "bg-emerald-600 text-white" 
-    : "hover:bg-primary/10";
+    ? "bg-primary text-primary-foreground" 
+    : "text-sidebar-foreground/90 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground";
 
   const content = (
     <>
-      <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-white" : "text-primary"}`} />
-      <span className={`text-xs ${isActive ? "text-primary-foreground font-medium" : "text-foreground"}`}>{title}</span>
+      <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-primary-foreground" : "text-sidebar-primary"}`} />
+      <span className={`text-xs ${isActive ? "font-medium" : ""}`}>{title}</span>
     </>
   );
 
@@ -44,7 +44,7 @@ const SidebarSubItem = ({ title, icon: Icon, moduleId, slug, onClick }: SidebarS
     <button
       onClick={onClick}
       dir="rtl"
-      className={`${baseClasses} hover:bg-sidebar-hover`}
+      className={`${baseClasses} text-sidebar-foreground/90 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground`}
     >
       {content}
     </button>

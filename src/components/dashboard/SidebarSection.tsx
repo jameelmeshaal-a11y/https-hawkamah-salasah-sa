@@ -20,13 +20,13 @@ const SidebarSection = ({ title, items, moduleId, onItemClick }: SidebarSectionP
       {/* Section Header */}
       <div
         dir="rtl"
-        className="bg-primary/90 text-primary-foreground px-4 py-2 text-xs font-semibold text-right"
+        className="bg-sidebar-accent text-sidebar-foreground px-4 py-2 text-xs font-semibold text-right border-b border-sidebar-border/30"
       >
         {title}
       </div>
 
       {/* Section Items */}
-      <div className="bg-white/95 dark:bg-sidebar/80">
+      <div className="bg-sidebar/95">
         {items.map((item, index) => (
           <SidebarSubItem
             key={index}
