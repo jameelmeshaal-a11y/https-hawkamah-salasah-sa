@@ -9,7 +9,7 @@ const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background flex w-full">
+    <div className="min-h-screen bg-background flex w-full" dir="rtl">
       {/* Sidebar */}
       <DashboardSidebar
         isOpen={sidebarOpen}
@@ -17,7 +17,7 @@ const Index = () => {
       />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-h-screen">
+      <div className="flex-1 flex flex-col min-h-screen overflow-auto">
         {/* Header */}
         <DashboardHeader onMenuToggle={() => setSidebarOpen(true)} />
 
