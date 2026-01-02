@@ -109,6 +109,25 @@ const OrgChartPage = lazy(() => import("@/pages/items/OrgChartPage"));
 const SponsorshipsTablePage = lazy(() => import("@/pages/items/SponsorshipsTablePage"));
 const AccountsChartPage = lazy(() => import("@/pages/items/AccountsChartPage"));
 
+// Cybersecurity pages
+const LoginLogsPage = lazy(() => import("@/pages/items/LoginLogsPage"));
+const UserPermissionsPage = lazy(() => import("@/pages/items/UserPermissionsPage"));
+const SystemUsersPage = lazy(() => import("@/pages/items/SystemUsersPage"));
+
+// HR pages
+const EmployeesListPage = lazy(() => import("@/pages/items/EmployeesListPage"));
+
+// Beneficiary pages
+const BeneficiaryProfilePage = lazy(() => import("@/pages/items/BeneficiaryProfilePage"));
+
+// Sponsorship pages
+const SponsorsListPage = lazy(() => import("@/pages/items/SponsorsListPage"));
+const SponsorshipPaymentsPage = lazy(() => import("@/pages/items/SponsorshipPaymentsPage"));
+
+// Financial pages
+const PaymentOrdersPage = lazy(() => import("@/pages/items/PaymentOrdersPage"));
+const FinancialReportsPage = lazy(() => import("@/pages/items/FinancialReportsPage"));
+
 // Generic Page Component for dynamic pages
 const GenericModulePage = lazy(() => import("@/pages/items/GenericModulePage"));
 
@@ -191,6 +210,23 @@ export const itemPages: Record<string, React.ComponentType> = {
   "manage-org-structure": OrgChartPage,
   "sponsorships-table": SponsorshipsTablePage,
   "accounts-chart": AccountsChartPage,
+  // Cybersecurity pages
+  "login-logs": LoginLogsPage,
+  "user-permissions": UserPermissionsPage,
+  "system-users": SystemUsersPage,
+  // HR pages
+  "employees-list": EmployeesListPage,
+  "employees-database": EmployeesListPage,
+  // Beneficiary pages
+  "beneficiary-profile": BeneficiaryProfilePage,
+  "view-beneficiary": BeneficiaryProfilePage,
+  // Sponsorship pages
+  "sponsors-list": SponsorsListPage,
+  "sponsors-database": SponsorsListPage,
+  "sponsorship-payments": SponsorshipPaymentsPage,
+  // Financial pages
+  "payment-orders": PaymentOrdersPage,
+  "financial-reports": FinancialReportsPage,
 };
 
 // Get page component by slug - returns generic page if specific page not found
