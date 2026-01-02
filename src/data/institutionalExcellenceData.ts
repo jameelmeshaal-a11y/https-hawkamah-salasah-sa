@@ -26,6 +26,7 @@ import {
 export interface SubItem {
   title: string;
   icon: LucideIcon;
+  slug?: string;
 }
 
 export interface SubSection {
@@ -37,33 +38,33 @@ export const institutionalExcellenceSections: SubSection[] = [
   {
     title: "إدارة الحوكمة",
     items: [
-      { title: "اللوائح و السياسات", icon: FileText },
-      { title: "الإجراءات و التعليمات", icon: ClipboardCheck },
-      { title: "النماذج و القوالب", icon: FileSearch },
-      { title: "الصلاحيات", icon: Shield },
-      { title: "لجان الجمعية", icon: Users },
-      { title: "المخاطر و الإلتزام", icon: Scale },
-      { title: "الهيكل التنظيمي", icon: Building2 },
+      { title: "اللوائح و السياسات", icon: FileText, slug: "regulations-policies" },
+      { title: "الإجراءات و التعليمات", icon: ClipboardCheck, slug: "procedures-instructions" },
+      { title: "النماذج و القوالب", icon: FileSearch, slug: "forms-templates" },
+      { title: "الصلاحيات", icon: Shield, slug: "permissions" },
+      { title: "لجان الجمعية", icon: Users, slug: "association-committees" },
+      { title: "المخاطر و الإلتزام", icon: Scale, slug: "risks-compliance" },
+      { title: "الهيكل التنظيمي", icon: Building2, slug: "org-structure" },
     ],
   },
   {
     title: "إدارة الخطة الإستراتيجية",
     items: [
-      { title: "الرؤية", icon: Compass },
-      { title: "الرسالة", icon: Target },
-      { title: "القيم", icon: Flag },
-      { title: "الأهداف الإستراتيجية", icon: TrendingUp },
-      { title: "المؤشرات الإستراتيجية", icon: BarChart3 },
-      { title: "المبادرات الإستراتيجية", icon: Lightbulb },
-      { title: "المشاريع الإستراتيجية", icon: Milestone },
-      { title: "الخطط التشغيلية", icon: CalendarCheck },
-      { title: "متابعة الأهداف", icon: CheckCircle2 },
-      { title: "متابعة المؤشرات", icon: Gauge },
-      { title: "متابعة المبادرات", icon: ListChecks },
-      { title: "متابعة المشاريع", icon: Activity },
-      { title: "التقارير الإستراتيجية", icon: FileBarChart },
-      { title: "لوحة المؤشرات", icon: PieChart },
-      { title: "إعدادات الخطة", icon: Target },
+      { title: "الرؤية", icon: Compass, slug: "vision" },
+      { title: "الرسالة", icon: Target, slug: "mission" },
+      { title: "القيم", icon: Flag, slug: "values" },
+      { title: "الأهداف الإستراتيجية", icon: TrendingUp, slug: "strategic-goals" },
+      { title: "المؤشرات الإستراتيجية", icon: BarChart3, slug: "strategic-indicators" },
+      { title: "المبادرات الإستراتيجية", icon: Lightbulb, slug: "strategic-initiatives" },
+      { title: "المشاريع الإستراتيجية", icon: Milestone, slug: "strategic-projects" },
+      { title: "الخطط التشغيلية", icon: CalendarCheck, slug: "operational-plans" },
+      { title: "متابعة الأهداف", icon: CheckCircle2, slug: "goals-tracking" },
+      { title: "متابعة المؤشرات", icon: Gauge, slug: "indicators-tracking" },
+      { title: "متابعة المبادرات", icon: ListChecks, slug: "initiatives-tracking" },
+      { title: "متابعة المشاريع", icon: Activity, slug: "projects-tracking" },
+      { title: "التقارير الإستراتيجية", icon: FileBarChart, slug: "strategic-reports" },
+      { title: "لوحة المؤشرات", icon: PieChart, slug: "indicators-dashboard" },
+      { title: "إعدادات الخطة", icon: Target, slug: "plan-settings" },
     ],
   },
 ];

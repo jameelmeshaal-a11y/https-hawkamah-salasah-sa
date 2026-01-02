@@ -5,22 +5,22 @@ export const volunteeringSections: SubSection[] = [
   {
     title: "إدارة بوابة التطوع",
     items: [
-      { title: "إدارة حسابات المتطوعين", icon: UserCog },
-      { title: "قاعدة بيانات المتطوعين", icon: Database },
-      { title: "طلبات التطوع الداخلية", icon: Heart },
-      { title: "طلبات التطوع الخارجية", icon: HeartHandshake },
-      { title: "إدارة الفرص التطوعية", icon: Sparkles },
+      { title: "إدارة حسابات المتطوعين", icon: UserCog, slug: "manage-volunteer-accounts" },
+      { title: "قاعدة بيانات المتطوعين", icon: Database, slug: "volunteers-database" },
+      { title: "طلبات التطوع الداخلية", icon: Heart, slug: "internal-volunteer-requests" },
+      { title: "طلبات التطوع الخارجية", icon: HeartHandshake, slug: "external-volunteer-requests" },
+      { title: "إدارة الفرص التطوعية", icon: Sparkles, slug: "manage-opportunities" },
     ],
   },
   {
     title: "إدارة الفرص التطوعية",
     items: [
-      { title: "إدارة إجراءات الفرص", icon: ClipboardList },
-      { title: "إرفاق تقارير فرصة", icon: FileText },
-      { title: "إدارة طلبات التطوع", icon: Inbox },
-      { title: "إدارة المتطوعين", icon: Users },
-      { title: "إدارة مقام الفرص", icon: Settings },
-      { title: "إدارة سجلات الحضور", icon: CalendarCheck },
+      { title: "إدارة إجراءات الفرص", icon: ClipboardList, slug: "manage-opportunity-procedures" },
+      { title: "إرفاق تقارير فرصة", icon: FileText, slug: "attach-opportunity-reports" },
+      { title: "إدارة طلبات التطوع", icon: Inbox, slug: "manage-volunteer-applications" },
+      { title: "إدارة المتطوعين", icon: Users, slug: "manage-volunteers" },
+      { title: "إدارة مقام الفرص", icon: Settings, slug: "manage-opportunity-status" },
+      { title: "إدارة سجلات الحضور", icon: CalendarCheck, slug: "manage-attendance-records" },
     ],
   },
 ];

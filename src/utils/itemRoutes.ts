@@ -25,7 +25,7 @@ export const moduleSlugToId: Record<string, string> = {
   "إدارة التمكين التقني": "tech-enablement",
 };
 
-// Lazy load page components
+// Lazy load page components - Office Services
 const AttendancePage = lazy(() => import("@/pages/items/AttendancePage"));
 const PersonalNotesPage = lazy(() => import("@/pages/items/PersonalNotesPage"));
 const InquiriesPage = lazy(() => import("@/pages/items/InquiriesPage"));
@@ -63,6 +63,7 @@ const ApprovedRequestsPage = lazy(() => import("@/pages/items/ApprovedRequestsPa
 const RejectedRequestsPage = lazy(() => import("@/pages/items/RejectedRequestsPage"));
 const CompletedRequestsPage = lazy(() => import("@/pages/items/CompletedRequestsPage"));
 const CancelledRequestsPage = lazy(() => import("@/pages/items/CancelledRequestsPage"));
+
 // Internal Transactions pages
 const InternalTransactionPage = lazy(() => import("@/pages/items/InternalTransactionPage"));
 const CancelTransactionPage = lazy(() => import("@/pages/items/CancelTransactionPage"));
@@ -101,6 +102,9 @@ const PaymentConfirmationsManagementPage = lazy(() => import("@/pages/items/Paym
 const RejectedConfirmationsWithNotePage = lazy(() => import("@/pages/items/RejectedConfirmationsWithNotePage"));
 const PaymentConfirmationsRecordsPage = lazy(() => import("@/pages/items/PaymentConfirmationsRecordsPage"));
 const NotificationsManagementPage = lazy(() => import("@/pages/items/NotificationsManagementPage"));
+
+// Generic Page Component for dynamic pages
+const GenericModulePage = lazy(() => import("@/pages/items/GenericModulePage"));
 
 // Map of item slugs to their page components
 export const itemPages: Record<string, React.ComponentType> = {
@@ -177,9 +181,9 @@ export const itemPages: Record<string, React.ComponentType> = {
   "notifications-management": NotificationsManagementPage,
 };
 
-// Get page component by slug
-export const getItemPage = (slug: string): React.ComponentType | null => {
-  return itemPages[slug] || null;
+// Get page component by slug - returns generic page if specific page not found
+export const getItemPage = (slug: string): React.ComponentType => {
+  return itemPages[slug] || GenericModulePage;
 };
 
 // Get module ID from label

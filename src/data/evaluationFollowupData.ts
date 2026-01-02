@@ -23,6 +23,7 @@ import type { LucideIcon } from "lucide-react";
 interface SubItem {
   title: string;
   icon: LucideIcon;
+  slug?: string;
 }
 
 export interface SubSection {
@@ -34,29 +35,29 @@ export const evaluationFollowupSections: SubSection[] = [
   {
     title: "إدارة متابعة الحالات",
     items: [
-      { title: "إعدادات المتابعة", icon: Settings },
-      { title: "أنواع زيارات المتابعة", icon: Layers },
-      { title: "حالات المتابعة", icon: ClipboardList },
-      { title: "خطط المتابعة", icon: Target },
-      { title: "جدولة الزيارات", icon: Calendar },
-      { title: "تنفيذ الزيارات", icon: CheckCircle },
-      { title: "تقييم الحالات", icon: FileSearch },
-      { title: "نتائج التقييم", icon: BarChart3 },
-      { title: "توصيات المتابعة", icon: FileText },
-      { title: "تقارير متابعة الحالات", icon: TrendingUp },
+      { title: "إعدادات المتابعة", icon: Settings, slug: "followup-settings" },
+      { title: "أنواع زيارات المتابعة", icon: Layers, slug: "visit-types" },
+      { title: "حالات المتابعة", icon: ClipboardList, slug: "followup-cases" },
+      { title: "خطط المتابعة", icon: Target, slug: "followup-plans" },
+      { title: "جدولة الزيارات", icon: Calendar, slug: "schedule-visits" },
+      { title: "تنفيذ الزيارات", icon: CheckCircle, slug: "execute-visits" },
+      { title: "تقييم الحالات", icon: FileSearch, slug: "evaluate-cases" },
+      { title: "نتائج التقييم", icon: BarChart3, slug: "evaluation-results" },
+      { title: "توصيات المتابعة", icon: FileText, slug: "followup-recommendations" },
+      { title: "تقارير متابعة الحالات", icon: TrendingUp, slug: "case-followup-reports-page" },
     ],
   },
   {
     title: "إدارة متابعة النشاطات",
     items: [
-      { title: "إعدادات متابعة النشاطات", icon: Settings },
-      { title: "خطط النشاطات", icon: Target },
-      { title: "جدولة النشاطات", icon: Calendar },
-      { title: "تنفيذ النشاطات", icon: Activity },
-      { title: "متابعة التنفيذ", icon: Eye },
-      { title: "تقييم النشاطات", icon: ListChecks },
-      { title: "مؤشرات الأداء", icon: BarChart3 },
-      { title: "تقارير النشاطات", icon: FileEdit },
+      { title: "إعدادات متابعة النشاطات", icon: Settings, slug: "activity-followup-settings" },
+      { title: "خطط النشاطات", icon: Target, slug: "activity-plans" },
+      { title: "جدولة النشاطات", icon: Calendar, slug: "schedule-activities" },
+      { title: "تنفيذ النشاطات", icon: Activity, slug: "execute-activities" },
+      { title: "متابعة التنفيذ", icon: Eye, slug: "execution-followup" },
+      { title: "تقييم النشاطات", icon: ListChecks, slug: "evaluate-activities" },
+      { title: "مؤشرات الأداء", icon: BarChart3, slug: "performance-indicators" },
+      { title: "تقارير النشاطات", icon: FileEdit, slug: "activity-reports" },
     ],
   },
 ];
