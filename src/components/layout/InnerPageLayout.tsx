@@ -1,3 +1,4 @@
+// Force cache refresh - updated
 import { ReactNode, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Home, ChevronLeft, ArrowRight, Menu } from "lucide-react";
