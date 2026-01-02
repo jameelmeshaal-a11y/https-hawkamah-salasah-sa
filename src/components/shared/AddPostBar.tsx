@@ -21,17 +21,14 @@ const AddPostBar = () => {
 
   return (
     <>
-      {/* Add Post Bar with Shadow */}
-      <div className="bg-muted border-b border-border shadow-md">
-        <div className="flex justify-end px-4 py-3">
-          <Button 
-            onClick={() => setIsPostDialogOpen(true)}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground rounded px-6 py-2 shadow-sm"
-          >
-            إضافة منشور
-          </Button>
-        </div>
-      </div>
+      <Button 
+        variant="ghost"
+        size="sm"
+        onClick={() => setIsPostDialogOpen(true)}
+        className="text-header-foreground hover:bg-sidebar-hover gap-2 rounded-full px-3"
+      >
+        <span className="text-sm">إضافة منشور</span>
+      </Button>
 
       {/* Add Post Dialog */}
       <Dialog open={isPostDialogOpen} onOpenChange={setIsPostDialogOpen}>
