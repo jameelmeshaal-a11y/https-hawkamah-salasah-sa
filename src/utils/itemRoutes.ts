@@ -116,6 +116,8 @@ const SystemUsersPage = lazy(() => import("@/pages/items/SystemUsersPage"));
 
 // HR pages
 const EmployeesListPage = lazy(() => import("@/pages/items/EmployeesListPage"));
+const AttendanceLogsPage = lazy(() => import("@/pages/items/AttendanceLogsPage"));
+const EmployeeProfilePage = lazy(() => import("@/pages/items/EmployeeProfilePage"));
 
 // Beneficiary pages
 const BeneficiaryProfilePage = lazy(() => import("@/pages/items/BeneficiaryProfilePage"));
@@ -217,6 +219,10 @@ export const itemPages: Record<string, React.ComponentType> = {
   // HR pages
   "employees-list": EmployeesListPage,
   "employees-database": EmployeesListPage,
+  "attendance-logs": AttendanceLogsPage,
+  "current-attendance-record": AttendanceLogsPage,
+  "employee-profile": EmployeeProfilePage,
+  "view-employee": EmployeeProfilePage,
   // Beneficiary pages
   "beneficiary-profile": BeneficiaryProfilePage,
   "view-beneficiary": BeneficiaryProfilePage,
