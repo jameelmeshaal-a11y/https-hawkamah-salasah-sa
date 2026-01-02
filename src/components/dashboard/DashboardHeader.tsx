@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Bell, Globe, User, ChevronDown, Menu, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,23 +6,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import AddPostBar from "@/components/shared/AddPostBar";
 
 interface DashboardHeaderProps {
   onMenuToggle: () => void;
 }
 
 const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
-  const [isPostDialogOpen, setIsPostDialogOpen] = useState(false);
-  const [postContent, setPostContent] = useState("");
 
   return (
     <header className="bg-header text-header-foreground">
@@ -103,50 +92,7 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
         </div>
       </div>
 
-      {/* Add Post Bar with Shadow */}
-      <div className="bg-muted border-b border-border shadow-md">
-        <div className="flex justify-end px-4 py-3">
-          <Button 
-            onClick={() => setIsPostDialogOpen(true)}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground rounded px-6 py-2 shadow-sm"
-          >
-            إضافة منشور
-          </Button>
-        </div>
-      </div>
-
-      {/* Add Post Dialog */}
-      <Dialog open={isPostDialogOpen} onOpenChange={setIsPostDialogOpen}>
-        <DialogContent className="sm:max-w-md" dir="rtl">
-          <DialogHeader>
-            <DialogTitle className="text-center">إضافة منشور</DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
-            <Input
-              placeholder="قم بكتابة محتوى المنشور"
-              value={postContent}
-              onChange={(e) => setPostContent(e.target.value)}
-              className="text-right"
-            />
-          </div>
-          <DialogFooter className="flex gap-2 sm:justify-start">
-            <Button 
-              onClick={() => {
-                setPostContent("");
-                setIsPostDialogOpen(false);
-              }}
-              className="bg-primary hover:bg-primary/90"
-            >
-              إضافة
-            </Button>
-            <DialogClose asChild>
-              <Button variant="outline">
-                إلغاء
-              </Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <AddPostBar />
     </header>
   );
 };
