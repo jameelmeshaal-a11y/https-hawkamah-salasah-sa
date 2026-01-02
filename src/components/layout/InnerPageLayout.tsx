@@ -1,10 +1,9 @@
-// Force cache refresh - updated
 import { ReactNode, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Home, ChevronLeft, ArrowRight, Menu } from "lucide-react";
+import { Home, ChevronLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-import AddPostBar from "@/components/shared/AddPostBar";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 interface InnerPageLayoutProps {
   children: ReactNode;
@@ -28,37 +27,8 @@ const InnerPageLayout = ({
 
   return (
     <div className="min-h-screen bg-background flex flex-col" dir="rtl">
-      {/* Header - Full Width (Top Bar Only) */}
-      <header className="bg-primary text-primary-foreground px-4 py-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            {/* Mobile Menu Button */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setSidebarOpen(true)}
-              className="text-primary-foreground hover:bg-primary-foreground/10 lg:hidden"
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => navigate(-1)}
-              className="text-primary-foreground hover:bg-primary-foreground/10"
-            >
-              <ArrowRight className="h-5 w-5 ml-1" />
-              رجوع
-            </Button>
-            <span className="text-muted-foreground/50">|</span>
-            <Link to="/" className="text-lg font-bold hover:opacity-80 transition-opacity">
-              نظام سلاسة الإلكتروني
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      <AddPostBar />
+      {/* Header - Full Width Dashboard Header */}
+      <DashboardHeader onMenuToggle={() => setSidebarOpen(true)} />
 
       {/* Main Layout - Sidebar + Content (Both start at same level) */}
       <div className="flex flex-1 w-full">
@@ -72,6 +42,16 @@ const InnerPageLayout = ({
           {/* Breadcrumb */}
           <div className="bg-muted/30 border-b border-border px-4 py-2">
             <nav className="flex items-center gap-2 text-sm">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate(-1)}
+                className="text-primary hover:bg-primary/10 gap-1 p-1 h-auto"
+              >
+                <ArrowRight className="h-4 w-4" />
+                رجوع
+              </Button>
+              <span className="text-muted-foreground">|</span>
               <Link 
                 to="/" 
                 className="flex items-center gap-1 text-primary hover:text-primary/80 transition-colors"
