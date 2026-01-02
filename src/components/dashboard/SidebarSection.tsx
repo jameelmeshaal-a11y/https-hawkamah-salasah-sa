@@ -16,17 +16,17 @@ interface SidebarSectionProps {
 
 const SidebarSection = ({ title, items, moduleId, onItemClick }: SidebarSectionProps) => {
   return (
-    <div className="mb-1">
+    <div className="mb-0">
       {/* Section Header */}
       <div
         dir="rtl"
-        className="bg-sidebar-accent text-sidebar-foreground px-4 py-2 text-xs font-semibold text-right border-b border-sidebar-border/30"
+        className="bg-primary text-primary-foreground px-4 py-2 text-xs font-semibold text-right border-b border-primary/20"
       >
         {title}
       </div>
 
       {/* Section Items */}
-      <div className="bg-sidebar/95">
+      <div className="bg-white">
         {items.map((item, index) => (
           <SidebarSubItem
             key={index}
