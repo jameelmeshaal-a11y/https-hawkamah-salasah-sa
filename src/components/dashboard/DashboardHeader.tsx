@@ -32,8 +32,6 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
 
         {/* Left side - Actions */}
         <div className="flex items-center gap-1">
-          <AddPostBar />
-          
           <div className="relative">
             <input
               type="search"
@@ -42,6 +40,8 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
             />
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-header-foreground/60" />
           </div>
+
+          <AddPostBar />
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

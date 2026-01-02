@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -27,6 +28,7 @@ const AddPostBar = () => {
         onClick={() => setIsPostDialogOpen(true)}
         className="text-header-foreground hover:bg-sidebar-hover gap-2 rounded-full px-3"
       >
+        <Plus className="h-4 w-4" />
         <span className="text-sm">إضافة منشور</span>
       </Button>
 
