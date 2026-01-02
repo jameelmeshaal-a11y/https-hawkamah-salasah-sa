@@ -166,14 +166,6 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
           })}
         </nav>
 
-        {/* Footer */}
-        <div className="p-4 border-t border-sidebar-foreground/10 text-center bg-accent">
-          <div className="text-xs opacity-60 mb-2">نظام سلاسة الإلكتروني</div>
-          <div className="flex flex-col items-center">
-            <div className="text-2xl font-bold">سلاسة</div>
-            <div className="text-xs opacity-70">SALASAH</div>
-          </div>
-        </div>
       </aside>
     </>
   );
