@@ -103,6 +103,12 @@ const RejectedConfirmationsWithNotePage = lazy(() => import("@/pages/items/Rejec
 const PaymentConfirmationsRecordsPage = lazy(() => import("@/pages/items/PaymentConfirmationsRecordsPage"));
 const NotificationsManagementPage = lazy(() => import("@/pages/items/NotificationsManagementPage"));
 
+// New pages
+const BeneficiariesDatabasePage = lazy(() => import("@/pages/items/BeneficiariesDatabasePage"));
+const OrgChartPage = lazy(() => import("@/pages/items/OrgChartPage"));
+const SponsorshipsTablePage = lazy(() => import("@/pages/items/SponsorshipsTablePage"));
+const AccountsChartPage = lazy(() => import("@/pages/items/AccountsChartPage"));
+
 // Generic Page Component for dynamic pages
 const GenericModulePage = lazy(() => import("@/pages/items/GenericModulePage"));
 
@@ -179,6 +185,12 @@ export const itemPages: Record<string, React.ComponentType> = {
   "rejected-confirmations-with-note": RejectedConfirmationsWithNotePage,
   "payment-confirmations-records": PaymentConfirmationsRecordsPage,
   "notifications-management": NotificationsManagementPage,
+  // New pages
+  "beneficiaries-database": BeneficiariesDatabasePage,
+  "org-structure": OrgChartPage,
+  "manage-org-structure": OrgChartPage,
+  "sponsorships-table": SponsorshipsTablePage,
+  "accounts-chart": AccountsChartPage,
 };
 
 // Get page component by slug - returns generic page if specific page not found
