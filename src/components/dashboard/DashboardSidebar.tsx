@@ -106,6 +106,7 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
+        {/* Navigation Items - Icons RIGHT, Text CENTER, Arrow LEFT */}
 
         {/* Navigation Items - Icons RIGHT, Text CENTER, Arrow LEFT */}
         <nav className="flex-1 overflow-y-auto scrollbar-thin py-2">

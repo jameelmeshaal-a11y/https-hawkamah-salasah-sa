@@ -32,6 +32,8 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
 
         {/* Left side - Actions */}
         <div className="flex items-center gap-1">
+          <AddPostBar />
+          
           <div className="relative">
             <input
               type="search"
@@ -95,8 +97,6 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
           </Button>
         </div>
       </div>
-
-      <AddPostBar />
     </header>
   );
 };
