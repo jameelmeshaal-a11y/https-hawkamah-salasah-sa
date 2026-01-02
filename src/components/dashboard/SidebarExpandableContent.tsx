@@ -19,7 +19,7 @@ const SidebarExpandableContent = ({
   }
 
   return (
-    <div className="border-t border-sidebar-foreground/10 animate-accordion-down">
+    <div className="border-t border-border/20 overflow-hidden animate-accordion-down transition-all duration-300 ease-in-out">
       {sections.map((section, index) => (
         <SidebarSection
           key={index}
