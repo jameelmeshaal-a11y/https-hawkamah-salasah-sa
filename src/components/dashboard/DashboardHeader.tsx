@@ -105,7 +105,7 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
 
       {/* Add Post Bar with Shadow */}
       <div className="bg-muted border-b border-border shadow-md">
-        <div className="flex justify-start px-4 py-3">
+        <div className="flex justify-end px-4 py-3">
           <Button 
             onClick={() => setIsPostDialogOpen(true)}
             className="bg-primary hover:bg-primary/90 text-primary-foreground rounded px-6 py-2 shadow-sm"
