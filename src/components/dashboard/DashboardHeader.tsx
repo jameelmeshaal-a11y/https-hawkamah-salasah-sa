@@ -26,7 +26,7 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
           </div>
           <div className="text-right">
             <div className="text-xs opacity-70">نظام سلاسة الإلكتروني</div>
-            <div className="text-sm font-bold">سلاسة للخدمات المؤسسية</div>
+            <div className="text-sm font-bold">سلاسة لأنظمة وحوكمة القطاع غير الربحي</div>
           </div>
         </div>
 

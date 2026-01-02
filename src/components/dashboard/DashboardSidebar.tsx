@@ -119,7 +119,7 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
                 <button
                   dir="ltr"
                   onClick={() => handleItemClick(item)}
-                  className={`w-full grid grid-cols-[20px_1fr_20px] items-center px-4 py-3 transition-colors border-b border-sidebar-foreground/5 ${
+                  className={`w-full grid grid-cols-[20px_1fr_20px] gap-3 items-center px-4 py-3 transition-colors border-b border-sidebar-foreground/5 ${
                     isActive ? "bg-sidebar-active" : "hover:bg-sidebar-hover"
                   }`}
                 >
