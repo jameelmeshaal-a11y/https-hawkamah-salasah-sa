@@ -23,7 +23,7 @@ import {
   Hand,
   FolderKanban,
 } from "lucide-react";
-import salasahLogo from "@/assets/salasah-logo.jpeg";
+
 import SidebarExpandableContent from "./SidebarExpandableContent";
 import { isModuleExpandable } from "@/data/allModulesData";
 import { moduleSlugToId } from "@/utils/itemRoutes";
@@ -106,18 +106,6 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Logo Section */}
-        <div className="p-4 border-b border-sidebar-foreground/10">
-          <div className="flex flex-col items-center gap-3">
-            <div className="w-16 h-16 bg-accent rounded-lg overflow-hidden">
-              <img src={salasahLogo} alt="سلاسة" className="w-full h-full object-cover" />
-            </div>
-            <div className="text-center">
-              <div className="font-bold text-base">سلاسة للخدمات المؤسسية</div>
-              <div className="text-xs opacity-70">Salasah for Corporate Services</div>
-            </div>
-          </div>
-        </div>
 
         {/* Navigation Items - Icons RIGHT, Text CENTER, Arrow LEFT */}
         <nav className="flex-1 overflow-y-auto scrollbar-thin py-2">
