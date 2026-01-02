@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import AddPostBar from "@/components/shared/AddPostBar";
+import salasahLogo from "@/assets/salasah-logo.jpeg";
 
 interface DashboardHeaderProps {
   onMenuToggle: () => void;
@@ -18,8 +19,11 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
     <header className="bg-header text-header-foreground">
       {/* Top Bar */}
       <div className="flex items-center justify-between px-4 py-2">
-        {/* Right side - Brand */}
+        {/* Right side - Brand with Logo */}
         <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-accent rounded-lg overflow-hidden flex-shrink-0">
+            <img src={salasahLogo} alt="سلاسة" className="w-full h-full object-cover" />
+          </div>
           <div className="text-right">
             <div className="text-xs opacity-70">نظام سلاسة الإلكتروني</div>
             <div className="text-sm font-bold">سلاسة للخدمات المؤسسية</div>
