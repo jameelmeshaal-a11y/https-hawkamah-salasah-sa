@@ -25,8 +25,8 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
             <img src={salasahLogo} alt="سلاسة" className="w-full h-full object-cover" />
           </div>
           <div className="text-right">
-            <div className="text-xs opacity-70">نظام سلاسة الإلكتروني</div>
             <div className="text-sm font-bold">سلاسة لأنظمة وحوكمة القطاع غير الربحي</div>
+            <div className="text-xs opacity-70">نظام سلاسة الإلكتروني</div>
           </div>
         </div>
 
