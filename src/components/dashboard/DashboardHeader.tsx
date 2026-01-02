@@ -103,15 +103,16 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
         </div>
       </div>
 
-      {/* Add Post Button */}
-      <div className="flex justify-end px-4 pt-4">
-        <Button 
-          onClick={() => setIsPostDialogOpen(true)}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg px-6 py-2 flex items-center gap-2"
-        >
-          <span className="text-lg font-bold">+</span>
-          <span>إضافة منشور</span>
-        </Button>
+      {/* Add Post Bar with Shadow */}
+      <div className="bg-muted border-b border-border shadow-md">
+        <div className="flex justify-start px-4 py-3">
+          <Button 
+            onClick={() => setIsPostDialogOpen(true)}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground rounded px-6 py-2 shadow-sm"
+          >
+            إضافة منشور
+          </Button>
+        </div>
       </div>
 
       {/* Add Post Dialog */}
