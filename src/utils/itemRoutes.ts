@@ -130,6 +130,18 @@ const SponsorshipPaymentsPage = lazy(() => import("@/pages/items/SponsorshipPaym
 const PaymentOrdersPage = lazy(() => import("@/pages/items/PaymentOrdersPage"));
 const FinancialReportsPage = lazy(() => import("@/pages/items/FinancialReportsPage"));
 
+// Rehabilitation Projects Management pages
+const RehabilitationProjectsReportsPage = lazy(() => import("@/pages/items/RehabilitationProjectsReportsPage"));
+const InstallmentsDatabasePage = lazy(() => import("@/pages/items/InstallmentsDatabasePage"));
+const RegisterBeneficiaryProjectPage = lazy(() => import("@/pages/items/RegisterBeneficiaryProjectPage"));
+const BeneficiariesNeedRehabilitationPage = lazy(() => import("@/pages/items/BeneficiariesNeedRehabilitationPage"));
+const RehabilitationManagementOpinionPage = lazy(() => import("@/pages/items/RehabilitationManagementOpinionPage"));
+const RehabilitationProjectsDatabasePage = lazy(() => import("@/pages/items/RehabilitationProjectsDatabasePage"));
+const LatePayersPage = lazy(() => import("@/pages/items/LatePayersPage"));
+const PayersDatabasePage = lazy(() => import("@/pages/items/PayersDatabasePage"));
+const QualifiedDatabasePage = lazy(() => import("@/pages/items/QualifiedDatabasePage"));
+const RestoreSupplierAccountPage = lazy(() => import("@/pages/items/RestoreSupplierAccountPage"));
+
 // Generic Page Component for dynamic pages
 const GenericModulePage = lazy(() => import("@/pages/items/GenericModulePage"));
 
@@ -233,6 +245,17 @@ export const itemPages: Record<string, React.ComponentType> = {
   // Financial pages
   "payment-orders": PaymentOrdersPage,
   "financial-reports": FinancialReportsPage,
+  // Rehabilitation Projects Management
+  "rehabilitation-projects-reports": RehabilitationProjectsReportsPage,
+  "installments-database": InstallmentsDatabasePage,
+  "register-beneficiary-project": RegisterBeneficiaryProjectPage,
+  "beneficiaries-need-rehabilitation": BeneficiariesNeedRehabilitationPage,
+  "rehabilitation-management-opinion": RehabilitationManagementOpinionPage,
+  "rehabilitation-projects-database": RehabilitationProjectsDatabasePage,
+  "late-payers": LatePayersPage,
+  "payers-database": PayersDatabasePage,
+  "qualified-database": QualifiedDatabasePage,
+  "restore-supplier-account": RestoreSupplierAccountPage,
 };
 
 // Get page component by slug - returns generic page if specific page not found
