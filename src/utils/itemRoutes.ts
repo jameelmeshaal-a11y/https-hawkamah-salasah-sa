@@ -171,6 +171,18 @@ const ProjectKpisReportPage = lazy(() => import("@/pages/items/ProjectKpisReport
 
 // Projects Management - Preparation Phase pages
 const ManageContractsPaymentsPage = lazy(() => import("@/pages/items/ManageContractsPaymentsPage"));
+const ManageProjectActivitiesPage = lazy(() => import("@/pages/items/ManageProjectActivitiesPage"));
+const ManageProjectTasksPage = lazy(() => import("@/pages/items/ManageProjectTasksPage"));
+const ProjectsDatabaseWithFilterPage = lazy(() => import("@/pages/items/ProjectsDatabaseWithFilterPage"));
+const UpdateProjectDataPage = lazy(() => import("@/pages/items/UpdateProjectDataPage"));
+const AddNewProjectPage = lazy(() => import("@/pages/items/AddNewProjectPage"));
+
+// Evaluation and Followup - Activity Management pages
+const AddSupportActivityPage = lazy(() => import("@/pages/items/AddSupportActivityPage"));
+const AddSponsorshipActivityPage = lazy(() => import("@/pages/items/AddSponsorshipActivityPage"));
+const AddSponsorActivityPage = lazy(() => import("@/pages/items/AddSponsorActivityPage"));
+const AddAssistanceRequestActivityPage = lazy(() => import("@/pages/items/AddAssistanceRequestActivityPage"));
+const AddDependentActivityPage = lazy(() => import("@/pages/items/AddDependentActivityPage"));
 
 // Generic Page Component for dynamic pages
 const GenericModulePage = lazy(() => import("@/pages/items/GenericModulePage"));
@@ -311,6 +323,17 @@ export const itemPages: Record<string, React.ComponentType> = {
   "project-kpis-report": ProjectKpisReportPage,
   // Projects Management - Preparation Phase
   "manage-contracts-payments": ManageContractsPaymentsPage,
+  "manage-project-activities": ManageProjectActivitiesPage,
+  "manage-project-tasks": ManageProjectTasksPage,
+  "projects-database": ProjectsDatabaseWithFilterPage,
+  "update-project-data": UpdateProjectDataPage,
+  "add-new-project": AddNewProjectPage,
+  // Evaluation and Followup - Activity Management
+  "add-support-activity": AddSupportActivityPage,
+  "add-sponsorship-activity": AddSponsorshipActivityPage,
+  "add-sponsor-activity": AddSponsorActivityPage,
+  "add-assistance-request-activity": AddAssistanceRequestActivityPage,
+  "add-dependent-activity": AddDependentActivityPage,
 };
 
 // Get page component by slug - returns generic page if specific page not found
