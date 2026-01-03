@@ -142,6 +142,20 @@ const PayersDatabasePage = lazy(() => import("@/pages/items/PayersDatabasePage")
 const QualifiedDatabasePage = lazy(() => import("@/pages/items/QualifiedDatabasePage"));
 const RestoreSupplierAccountPage = lazy(() => import("@/pages/items/RestoreSupplierAccountPage"));
 
+// Supplier Management pages
+const DeleteSupplierAccountPage = lazy(() => import("@/pages/items/DeleteSupplierAccountPage"));
+const SuppliersDatabasePage = lazy(() => import("@/pages/items/SuppliersDatabasePage"));
+const ManageSupplierAccountsPage = lazy(() => import("@/pages/items/ManageSupplierAccountsPage"));
+
+// Closing and Evaluation Phase pages
+const RestoreDeletedProjectPage = lazy(() => import("@/pages/items/RestoreDeletedProjectPage"));
+const DeleteProjectPage = lazy(() => import("@/pages/items/DeleteProjectPage"));
+const OpenCompletedProjectPage = lazy(() => import("@/pages/items/OpenCompletedProjectPage"));
+const CompleteProjectPage = lazy(() => import("@/pages/items/CompleteProjectPage"));
+const TransferProjectBalancePage = lazy(() => import("@/pages/items/TransferProjectBalancePage"));
+const ProjectDatabasePage = lazy(() => import("@/pages/items/ProjectDatabasePage"));
+const ProjectStatisticsPage = lazy(() => import("@/pages/items/ProjectStatisticsPage"));
+
 // Generic Page Component for dynamic pages
 const GenericModulePage = lazy(() => import("@/pages/items/GenericModulePage"));
 
@@ -256,6 +270,18 @@ export const itemPages: Record<string, React.ComponentType> = {
   "payers-database": PayersDatabasePage,
   "qualified-database": QualifiedDatabasePage,
   "restore-supplier-account": RestoreSupplierAccountPage,
+  // Supplier Management
+  "delete-supplier-account": DeleteSupplierAccountPage,
+  "suppliers-database": SuppliersDatabasePage,
+  "manage-supplier-accounts": ManageSupplierAccountsPage,
+  // Closing and Evaluation Phase
+  "restore-deleted-project": RestoreDeletedProjectPage,
+  "delete-project": DeleteProjectPage,
+  "open-completed-project": OpenCompletedProjectPage,
+  "complete-project": CompleteProjectPage,
+  "transfer-project-balance": TransferProjectBalancePage,
+  "project-database": ProjectDatabasePage,
+  "project-statistics": ProjectStatisticsPage,
 };
 
 // Get page component by slug - returns generic page if specific page not found
