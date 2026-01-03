@@ -156,6 +156,22 @@ const TransferProjectBalancePage = lazy(() => import("@/pages/items/TransferProj
 const ProjectDatabasePage = lazy(() => import("@/pages/items/ProjectDatabasePage"));
 const ProjectStatisticsPage = lazy(() => import("@/pages/items/ProjectStatisticsPage"));
 
+// Projects Management - Execution Phase pages
+const RegisterProjectRevenuePage = lazy(() => import("@/pages/items/RegisterProjectRevenuePage"));
+const RegisterProjectExpensePage = lazy(() => import("@/pages/items/RegisterProjectExpensePage"));
+const AssignBeneficiariesProjectPage = lazy(() => import("@/pages/items/AssignBeneficiariesProjectPage"));
+const ManageProjectReportsPage = lazy(() => import("@/pages/items/ManageProjectReportsPage"));
+
+// Projects Management - Monitoring Phase pages
+const ProjectManagersDashboardPage = lazy(() => import("@/pages/items/ProjectManagersDashboardPage"));
+const ProjectMonitoringBoardPage = lazy(() => import("@/pages/items/ProjectMonitoringBoardPage"));
+const ManageProjectPlanPage = lazy(() => import("@/pages/items/ManageProjectPlanPage"));
+const ProjectKanbanBoardPage = lazy(() => import("@/pages/items/ProjectKanbanBoardPage"));
+const ProjectKpisReportPage = lazy(() => import("@/pages/items/ProjectKpisReportPage"));
+
+// Projects Management - Preparation Phase pages
+const ManageContractsPaymentsPage = lazy(() => import("@/pages/items/ManageContractsPaymentsPage"));
+
 // Generic Page Component for dynamic pages
 const GenericModulePage = lazy(() => import("@/pages/items/GenericModulePage"));
 
@@ -282,6 +298,19 @@ export const itemPages: Record<string, React.ComponentType> = {
   "transfer-project-balance": TransferProjectBalancePage,
   "project-database": ProjectDatabasePage,
   "project-statistics": ProjectStatisticsPage,
+  // Projects Management - Execution Phase
+  "register-project-revenue": RegisterProjectRevenuePage,
+  "register-project-expense": RegisterProjectExpensePage,
+  "assign-beneficiaries-project": AssignBeneficiariesProjectPage,
+  "manage-project-reports": ManageProjectReportsPage,
+  // Projects Management - Monitoring Phase
+  "project-managers-dashboard": ProjectManagersDashboardPage,
+  "project-monitoring-board": ProjectMonitoringBoardPage,
+  "manage-project-plan": ManageProjectPlanPage,
+  "project-kanban-board": ProjectKanbanBoardPage,
+  "project-kpis-report": ProjectKpisReportPage,
+  // Projects Management - Preparation Phase
+  "manage-contracts-payments": ManageContractsPaymentsPage,
 };
 
 // Get page component by slug - returns generic page if specific page not found

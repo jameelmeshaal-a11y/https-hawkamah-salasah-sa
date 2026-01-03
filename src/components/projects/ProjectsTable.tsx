@@ -16,7 +16,7 @@ export interface ProjectData {
   id: string;
   projectNumber: string;
   projectName: string;
-  balance: string;
+  balance: number;
   status: "جاري" | "مكتمل" | "جديد";
   sector: string;
   village: string;
@@ -125,7 +125,7 @@ export function ProjectsTable({
                     </Button>
                   </TableCell>
                   <TableCell className="text-right">{project.projectName}</TableCell>
-                  <TableCell className="text-right">{project.balance}</TableCell>
+                  <TableCell className="text-right">{project.balance.toLocaleString()}</TableCell>
                   <TableCell>
                     <StatusBadge status={project.status} type={getStatusType(project.status)} />
                   </TableCell>
