@@ -7,7 +7,7 @@ const projectsData: ProjectData[] = [
     id: "1",
     projectNumber: "PRJ-002",
     projectName: "مشروع الحقيبة المدرسية",
-    balance: "75,000",
+    balance: 75000,
     status: "مكتمل",
     sector: "جدة - مكة",
     village: "حي الصفا",
