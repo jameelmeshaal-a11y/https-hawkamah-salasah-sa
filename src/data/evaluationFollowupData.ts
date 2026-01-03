@@ -60,4 +60,14 @@ export const evaluationFollowupSections: SubSection[] = [
       { title: "تقارير النشاطات", icon: FileEdit, slug: "activity-reports" },
     ],
   },
+  {
+    title: "إدارة متابعة النشاطات",
+    items: [
+      { title: "إضافة نشاط داعم", icon: UserCheck, slug: "add-support-activity" },
+      { title: "إضافة نشاط كفالة", icon: FileText, slug: "add-sponsorship-activity" },
+      { title: "إضافة نشاط كافل", icon: Users, slug: "add-sponsor-activity" },
+      { title: "إضافة نشاط طلب إعانة", icon: ClipboardList, slug: "add-assistance-request-activity" },
+      { title: "إضافة نشاط تابع", icon: Activity, slug: "add-dependent-activity" },
+    ],
+  },
 ];
