@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,7 +25,7 @@ import EmptyState from "@/components/shared/EmptyState";
 import { FileX } from "lucide-react";
 
 const PaymentConfirmationsManagementPage = () => {
-  const [confirmationType, setConfirmationType] = useState("");
+  const [confirmationType, setConfirmationType] = useState("general");
   const [paymentStatement, setPaymentStatement] = useState("");
   const [amount, setAmount] = useState("");
   const [paymentDetails, setPaymentDetails] = useState("");
@@ -44,7 +44,7 @@ const PaymentConfirmationsManagementPage = () => {
     <InnerPageLayout
       moduleId="supervision"
       title="إدارة تعميدات الصرف"
-      sectionTitle="تعميدات الصرف"
+      sectionTitle="إدارة التعميد بالصرف"
       moduleTitle="الإدارة الإشرافية والتنفيذية"
     >
       <div className="space-y-6">
@@ -66,34 +66,33 @@ const PaymentConfirmationsManagementPage = () => {
 
         {/* Add Record Form */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">إضافة سجل جديد</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>النوع</Label>
-                <Select
-                  value={confirmationType}
-                  onValueChange={setConfirmationType}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="اختر النوع" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="general">تعميد صرف عام</SelectItem>
-                    <SelectItem value="members">تعميد صرف للأعضاء</SelectItem>
-                    <SelectItem value="project">تعميد صرف مشروع</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label>بيان الصرف</Label>
-                <Input
-                  value={paymentStatement}
-                  onChange={(e) => setPaymentStatement(e.target.value)}
-                  placeholder="أدخل بيان الصرف"
-                />
+          <CardContent className="pt-6">
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>النوع</Label>
+                  <Select
+                    value={confirmationType}
+                    onValueChange={setConfirmationType}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="اختر النوع" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="general">تعميد صرف عام</SelectItem>
+                      <SelectItem value="members">تعميد صرف للأعضاء</SelectItem>
+                      <SelectItem value="project">تعميد صرف مشروع</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label>بيان الصرف</Label>
+                  <Input
+                    value={paymentStatement}
+                    onChange={(e) => setPaymentStatement(e.target.value)}
+                    placeholder="أدخل بيان الصرف"
+                  />
+                </div>
               </div>
               <div className="space-y-2">
                 <Label>المبلغ</Label>
@@ -105,13 +104,6 @@ const PaymentConfirmationsManagementPage = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label>المرفقات</Label>
-                <Button variant="outline" className="w-full justify-start">
-                  <Upload className="h-4 w-4 ml-2" />
-                  إضافة مرفقات
-                </Button>
-              </div>
-              <div className="space-y-2 md:col-span-2">
                 <Label>تفاصيل الصرف</Label>
                 <Textarea
                   value={paymentDetails}
@@ -120,13 +112,20 @@ const PaymentConfirmationsManagementPage = () => {
                   rows={3}
                 />
               </div>
+              <div className="space-y-2">
+                <Label>المرفقات</Label>
+                <Button variant="outline" className="w-full justify-start bg-slate-700 text-white hover:bg-slate-800 border-slate-700">
+                  <Upload className="h-4 w-4 ml-2" />
+                  إضافة مرفقات
+                </Button>
+              </div>
             </div>
             <div className="mt-4">
               <Button
                 onClick={handleAddRecord}
                 className="bg-green-600 hover:bg-green-700"
               >
-                إضافة السجل
+                إضافة سجل
               </Button>
             </div>
           </CardContent>
@@ -134,10 +133,7 @@ const PaymentConfirmationsManagementPage = () => {
 
         {/* Records Table */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">السجلات</CardTitle>
-          </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             {records.length === 0 ? (
               <EmptyState
                 icon={FileX}

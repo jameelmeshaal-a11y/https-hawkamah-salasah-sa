@@ -102,6 +102,8 @@ const PaymentConfirmationsManagementPage = lazy(() => import("@/pages/items/Paym
 const RejectedConfirmationsWithNotePage = lazy(() => import("@/pages/items/RejectedConfirmationsWithNotePage"));
 const PaymentConfirmationsRecordsPage = lazy(() => import("@/pages/items/PaymentConfirmationsRecordsPage"));
 const NotificationsManagementPage = lazy(() => import("@/pages/items/NotificationsManagementPage"));
+const CreateGeneralTaskPage = lazy(() => import("@/pages/items/CreateGeneralTaskPage"));
+const ManageEmployeeTasksPage = lazy(() => import("@/pages/items/ManageEmployeeTasksPage"));
 
 // New pages
 const BeneficiariesDatabasePage = lazy(() => import("@/pages/items/BeneficiariesDatabasePage"));
@@ -260,6 +262,8 @@ export const itemPages: Record<string, React.ComponentType> = {
   "rejected-confirmations-with-note": RejectedConfirmationsWithNotePage,
   "payment-confirmations-records": PaymentConfirmationsRecordsPage,
   "notifications-management": NotificationsManagementPage,
+  "create-general-task": CreateGeneralTaskPage,
+  "manage-employee-tasks": ManageEmployeeTasksPage,
   // New pages
   "beneficiaries-database": BeneficiariesDatabasePage,
   "org-structure": OrgChartPage,

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -27,7 +27,8 @@ interface ConfirmationRecord {
   status: string;
   paymentType: string;
   amount: number;
-  createdAt: string;
+  createdAtHijri: string;
+  createdAtGregorian: string;
   createdBy: string;
 }
 
@@ -38,22 +39,24 @@ const PaymentConfirmationsRecordsPage = () => {
   const [records] = useState<ConfirmationRecord[]>([
     {
       id: 1,
-      confirmationNumber: "CONF-2024-001",
+      confirmationNumber: "65874",
       paymentStatement: "صرف دفعة مشروع",
       status: "معتمد",
       paymentType: "صرف مشروع",
       amount: 200.0,
-      createdAt: "2024-01-15",
+      createdAtHijri: "1446-06-10",
+      createdAtGregorian: "2024-12-10",
       createdBy: "مدير المالية",
     },
     {
       id: 2,
-      confirmationNumber: "CONF-2024-002",
-      paymentStatement: "صرف مستحقات موظفين",
+      confirmationNumber: "54117",
+      paymentStatement: "صرف دفعة مشروع",
       status: "معتمد",
       paymentType: "صرف رواتب",
       amount: 150.0,
-      createdAt: "2024-01-20",
+      createdAtHijri: "1446-06-15",
+      createdAtGregorian: "2024-12-15",
       createdBy: "مدير المالية",
     },
   ]);
@@ -62,14 +65,13 @@ const PaymentConfirmationsRecordsPage = () => {
     <InnerPageLayout
       moduleId="supervision"
       title="سجلات تعميدات الصرف"
-      sectionTitle="تعميدات الصرف"
+      sectionTitle="إدارة التعميد بالصرف"
       moduleTitle="الإدارة الإشرافية والتنفيذية"
     >
       <div className="space-y-6">
         <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <CardTitle className="text-lg">سجلات التعميدات</CardTitle>
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
               <div className="flex items-center gap-2 flex-wrap">
                 <div className="relative">
                   <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -95,8 +97,6 @@ const PaymentConfirmationsRecordsPage = () => {
                 </Select>
               </div>
             </div>
-          </CardHeader>
-          <CardContent>
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
@@ -129,7 +129,7 @@ const PaymentConfirmationsRecordsPage = () => {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="text-red-600"
+                          className="text-amber-700"
                         >
                           <FileText className="h-4 w-4 ml-1" />
                           PDF
@@ -144,7 +144,12 @@ const PaymentConfirmationsRecordsPage = () => {
                       </TableCell>
                       <TableCell>{record.paymentType}</TableCell>
                       <TableCell>{record.amount.toFixed(2)} ريال</TableCell>
-                      <TableCell>{record.createdAt}</TableCell>
+                      <TableCell>
+                        <div className="text-sm">
+                          <div>{record.createdAtHijri}</div>
+                          <div className="text-muted-foreground">{record.createdAtGregorian}</div>
+                        </div>
+                      </TableCell>
                       <TableCell>{record.createdBy}</TableCell>
                     </TableRow>
                   ))}

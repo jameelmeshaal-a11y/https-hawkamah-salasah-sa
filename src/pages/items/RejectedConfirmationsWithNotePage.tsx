@@ -19,7 +19,7 @@ const RejectedConfirmationsWithNotePage = () => {
     <InnerPageLayout
       moduleId="supervision"
       title="التعميدات المرفوضة مع ملاحظة"
-      sectionTitle="تعميدات الصرف"
+      sectionTitle="إدارة التعميد بالصرف"
       moduleTitle="الإدارة الإشرافية والتنفيذية"
     >
       <div className="space-y-6">
@@ -36,10 +36,7 @@ const RejectedConfirmationsWithNotePage = () => {
 
         {/* Records Table */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">التعميدات المرفوضة</CardTitle>
-          </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             {records.length === 0 ? (
               <EmptyState
                 icon={FileX}
