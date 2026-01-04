@@ -189,6 +189,11 @@ const AddSponsorActivityPage = lazy(() => import("@/pages/items/AddSponsorActivi
 const AddAssistanceRequestActivityPage = lazy(() => import("@/pages/items/AddAssistanceRequestActivityPage"));
 const AddDependentActivityPage = lazy(() => import("@/pages/items/AddDependentActivityPage"));
 
+// Members Management - Board Members pages
+const AddBoardMemberPage = lazy(() => import("@/pages/items/AddBoardMemberPage"));
+const UpdateBoardMemberPage = lazy(() => import("@/pages/items/UpdateBoardMemberPage"));
+const BoardMembersDatabasePage = lazy(() => import("@/pages/items/BoardMembersDatabasePage"));
+
 // Generic Page Component for dynamic pages
 const GenericModulePage = lazy(() => import("@/pages/items/GenericModulePage"));
 
@@ -270,6 +275,10 @@ export const itemPages: Record<string, React.ComponentType> = {
   "transfer-stuck-task": TransferStuckTaskPage,
   "tasks-database": TasksDatabasePage,
   "restore-deleted-task": RestoreDeletedTaskPage,
+  // Members Management - Board Members
+  "add-board-member": AddBoardMemberPage,
+  "update-board-member": UpdateBoardMemberPage,
+  "board-members-database": BoardMembersDatabasePage,
   // New pages
   "beneficiaries-database": BeneficiariesDatabasePage,
   "org-structure": OrgChartPage,
