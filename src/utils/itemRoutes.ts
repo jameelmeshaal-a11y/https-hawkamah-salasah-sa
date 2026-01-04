@@ -104,6 +104,9 @@ const PaymentConfirmationsRecordsPage = lazy(() => import("@/pages/items/Payment
 const NotificationsManagementPage = lazy(() => import("@/pages/items/NotificationsManagementPage"));
 const CreateGeneralTaskPage = lazy(() => import("@/pages/items/CreateGeneralTaskPage"));
 const ManageEmployeeTasksPage = lazy(() => import("@/pages/items/ManageEmployeeTasksPage"));
+const TransferStuckTaskPage = lazy(() => import("@/pages/items/TransferStuckTaskPage"));
+const TasksDatabasePage = lazy(() => import("@/pages/items/TasksDatabasePage"));
+const RestoreDeletedTaskPage = lazy(() => import("@/pages/items/RestoreDeletedTaskPage"));
 
 // New pages
 const BeneficiariesDatabasePage = lazy(() => import("@/pages/items/BeneficiariesDatabasePage"));
@@ -264,6 +267,9 @@ export const itemPages: Record<string, React.ComponentType> = {
   "notifications-management": NotificationsManagementPage,
   "create-general-task": CreateGeneralTaskPage,
   "manage-employee-tasks": ManageEmployeeTasksPage,
+  "transfer-stuck-task": TransferStuckTaskPage,
+  "tasks-database": TasksDatabasePage,
+  "restore-deleted-task": RestoreDeletedTaskPage,
   // New pages
   "beneficiaries-database": BeneficiariesDatabasePage,
   "org-structure": OrgChartPage,
