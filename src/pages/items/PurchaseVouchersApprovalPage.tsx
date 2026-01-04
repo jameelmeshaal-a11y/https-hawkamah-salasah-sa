@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -23,14 +23,14 @@ import { Search, Download, Eye, Settings } from "lucide-react";
 interface PurchaseVoucher {
   id: number;
   voucherType: string;
-  startDate: string;
-  endDate: string;
+  startDateHijri: string;
+  startDateGregorian: string;
+  endDateHijri: string;
+  endDateGregorian: string;
   voucherValue: number;
   notes: string;
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string;
-  updatedBy: string;
+  createdAtHijri: string;
+  createdAtGregorian: string;
 }
 
 const PurchaseVouchersApprovalPage = () => {
@@ -41,26 +41,26 @@ const PurchaseVouchersApprovalPage = () => {
     {
       id: 1,
       voucherType: "مواد غذائية",
-      startDate: "2024-01-01",
-      endDate: "2024-01-31",
+      startDateHijri: "1446-06-01",
+      startDateGregorian: "2024-12-01",
+      endDateHijri: "1446-06-30",
+      endDateGregorian: "2024-12-30",
       voucherValue: 300,
-      notes: "قسيمة شهرية",
-      createdAt: "2024-01-01",
-      createdBy: "مدير المشتريات",
-      updatedAt: "2024-01-05",
-      updatedBy: "مدير المشتريات",
+      notes: "",
+      createdAtHijri: "1446-05-28",
+      createdAtGregorian: "2024-11-28",
     },
     {
       id: 2,
       voucherType: "أخرى",
-      startDate: "2024-02-01",
-      endDate: "2024-02-28",
+      startDateHijri: "1446-07-01",
+      startDateGregorian: "2025-01-01",
+      endDateHijri: "1446-07-29",
+      endDateGregorian: "2025-01-29",
       voucherValue: 50,
-      notes: "قسيمة مستلزمات",
-      createdAt: "2024-02-01",
-      createdBy: "مدير المشتريات",
-      updatedAt: "2024-02-02",
-      updatedBy: "مدير المشتريات",
+      notes: "",
+      createdAtHijri: "1446-06-25",
+      createdAtGregorian: "2024-12-25",
     },
   ]);
 
@@ -68,14 +68,13 @@ const PurchaseVouchersApprovalPage = () => {
     <InnerPageLayout
       moduleId="supervision"
       title="اعتماد القسائم الشرائية"
-      sectionTitle="لجنة المساعدات"
+      sectionTitle="إدارة الاعتمادات"
       moduleTitle="الإدارة الإشرافية والتنفيذية"
     >
       <div className="space-y-6">
         <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <CardTitle className="text-lg">القسائم الشرائية</CardTitle>
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
               <div className="flex items-center gap-2 flex-wrap">
                 <div className="relative">
                   <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -101,23 +100,18 @@ const PurchaseVouchersApprovalPage = () => {
                 </Select>
               </div>
             </div>
-          </CardHeader>
-          <CardContent>
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead className="text-right">إدارة</TableHead>
-                    <TableHead className="text-right">معاينة القسيمة</TableHead>
+                    <TableHead className="text-right">معاينة</TableHead>
                     <TableHead className="text-right">نوع القسيمة</TableHead>
                     <TableHead className="text-right">بداية القسيمة</TableHead>
                     <TableHead className="text-right">نهاية القسيمة</TableHead>
                     <TableHead className="text-right">قيمة القسيمة</TableHead>
                     <TableHead className="text-right">ملاحظات</TableHead>
                     <TableHead className="text-right">تاريخ الإنشاء</TableHead>
-                    <TableHead className="text-right">أنشأ بواسطة</TableHead>
-                    <TableHead className="text-right">تاريخ التحديث</TableHead>
-                    <TableHead className="text-right">حدث بواسطة</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -143,14 +137,30 @@ const PurchaseVouchersApprovalPage = () => {
                         </Button>
                       </TableCell>
                       <TableCell>{voucher.voucherType}</TableCell>
-                      <TableCell>{voucher.startDate}</TableCell>
-                      <TableCell>{voucher.endDate}</TableCell>
+                      <TableCell>
+                        <div className="text-sm">
+                          <div>{voucher.startDateHijri}</div>
+                          <div className="text-muted-foreground">{voucher.startDateGregorian}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-sm">
+                          <div>{voucher.endDateHijri}</div>
+                          <div className="text-muted-foreground">{voucher.endDateGregorian}</div>
+                        </div>
+                      </TableCell>
                       <TableCell>{voucher.voucherValue} ريال</TableCell>
-                      <TableCell>{voucher.notes}</TableCell>
-                      <TableCell>{voucher.createdAt}</TableCell>
-                      <TableCell>{voucher.createdBy}</TableCell>
-                      <TableCell>{voucher.updatedAt}</TableCell>
-                      <TableCell>{voucher.updatedBy}</TableCell>
+                      <TableCell>
+                        <span className="text-muted-foreground">
+                          {voucher.notes || "غير متاح"}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-sm">
+                          <div>{voucher.createdAtHijri}</div>
+                          <div className="text-muted-foreground">{voucher.createdAtGregorian}</div>
+                        </div>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

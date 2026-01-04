@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Search, Download, Edit, Trash2, Wallet } from "lucide-react";
+import { Search, Download, Edit, Trash2, Wallet, Calendar } from "lucide-react";
 
 interface BalanceRecord {
   id: number;
@@ -28,7 +28,6 @@ interface BalanceRecord {
   operation: string;
   amount: number;
   createdAt: string;
-  createdBy: string;
 }
 
 const AidCommitteeBalancePage = () => {
@@ -37,26 +36,16 @@ const AidCommitteeBalancePage = () => {
   const [description, setDescription] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const currentBalance = 1000;
+  const currentBalance = -1000;
 
   const [records] = useState<BalanceRecord[]>([
     {
       id: 1,
-      description: "إيداع رصيد افتتاحي",
-      additionMethod: "يدوي",
-      operation: "إيداع",
-      amount: 1500,
-      createdAt: "2024-01-15",
-      createdBy: "مدير النظام",
-    },
-    {
-      id: 2,
-      description: "صرف مساعدة عاجلة",
-      additionMethod: "يدوي",
+      description: "رصيد معتمد لطلب الإعانة رقم 1-180000160",
+      additionMethod: "من طلب إعانة",
       operation: "سحب",
-      amount: 500,
-      createdAt: "2024-01-20",
-      createdBy: "مدير النظام",
+      amount: 1000,
+      createdAt: "1446-06-18",
     },
   ]);
 
@@ -77,7 +66,7 @@ const AidCommitteeBalancePage = () => {
           <Wallet className="h-6 w-6 text-yellow-700" />
           <div className="flex items-center gap-2">
             <span className="text-yellow-800 font-medium">الرصيد الحالي:</span>
-            <span className="text-yellow-900 font-bold text-xl">
+            <span className={`font-bold text-xl ${currentBalance < 0 ? 'text-red-600' : 'text-yellow-900'}`}>
               {currentBalance.toLocaleString()} ريال سعودي
             </span>
           </div>
@@ -85,10 +74,7 @@ const AidCommitteeBalancePage = () => {
 
         {/* Add Record Form */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">إضافة سجل جديد</CardTitle>
-          </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label>نوع العملية</Label>
@@ -125,7 +111,7 @@ const AidCommitteeBalancePage = () => {
                 onClick={handleAddRecord}
                 className="bg-green-600 hover:bg-green-700"
               >
-                إضافة السجل
+                إضافة سجل
               </Button>
             </div>
           </CardContent>
@@ -133,9 +119,8 @@ const AidCommitteeBalancePage = () => {
 
         {/* Records Table */}
         <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-lg">سجلات الرصيد</CardTitle>
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <div className="relative">
                   <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -151,8 +136,6 @@ const AidCommitteeBalancePage = () => {
                 </Button>
               </div>
             </div>
-          </CardHeader>
-          <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -160,8 +143,7 @@ const AidCommitteeBalancePage = () => {
                   <TableHead className="text-right">آلية الإضافة</TableHead>
                   <TableHead className="text-right">العملية</TableHead>
                   <TableHead className="text-right">المبلغ</TableHead>
-                  <TableHead className="text-right">تاريخ الإنشاء</TableHead>
-                  <TableHead className="text-right">أنشأ بواسطة</TableHead>
+                  <TableHead className="text-right">التاريخ</TableHead>
                   <TableHead className="text-right">إدارة</TableHead>
                 </TableRow>
               </TableHeader>
@@ -182,15 +164,19 @@ const AidCommitteeBalancePage = () => {
                       </span>
                     </TableCell>
                     <TableCell>{record.amount.toLocaleString()}</TableCell>
-                    <TableCell>{record.createdAt}</TableCell>
-                    <TableCell>{record.createdBy}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-4 w-4 text-muted-foreground" />
+                        <span>{record.createdAt}</span>
+                      </div>
+                    </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <Button variant="ghost" size="icon">
-                          <Edit className="h-4 w-4 text-blue-600" />
+                          <Trash2 className="h-4 w-4 text-red-600" />
                         </Button>
                         <Button variant="ghost" size="icon">
-                          <Trash2 className="h-4 w-4 text-red-600" />
+                          <Edit className="h-4 w-4 text-blue-600" />
                         </Button>
                       </div>
                     </TableCell>

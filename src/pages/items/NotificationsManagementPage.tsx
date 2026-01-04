@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,16 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
   Upload,
-  Bell,
   Bold,
   Italic,
   Underline,
@@ -32,15 +23,26 @@ import {
   AlignLeft,
   List,
   ListOrdered,
+  Link,
+  Image,
+  Strikethrough,
+  Superscript,
+  Subscript,
+  Quote,
+  Code,
+  Table,
+  Undo,
+  Redo,
+  Type,
+  Palette,
+  Highlighter,
 } from "lucide-react";
-import EmptyState from "@/components/shared/EmptyState";
 
 const NotificationsManagementPage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [targetAudience, setTargetAudience] = useState("");
+  const [targetAudience, setTargetAudience] = useState("all");
   const [requiresSignature, setRequiresSignature] = useState(false);
-  const [records] = useState<any[]>([]);
 
   const handleAddRecord = () => {
     console.log("Adding notification:", {
@@ -61,10 +63,7 @@ const NotificationsManagementPage = () => {
       <div className="space-y-6">
         {/* Add Notification Form */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">إنشاء إشعار جديد</CardTitle>
-          </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label>
@@ -78,9 +77,35 @@ const NotificationsManagementPage = () => {
               </div>
 
               <div className="space-y-2">
-                <Label>المحتوى</Label>
+                <Label>
+                  المحتوى <span className="text-red-500">*</span>
+                </Label>
                 {/* Rich Text Editor Toolbar */}
-                <div className="border rounded-t-md p-2 bg-muted/50 flex items-center gap-1 flex-wrap">
+                <div className="border rounded-t-md p-2 bg-muted/50 flex items-center gap-0.5 flex-wrap">
+                  {/* Undo/Redo */}
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Undo className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Redo className="h-4 w-4" />
+                  </Button>
+                  <div className="w-px h-6 bg-border mx-1" />
+                  
+                  {/* Font Style */}
+                  <Select defaultValue="normal">
+                    <SelectTrigger className="h-8 w-24 text-xs">
+                      <SelectValue placeholder="الخط" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="normal">عادي</SelectItem>
+                      <SelectItem value="heading1">عنوان 1</SelectItem>
+                      <SelectItem value="heading2">عنوان 2</SelectItem>
+                      <SelectItem value="heading3">عنوان 3</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <div className="w-px h-6 bg-border mx-1" />
+                  
+                  {/* Text Formatting */}
                   <Button variant="ghost" size="icon" className="h-8 w-8">
                     <Bold className="h-4 w-4" />
                   </Button>
@@ -90,7 +115,27 @@ const NotificationsManagementPage = () => {
                   <Button variant="ghost" size="icon" className="h-8 w-8">
                     <Underline className="h-4 w-4" />
                   </Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Strikethrough className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Superscript className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Subscript className="h-4 w-4" />
+                  </Button>
                   <div className="w-px h-6 bg-border mx-1" />
+                  
+                  {/* Colors */}
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Type className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Highlighter className="h-4 w-4" />
+                  </Button>
+                  <div className="w-px h-6 bg-border mx-1" />
+                  
+                  {/* Alignment */}
                   <Button variant="ghost" size="icon" className="h-8 w-8">
                     <AlignRight className="h-4 w-4" />
                   </Button>
@@ -101,48 +146,71 @@ const NotificationsManagementPage = () => {
                     <AlignLeft className="h-4 w-4" />
                   </Button>
                   <div className="w-px h-6 bg-border mx-1" />
+                  
+                  {/* Lists */}
                   <Button variant="ghost" size="icon" className="h-8 w-8">
                     <List className="h-4 w-4" />
                   </Button>
                   <Button variant="ghost" size="icon" className="h-8 w-8">
                     <ListOrdered className="h-4 w-4" />
                   </Button>
+                  <div className="w-px h-6 bg-border mx-1" />
+                  
+                  {/* Insert */}
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Link className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Image className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Table className="h-4 w-4" />
+                  </Button>
+                  <div className="w-px h-6 bg-border mx-1" />
+                  
+                  {/* Quote & Code */}
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Quote className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Code className="h-4 w-4" />
+                  </Button>
                 </div>
                 <Textarea
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="أدخل محتوى الإشعار..."
-                  rows={6}
+                  rows={8}
                   className="rounded-t-none"
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>موجهة إلى</Label>
-                  <Select
-                    value={targetAudience}
-                    onValueChange={setTargetAudience}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="اختر الفئة المستهدفة" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">كافة العاملين</SelectItem>
-                      <SelectItem value="managers">المدراء فقط</SelectItem>
-                      <SelectItem value="employees">الموظفين فقط</SelectItem>
-                      <SelectItem value="department">قسم محدد</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              <div className="space-y-2">
+                <Label>
+                  موجهة إلى <span className="text-red-500">*</span>
+                </Label>
+                <Select
+                  value={targetAudience}
+                  onValueChange={setTargetAudience}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="اختر الفئة المستهدفة" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">كافة العاملين</SelectItem>
+                    <SelectItem value="managers">المدراء فقط</SelectItem>
+                    <SelectItem value="employees">الموظفين فقط</SelectItem>
+                    <SelectItem value="department">قسم محدد</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-                <div className="space-y-2">
-                  <Label>المرفقات</Label>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Upload className="h-4 w-4 ml-2" />
-                    إضافة مرفقات
-                  </Button>
-                </div>
+              <div className="space-y-2">
+                <Label>المرفقات</Label>
+                <Button variant="outline" className="w-full justify-start bg-slate-700 text-white hover:bg-slate-800 border-slate-700">
+                  <Upload className="h-4 w-4 ml-2" />
+                  إضافة مرفقات
+                </Button>
               </div>
 
               <div className="flex items-center gap-3">
@@ -162,48 +230,6 @@ const NotificationsManagementPage = () => {
                 إضافة سجل
               </Button>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Records Table */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">الإشعارات المرسلة</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {records.length === 0 ? (
-              <EmptyState
-                icon={Bell}
-                message="لا توجد بيانات متوفرة في الجدول"
-              />
-            ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-right">العنوان</TableHead>
-                    <TableHead className="text-right">موجهة إلى</TableHead>
-                    <TableHead className="text-right">يتطلب توقيع</TableHead>
-                    <TableHead className="text-right">تاريخ الإنشاء</TableHead>
-                    <TableHead className="text-right">أنشأ بواسطة</TableHead>
-                    <TableHead className="text-right">إدارة</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {records.map((record: any) => (
-                    <TableRow key={record.id}>
-                      <TableCell>{record.title}</TableCell>
-                      <TableCell>{record.targetAudience}</TableCell>
-                      <TableCell>
-                        {record.requiresSignature ? "نعم" : "لا"}
-                      </TableCell>
-                      <TableCell>{record.createdAt}</TableCell>
-                      <TableCell>{record.createdBy}</TableCell>
-                      <TableCell>-</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            )}
           </CardContent>
         </Card>
       </div>
