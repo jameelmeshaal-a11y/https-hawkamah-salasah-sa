@@ -45,16 +45,16 @@ export const supervisoryManagementSections: SubSection[] = [
     items: [
       { title: "إدارة رصيد لجنة المساعدات", icon: Wallet, slug: "aid-committee-balance" },
       { title: "نماذج قرارات لجنة المساعدات", icon: FileText, slug: "aid-committee-decisions" },
+    ],
+  },
+  {
+    title: "إدارة الاعتمادات",
+    sectionSlug: "approvals-management",
+    items: [
       { title: "اعتماد تعميدات الصرف", icon: BadgeCheck, slug: "approve-payment-confirmations" },
       { title: "اعتماد صرف الكفالات", icon: Shield, slug: "approve-sponsorship-payments" },
       { title: "اعتماد أوامر الصرف", icon: ClipboardCheck, slug: "payment-orders-approval" },
       { title: "اعتماد القسائم الشرائية", icon: Receipt, slug: "purchase-vouchers-approval" },
-    ],
-  },
-  {
-    title: "الطلبات قيد الاعتماد",
-    sectionSlug: "pending-approval",
-    items: [
       { title: "طلبات التوظيف", icon: Briefcase, slug: "employment-requests" },
       { title: "طلبات الشراء", icon: ShoppingCart, slug: "purchase-requests-approval" },
       { title: "طلبات الصيانة العامة", icon: Wrench, slug: "general-maintenance-requests" },
@@ -62,7 +62,7 @@ export const supervisoryManagementSections: SubSection[] = [
     ],
   },
   {
-    title: "تعميدات الصرف",
+    title: "إدارة التعميد بالصرف",
     sectionSlug: "payment-confirmations",
     items: [
       { title: "إدارة تعميدات الصرف", icon: FileCheck, slug: "payment-confirmations-management" },
@@ -82,8 +82,8 @@ export const supervisoryManagementSections: SubSection[] = [
     ],
   },
   {
-    title: "إدارة المهام",
-    sectionSlug: "tasks-management",
+    title: "إدارة مهام الموظفين",
+    sectionSlug: "employee-tasks-management",
     items: [
       { title: "إنشاء مهمة عامة", icon: FilePlus, slug: "create-general-task" },
       { title: "إدارة مهام الموظفين", icon: Users, slug: "manage-employee-tasks" },
