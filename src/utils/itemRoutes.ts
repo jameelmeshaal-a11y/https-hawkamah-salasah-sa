@@ -107,6 +107,7 @@ const MainIndicatorsManagementPage = lazy(() => import("@/pages/items/MainIndica
 const StrategicPlanTreePage = lazy(() => import("@/pages/items/StrategicPlanTreePage"));
 const Vision2030AlignmentPage = lazy(() => import("@/pages/items/Vision2030AlignmentPage"));
 const SustainableDevelopmentGoalsPage = lazy(() => import("@/pages/items/SustainableDevelopmentGoalsPage"));
+const VerificationAttachmentsPage = lazy(() => import("@/pages/items/VerificationAttachmentsPage"));
 
 // Supervision Module pages
 const AidCommitteeBalancePage = lazy(() => import("@/pages/items/AidCommitteeBalancePage"));
@@ -427,6 +428,8 @@ export const itemPages: Record<string, React.ComponentType> = {
   "strategic-plan-tree": StrategicPlanTreePage,
   "vision-2030-alignment": Vision2030AlignmentPage,
   "sustainable-development-goals": SustainableDevelopmentGoalsPage,
+  // Institutional Excellence - Governance (Additional)
+  "verification-attachments": VerificationAttachmentsPage,
 };
 
 // Get page component by slug - returns generic page if specific page not found
