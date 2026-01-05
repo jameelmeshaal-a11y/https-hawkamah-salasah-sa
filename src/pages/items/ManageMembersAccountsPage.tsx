@@ -9,7 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { User, Phone, Home, Plus, Paperclip, Upload, Search, RefreshCw, Filter, Download, Eye } from "lucide-react";
+import { User, Phone, Home, Plus, Paperclip, Upload, Search, RefreshCw, Filter, Eye } from "lucide-react";
+import ExportDropdown from "@/components/shared/ExportDropdown";
 
 const demoData = [
   {
@@ -346,9 +347,7 @@ const ManageMembersAccountsPage = () => {
                 <Button variant="outline" size="icon">
                   <Filter className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon">
-                  <Download className="h-4 w-4" />
-                </Button>
+                <ExportDropdown columns={columns} />
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-muted-foreground">سجلات الصفحة</span>

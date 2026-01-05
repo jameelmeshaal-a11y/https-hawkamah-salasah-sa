@@ -22,11 +22,11 @@ import {
   Search,
   RefreshCw,
   Filter,
-  Download,
   SlidersHorizontal,
   Edit,
   Eye,
 } from "lucide-react";
+import ExportDropdown from "@/components/shared/ExportDropdown";
 
 const demoData = [
   {
@@ -71,9 +71,13 @@ const UpdateBoardMemberPage = () => {
               <Button variant="outline" size="icon" title="فلتر">
                 <Filter className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="icon" title="تصدير">
-                <Download className="h-4 w-4" />
-              </Button>
+              <ExportDropdown columns={[
+                { key: "accountCode", label: "كود الحساب" },
+                { key: "accountType", label: "نوع الحساب" },
+                { key: "name", label: "الإسم" },
+                { key: "idNumber", label: "رقم الهوية" },
+                { key: "mobile", label: "رقم الجوال" },
+              ]} />
             </div>
 
             {/* Page Size */}

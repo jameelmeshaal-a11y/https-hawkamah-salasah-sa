@@ -22,10 +22,10 @@ import {
   Search,
   RefreshCw,
   Filter,
-  Download,
   SlidersHorizontal,
   Eye,
 } from "lucide-react";
+import ExportDropdown from "@/components/shared/ExportDropdown";
 
 const demoData = [
   {
@@ -177,9 +177,7 @@ const BoardMembersDatabasePage = () => {
               <Button variant="outline" size="icon" title="فلتر">
                 <Filter className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="icon" title="تصدير">
-                <Download className="h-4 w-4" />
-              </Button>
+              <ExportDropdown columns={columns} />
             </div>
 
             {/* Page Size */}

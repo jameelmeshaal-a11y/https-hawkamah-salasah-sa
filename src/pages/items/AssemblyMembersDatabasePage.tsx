@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Search, RefreshCw, Filter, Download, Eye, SlidersHorizontal } from "lucide-react";
+import { Search, RefreshCw, Filter, Eye, SlidersHorizontal } from "lucide-react";
+import ExportDropdown from "@/components/shared/ExportDropdown";
 
 const demoData = [
   {
@@ -158,9 +159,7 @@ const AssemblyMembersDatabasePage = () => {
                 <Button variant="outline" size="icon">
                   <Filter className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon">
-                  <Download className="h-4 w-4" />
-                </Button>
+                <ExportDropdown columns={columns} />
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-muted-foreground">سجلات الصفحة</span>
