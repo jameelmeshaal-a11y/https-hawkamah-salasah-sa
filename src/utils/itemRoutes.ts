@@ -199,6 +199,23 @@ const ManageMembersAccountsPage = lazy(() => import("@/pages/items/ManageMembers
 const AssemblyMembersDatabasePage = lazy(() => import("@/pages/items/AssemblyMembersDatabasePage"));
 const CancelMemberSubscriptionPage = lazy(() => import("@/pages/items/CancelMemberSubscriptionPage"));
 const LateMembersPaymentPage = lazy(() => import("@/pages/items/LateMembersPaymentPage"));
+const ShareReportWithMembersPage = lazy(() => import("@/pages/items/ShareReportWithMembersPage"));
+const IssueMembersCardsPage = lazy(() => import("@/pages/items/IssueMembersCardsPage"));
+const ManageMembershipCategoriesPage = lazy(() => import("@/pages/items/ManageMembershipCategoriesPage"));
+const ExternalSubscriptionsPaymentPage = lazy(() => import("@/pages/items/ExternalSubscriptionsPaymentPage"));
+const CancelledMembersPage = lazy(() => import("@/pages/items/CancelledMembersPage"));
+const SubscriptionsPaymentRecordPage = lazy(() => import("@/pages/items/SubscriptionsPaymentRecordPage"));
+
+// Members Management - Shareholders Management pages
+const ShareholdersSettingsPage = lazy(() => import("@/pages/items/ShareholdersSettingsPage"));
+const ManageShareholdersAccountsPage = lazy(() => import("@/pages/items/ManageShareholdersAccountsPage"));
+const ManageShareholdersStocksPage = lazy(() => import("@/pages/items/ManageShareholdersStocksPage"));
+const ManageShareholdersTransactionsPage = lazy(() => import("@/pages/items/ManageShareholdersTransactionsPage"));
+const CancelShareholderAccountPage = lazy(() => import("@/pages/items/CancelShareholderAccountPage"));
+const RestoreShareholderAccountPage = lazy(() => import("@/pages/items/RestoreShareholderAccountPage"));
+const ShareholdersExceededOwnershipPage = lazy(() => import("@/pages/items/ShareholdersExceededOwnershipPage"));
+const ProfitsDistributionReportPage = lazy(() => import("@/pages/items/ProfitsDistributionReportPage"));
+const ShareholdersManagementStatisticsPage = lazy(() => import("@/pages/items/ShareholdersManagementStatisticsPage"));
 
 // Generic Page Component for dynamic pages
 const GenericModulePage = lazy(() => import("@/pages/items/GenericModulePage"));
@@ -290,6 +307,22 @@ export const itemPages: Record<string, React.ComponentType> = {
   "assembly-members-database": AssemblyMembersDatabasePage,
   "cancel-member-subscription": CancelMemberSubscriptionPage,
   "late-members-payment": LateMembersPaymentPage,
+  "share-report-with-members": ShareReportWithMembersPage,
+  "issue-members-cards": IssueMembersCardsPage,
+  "manage-membership-categories": ManageMembershipCategoriesPage,
+  "external-subscriptions-payment": ExternalSubscriptionsPaymentPage,
+  "cancelled-members": CancelledMembersPage,
+  "subscriptions-payment-record": SubscriptionsPaymentRecordPage,
+  // Members Management - Shareholders Management
+  "shareholders-settings": ShareholdersSettingsPage,
+  "manage-shareholders-accounts": ManageShareholdersAccountsPage,
+  "manage-shareholders-stocks": ManageShareholdersStocksPage,
+  "manage-shareholders-transactions": ManageShareholdersTransactionsPage,
+  "cancel-shareholder-account": CancelShareholderAccountPage,
+  "restore-shareholder-account": RestoreShareholderAccountPage,
+  "shareholders-exceeded-ownership": ShareholdersExceededOwnershipPage,
+  "profits-distribution-report": ProfitsDistributionReportPage,
+  "shareholders-management-statistics": ShareholdersManagementStatisticsPage,
   // New pages
   "beneficiaries-database": BeneficiariesDatabasePage,
   "org-structure": OrgChartPage,
