@@ -1,18 +1,7 @@
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { TrendingUp, Search, Filter, RefreshCw, Eye } from "lucide-react";
+import { TrendingUp, AlertTriangle } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import EmptyState from "@/components/shared/EmptyState";
-import ExportDropdown from "@/components/shared/ExportDropdown";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 const ShareholdersExceededOwnershipPage = () => {
   const columns = [
@@ -33,51 +22,20 @@ const ShareholdersExceededOwnershipPage = () => {
     >
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <TrendingUp className="h-6 w-6 text-yellow-600" />
-            </div>
-            <h1 className="text-xl font-bold">مساهمين تعدوا نسبة الملكية</h1>
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-yellow-100 rounded-lg">
+            <TrendingUp className="h-6 w-6 text-yellow-600" />
           </div>
-          <ExportDropdown columns={columns} />
+          <h1 className="text-xl font-bold">مساهمين تعدوا نسبة الملكية</h1>
         </div>
 
-        {/* Toolbar */}
-        <Card>
-          <CardContent className="p-3">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon" title="تحديث">
-                  <RefreshCw className="h-4 w-4" />
-                </Button>
-                <Button variant="outline" size="sm" className="gap-2">
-                  <Search className="h-4 w-4" />
-                  بحث متقدم
-                </Button>
-                <Button variant="outline" size="icon" title="فلتر">
-                  <Filter className="h-4 w-4" />
-                </Button>
-              </div>
-              <div className="flex items-center gap-2">
-                <Input placeholder="بحث..." className="w-48" />
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">إظهار:</span>
-                  <Select defaultValue="20">
-                    <SelectTrigger className="w-20">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="20">20</SelectItem>
-                      <SelectItem value="50">50</SelectItem>
-                      <SelectItem value="100">100</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Alert */}
+        <div className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+          <AlertTriangle className="h-5 w-5 text-amber-600 flex-shrink-0" />
+          <p className="text-amber-800">
+            يظهر هذا الجدول المساهمين الذين يمتلكون نسبة أكبر من 10% من الأسهم
+          </p>
+        </div>
 
         {/* Table */}
         <Card>
@@ -95,8 +53,8 @@ const ShareholdersExceededOwnershipPage = () => {
                 </TableHeader>
                 <TableBody>
                   <TableRow>
-                    <TableCell colSpan={columns.length}>
-                      <EmptyState message="لا يوجد مساهمين تعدوا النسبة" />
+                    <TableCell colSpan={columns.length} className="text-center py-8 text-muted-foreground">
+                      لا توجد بيانات متوفرة في الجدول
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -104,11 +62,6 @@ const ShareholdersExceededOwnershipPage = () => {
             </div>
           </CardContent>
         </Card>
-
-        {/* Footer */}
-        <div className="flex justify-between items-center text-sm text-muted-foreground">
-          <span>إظهار السجلات من 0 إلى 0 من أصل 0</span>
-        </div>
       </div>
     </InnerPageLayout>
   );
