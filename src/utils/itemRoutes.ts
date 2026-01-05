@@ -194,6 +194,12 @@ const AddBoardMemberPage = lazy(() => import("@/pages/items/AddBoardMemberPage")
 const UpdateBoardMemberPage = lazy(() => import("@/pages/items/UpdateBoardMemberPage"));
 const BoardMembersDatabasePage = lazy(() => import("@/pages/items/BoardMembersDatabasePage"));
 
+// Members Management - General Assembly Members pages
+const ManageMembersAccountsPage = lazy(() => import("@/pages/items/ManageMembersAccountsPage"));
+const AssemblyMembersDatabasePage = lazy(() => import("@/pages/items/AssemblyMembersDatabasePage"));
+const CancelMemberSubscriptionPage = lazy(() => import("@/pages/items/CancelMemberSubscriptionPage"));
+const LateMembersPaymentPage = lazy(() => import("@/pages/items/LateMembersPaymentPage"));
+
 // Generic Page Component for dynamic pages
 const GenericModulePage = lazy(() => import("@/pages/items/GenericModulePage"));
 
@@ -279,6 +285,11 @@ export const itemPages: Record<string, React.ComponentType> = {
   "add-board-member": AddBoardMemberPage,
   "update-board-member": UpdateBoardMemberPage,
   "board-members-database": BoardMembersDatabasePage,
+  // Members Management - General Assembly Members
+  "manage-members-accounts": ManageMembersAccountsPage,
+  "assembly-members-database": AssemblyMembersDatabasePage,
+  "cancel-member-subscription": CancelMemberSubscriptionPage,
+  "late-members-payment": LateMembersPaymentPage,
   // New pages
   "beneficiaries-database": BeneficiariesDatabasePage,
   "org-structure": OrgChartPage,
