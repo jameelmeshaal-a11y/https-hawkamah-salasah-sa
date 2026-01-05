@@ -2,10 +2,10 @@ import InnerPageLayout from "@/components/layout/InnerPageLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { PieChart, Eye } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { PieChart } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import EmptyState from "@/components/shared/EmptyState";
-import ExportDropdown from "@/components/shared/ExportDropdown";
+import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 
 const ProfitsDistributionReportPage = () => {
+  const [confineTransactions, setConfineTransactions] = useState(false);
   const currentYear = new Date().getFullYear();
   const years = [currentYear - 2, currentYear - 1, currentYear, currentYear + 1];
 
@@ -34,40 +35,55 @@ const ProfitsDistributionReportPage = () => {
     >
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-emerald-100 rounded-lg">
-              <PieChart className="h-6 w-6 text-emerald-600" />
-            </div>
-            <h1 className="text-xl font-bold">تقرير توزيع الأرباح</h1>
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-emerald-100 rounded-lg">
+            <PieChart className="h-6 w-6 text-emerald-600" />
           </div>
-          <ExportDropdown columns={columns} />
+          <h1 className="text-xl font-bold">تقرير توزيع الأرباح</h1>
         </div>
 
-        {/* Filter */}
+        {/* Filter Form */}
+        <Card>
+          <CardContent className="pt-6 space-y-4">
+            {/* Year Field */}
+            <div className="space-y-2">
+              <Label>السنة *</Label>
+              <Select defaultValue={currentYear.toString()}>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {years.map((year) => (
+                    <SelectItem key={year} value={year.toString()}>
+                      {year}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-sm text-muted-foreground">يظهر فقط السنوات التي بها أرباح</p>
+            </div>
+
+            {/* Confine Transactions Switch */}
+            <div className="space-y-2">
+              <Label>حصر المعاملات *</Label>
+              <div className="flex items-center gap-4">
+                <span className={`text-sm ${!confineTransactions ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>لا</span>
+                <Switch
+                  checked={confineTransactions}
+                  onCheckedChange={setConfineTransactions}
+                />
+                <span className={`text-sm ${confineTransactions ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>نعم</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Display Report Button */}
         <Card>
           <CardContent className="pt-6">
-            <div className="flex flex-wrap items-end gap-4">
-              <div className="space-y-2">
-                <Label>السنة</Label>
-                <Select defaultValue={currentYear.toString()}>
-                  <SelectTrigger className="w-40">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {years.map((year) => (
-                      <SelectItem key={year} value={year.toString()}>
-                        {year}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <Button className="bg-emerald-600 hover:bg-emerald-700 gap-2">
-                <Eye className="h-4 w-4" />
-                عرض التقرير
-              </Button>
-            </div>
+            <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
+              عرض التقرير
+            </Button>
           </CardContent>
         </Card>
 
@@ -87,8 +103,8 @@ const ProfitsDistributionReportPage = () => {
                 </TableHeader>
                 <TableBody>
                   <TableRow>
-                    <TableCell colSpan={columns.length}>
-                      <EmptyState message="اختر السنة ثم اضغط عرض التقرير" />
+                    <TableCell colSpan={columns.length} className="text-center py-8 text-muted-foreground">
+                      اختر السنة ثم اضغط عرض التقرير
                     </TableCell>
                   </TableRow>
                 </TableBody>
