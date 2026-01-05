@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import AddPostBar from "@/components/shared/AddPostBar";
+import TasksPopover from "@/components/dashboard/TasksPopover";
 import salasahLogo from "@/assets/salasah-logo.jpeg";
 
 interface DashboardHeaderProps {
@@ -43,19 +44,7 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
 
           <AddPostBar />
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-header-foreground hover:bg-sidebar-hover gap-2 rounded-full px-3">
-                <span className="text-sm">المهام</span>
-                <ChevronDown className="h-3 w-3" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>جميع المهام</DropdownMenuItem>
-              <DropdownMenuItem>المهام المعلقة</DropdownMenuItem>
-              <DropdownMenuItem>المهام المكتملة</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <TasksPopover />
 
           <Button variant="ghost" size="sm" className="text-header-foreground hover:bg-sidebar-hover gap-2 rounded-full px-3 relative">
             <span className="text-sm">التنبيهات</span>
