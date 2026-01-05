@@ -1,147 +1,154 @@
+import React, { useState } from "react";
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { UserCheck, Search, ArrowLeft, Save } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
-import { Badge } from "@/components/ui/badge";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Search, Filter, RefreshCw, Eye, ChevronDown } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import ExportDropdown from "@/components/shared/ExportDropdown";
+
+interface ConversionRecord {
+  id: string;
+  fileNumber: string;
+  name: string;
+  orphansCount: string;
+  fatherName: string;
+  fatherIdNumber: string;
+  deathDate: string;
+  deathCause: string;
+}
+
+const mockRecords: ConversionRecord[] = [
+  { id: "1", fileNumber: "150001277", name: "خالد مسفر العازمي", orphansCount: "غير متاح", fatherName: "غير متاح", fatherIdNumber: "غير متاح", deathDate: "غير متاح", deathCause: "غير متاح" },
+  { id: "2", fileNumber: "540001195", name: "تهاني خالد جبران", orphansCount: "1", fatherName: "غير متاح", fatherIdNumber: "غير متاح", deathDate: "غير متاح", deathCause: "غير متاح" },
+  { id: "3", fileNumber: "580001047", name: "فيحان فرج مفلح", orphansCount: "غير متاح", fatherName: "غير متاح", fatherIdNumber: "غير متاح", deathDate: "غير متاح", deathCause: "غير متاح" },
+  { id: "4", fileNumber: "840000778", name: "هيفاء حاتم بركة", orphansCount: "2", fatherName: "حاتم بركة", fatherIdNumber: "1087654321", deathDate: "1445/03/15", deathCause: "مرض" },
+  { id: "5", fileNumber: "890000850", name: "نوير ملفي مبارك", orphansCount: "1", fatherName: "غير متاح", fatherIdNumber: "غير متاح", deathDate: "غير متاح", deathCause: "غير متاح" },
+  { id: "6", fileNumber: "810000495", name: "مريم مسفر احمد", orphansCount: "2", fatherName: "مسفر احمد", fatherIdNumber: "1098765432", deathDate: "1444/08/22", deathCause: "حادث" },
+  { id: "7", fileNumber: "950000216", name: "عبدالله محمد فيصل", orphansCount: "1", fatherName: "غير متاح", fatherIdNumber: "غير متاح", deathDate: "غير متاح", deathCause: "غير متاح" },
+  { id: "8", fileNumber: "180000160", name: "مجاهد احمد الصواف", orphansCount: "1", fatherName: "احمد الصواف", fatherIdNumber: "1076543210", deathDate: "1443/11/05", deathCause: "طبيعي" },
+  { id: "9", fileNumber: "220000334", name: "سارة عبدالرحمن المالكي", orphansCount: "3", fatherName: "عبدالرحمن المالكي", fatherIdNumber: "1065432109", deathDate: "1445/01/18", deathCause: "مرض" },
+  { id: "10", fileNumber: "330000445", name: "أحمد سليمان العنزي", orphansCount: "غير متاح", fatherName: "غير متاح", fatherIdNumber: "غير متاح", deathDate: "غير متاح", deathCause: "غير متاح" },
+  { id: "11", fileNumber: "440000556", name: "منيرة فهد الشمري", orphansCount: "2", fatherName: "فهد الشمري", fatherIdNumber: "1054321098", deathDate: "1444/06/10", deathCause: "حادث" },
+  { id: "12", fileNumber: "550000667", name: "يوسف خالد الحربي", orphansCount: "1", fatherName: "غير متاح", fatherIdNumber: "غير متاح", deathDate: "غير متاح", deathCause: "غير متاح" },
+];
 
 const ConvertBeneficiaryToGuardianPage = () => {
   const [searchValue, setSearchValue] = useState("");
-  const [found, setFound] = useState(false);
+  const [records] = useState<ConversionRecord[]>(mockRecords);
 
-  const handleSearch = () => {
-    if (searchValue) {
-      setFound(true);
-      toast.info("تم العثور على المستفيد");
-    }
-  };
+  const filteredRecords = records.filter(r =>
+    r.name.includes(searchValue) || r.fileNumber.includes(searchValue)
+  );
 
-  const handleConvert = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast.success("تم تحويل المستفيد إلى وصي بنجاح");
-  };
+  const columns = [
+    { key: "fileNumber", label: "رقم الملف" },
+    { key: "name", label: "الإسم" },
+    { key: "orphansCount", label: "عدد الأيتام" },
+    { key: "fatherName", label: "إسم الأب" },
+    { key: "fatherIdNumber", label: "رقم هوية الأب" },
+    { key: "deathDate", label: "تاريخ الوفاة" },
+    { key: "deathCause", label: "سبب الوفاة" }
+  ];
 
   return (
     <InnerPageLayout
-      moduleId="beneficiary-accounts"
+      moduleId="beneficiaries-management"
       title="تحويل مستفيد إلى وصي"
       sectionTitle="إدارة ملفات الأوصياء"
       moduleTitle="إدارة حسابات المستفيدين"
     >
-      <div className="p-6" dir="rtl">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 bg-primary/10 rounded-lg">
-            <UserCheck className="h-6 w-6 text-primary" />
-          </div>
-          <h1 className="text-2xl font-bold">تحويل مستفيد إلى وصي</h1>
-        </div>
-
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle>البحث عن مستفيد</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex gap-4">
-              <div className="flex-1">
-                <Input 
-                  placeholder="أدخل رقم الهوية أو رقم الملف"
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                />
-              </div>
-              <Button onClick={handleSearch}>
-                <Search className="h-4 w-4 ml-2" />
-                بحث
-              </Button>
+      <Card>
+        <CardContent className="p-4">
+          {/* Toolbar */}
+          <div className="flex flex-wrap items-center gap-3 mb-4">
+            <Select defaultValue="20">
+              <SelectTrigger className="w-24">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="20">20</SelectItem>
+                <SelectItem value="50">50</SelectItem>
+                <SelectItem value="100">100</SelectItem>
+              </SelectContent>
+            </Select>
+            <span className="text-sm text-muted-foreground">سجلات الصفحة</span>
+            <div className="flex-1" />
+            <div className="relative">
+              <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="بحث..."
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                className="pr-9 w-48"
+              />
             </div>
-          </CardContent>
-        </Card>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">
+                  عمليات
+                  <ChevronDown className="h-4 w-4 mr-1" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>تحويل المحدد</DropdownMenuItem>
+                <DropdownMenuItem>تحويل الكل</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <ExportDropdown columns={columns} />
+            <Button variant="outline" size="icon">
+              <Filter className="h-4 w-4" />
+            </Button>
+            <Button variant="outline" size="icon">
+              <RefreshCw className="h-4 w-4" />
+            </Button>
+          </div>
 
-        {found && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <span>تحويل إلى وصي</span>
-                <ArrowLeft className="h-5 w-5" />
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleConvert} className="space-y-6">
-                <div className="p-4 bg-muted rounded-lg">
-                  <h4 className="font-medium mb-3">بيانات المستفيد الحالية</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                    <div>
-                      <span className="text-muted-foreground">الاسم:</span>
-                      <p className="font-medium">أحمد محمد علي</p>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">رقم الهوية:</span>
-                      <p className="font-medium">1234567890</p>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">رقم الجوال:</span>
-                      <p className="font-medium">0512345678</p>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">الحالة:</span>
-                      <Badge>نشط</Badge>
-                    </div>
-                  </div>
-                </div>
+          {/* Table */}
+          <div className="border rounded-lg overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/50">
+                  <TableHead className="text-right">رقم الملف</TableHead>
+                  <TableHead className="text-right">ملف الوصي</TableHead>
+                  <TableHead className="text-right">الإسم</TableHead>
+                  <TableHead className="text-right">عدد الأيتام</TableHead>
+                  <TableHead className="text-right">إسم الأب</TableHead>
+                  <TableHead className="text-right">رقم هوية الأب</TableHead>
+                  <TableHead className="text-right">تاريخ الوفاة</TableHead>
+                  <TableHead className="text-right">سبب الوفاة</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredRecords.map((record) => (
+                  <TableRow key={record.id}>
+                    <TableCell className="font-medium">{record.fileNumber}</TableCell>
+                    <TableCell>
+                      <Button variant="outline" size="sm" className="text-blue-600 border-blue-600">
+                        <Eye className="h-4 w-4 ml-1" />
+                        معاينة
+                      </Button>
+                    </TableCell>
+                    <TableCell>{record.name}</TableCell>
+                    <TableCell>{record.orphansCount}</TableCell>
+                    <TableCell>{record.fatherName}</TableCell>
+                    <TableCell>{record.fatherIdNumber}</TableCell>
+                    <TableCell>{record.deathDate}</TableCell>
+                    <TableCell>{record.deathCause}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="relation">صلة القرابة مع التابعين *</Label>
-                    <Select required>
-                      <SelectTrigger>
-                        <SelectValue placeholder="-- اختر --" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="mother">أم</SelectItem>
-                        <SelectItem value="father">أب</SelectItem>
-                        <SelectItem value="brother">أخ</SelectItem>
-                        <SelectItem value="sister">أخت</SelectItem>
-                        <SelectItem value="uncle">عم / خال</SelectItem>
-                        <SelectItem value="other">أخرى</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="action">إجراء ملف المستفيد *</Label>
-                    <Select required>
-                      <SelectTrigger>
-                        <SelectValue placeholder="-- اختر --" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="close">إغلاق الملف</SelectItem>
-                        <SelectItem value="keep">الاحتفاظ بالملف</SelectItem>
-                        <SelectItem value="transfer">تحويل إلى تابع</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="notes">ملاحظات</Label>
-                  <Textarea id="notes" placeholder="أدخل أي ملاحظات حول عملية التحويل..." />
-                </div>
-
-                <div className="flex justify-end pt-4 border-t">
-                  <Button type="submit" className="bg-primary hover:bg-primary/90">
-                    <Save className="h-4 w-4 ml-2" />
-                    تأكيد التحويل
-                  </Button>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
-        )}
-      </div>
+          {/* Footer */}
+          <div className="mt-4 text-sm text-muted-foreground">
+            إجمالي السجلات: {filteredRecords.length}
+          </div>
+        </CardContent>
+      </Card>
     </InnerPageLayout>
   );
 };
