@@ -97,6 +97,7 @@ const StandardsAnswersPage = lazy(() => import("@/pages/items/StandardsAnswersPa
 const GovernanceEvaluationFormPage = lazy(() => import("@/pages/items/GovernanceEvaluationFormPage"));
 const GovernanceEvaluationReportPage = lazy(() => import("@/pages/items/GovernanceEvaluationReportPage"));
 const FinancialPerformanceIndicatorsPage = lazy(() => import("@/pages/items/FinancialPerformanceIndicatorsPage"));
+const GovernanceTasksPage = lazy(() => import("@/pages/items/GovernanceTasksPage"));
 const GovernanceTasksStatsPage = lazy(() => import("@/pages/items/GovernanceTasksStatsPage"));
 
 // Institutional Excellence - Strategic Plan pages
@@ -419,6 +420,7 @@ export const itemPages: Record<string, React.ComponentType> = {
   "governance-evaluation-form": GovernanceEvaluationFormPage,
   "governance-evaluation-report": GovernanceEvaluationReportPage,
   "financial-performance-indicators": FinancialPerformanceIndicatorsPage,
+  "governance-tasks": GovernanceTasksPage,
   "governance-tasks-stats": GovernanceTasksStatsPage,
   // Institutional Excellence - Strategic Plan
   "strategic-plans-management": StrategicPlansManagementPage,
