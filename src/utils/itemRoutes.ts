@@ -102,9 +102,15 @@ const GovernanceTasksStatsPage = lazy(() => import("@/pages/items/GovernanceTask
 
 // Institutional Excellence - Strategic Plan pages
 const StrategicPlansManagementPage = lazy(() => import("@/pages/items/StrategicPlansManagementPage"));
+const StrategicPlanVariablesPage = lazy(() => import("@/pages/items/StrategicPlanVariablesPage"));
+const AutomatedVerificationValuesPage = lazy(() => import("@/pages/items/AutomatedVerificationValuesPage"));
 const PlanPerspectivesPage = lazy(() => import("@/pages/items/PlanPerspectivesPage"));
 const StrategicGoalsManagementPage = lazy(() => import("@/pages/items/StrategicGoalsManagementPage"));
 const MainIndicatorsManagementPage = lazy(() => import("@/pages/items/MainIndicatorsManagementPage"));
+const SubIndicatorsManagementPage = lazy(() => import("@/pages/items/SubIndicatorsManagementPage"));
+const OwnedIndicatorsManagementPage = lazy(() => import("@/pages/items/OwnedIndicatorsManagementPage"));
+const ProgramsIndicatorsPage = lazy(() => import("@/pages/items/ProgramsIndicatorsPage"));
+const ProjectsIndicatorsPage = lazy(() => import("@/pages/items/ProjectsIndicatorsPage"));
 const StrategicPlanTreePage = lazy(() => import("@/pages/items/StrategicPlanTreePage"));
 const Vision2030AlignmentPage = lazy(() => import("@/pages/items/Vision2030AlignmentPage"));
 const SustainableDevelopmentGoalsPage = lazy(() => import("@/pages/items/SustainableDevelopmentGoalsPage"));
@@ -424,9 +430,15 @@ export const itemPages: Record<string, React.ComponentType> = {
   "governance-tasks-stats": GovernanceTasksStatsPage,
   // Institutional Excellence - Strategic Plan
   "strategic-plans-management": StrategicPlansManagementPage,
+  "strategic-plan-variables": StrategicPlanVariablesPage,
+  "automated-verification-values": AutomatedVerificationValuesPage,
   "plan-perspectives": PlanPerspectivesPage,
   "strategic-goals-management": StrategicGoalsManagementPage,
   "main-indicators-management": MainIndicatorsManagementPage,
+  "sub-indicators-management": SubIndicatorsManagementPage,
+  "owned-indicators-management": OwnedIndicatorsManagementPage,
+  "programs-indicators": ProgramsIndicatorsPage,
+  "projects-indicators": ProjectsIndicatorsPage,
   "strategic-plan-tree": StrategicPlanTreePage,
   "vision-2030-alignment": Vision2030AlignmentPage,
   "sustainable-development-goals": SustainableDevelopmentGoalsPage,
