@@ -22,9 +22,9 @@ const plansData = [
   },
 ];
 
-const PlanPerspectivesPage = () => {
+const ProgramsIndicatorsPage = () => {
   const handleActionClick = (id: number) => {
-    console.log("Manage perspectives for plan:", id);
+    console.log("Manage programs indicators for plan:", id);
   };
 
   const handleEditClick = (id: number) => {
@@ -34,15 +34,15 @@ const PlanPerspectivesPage = () => {
   return (
     <InnerPageLayout
       moduleId="excellence"
-      itemSlug="plan-perspectives"
+      itemSlug="programs-indicators"
       moduleTitle="إدارة التميز المؤسسي"
       sectionTitle="إدارة الخطة الإستراتيجية"
-      title="إدارة مناظير الخطة"
+      title="إدارة مؤشرات البرامج"
     >
       <div className="space-y-6">
         <StrategicPlanTable
           data={plansData}
-          actionLabel="إدارة مناظير الخطة"
+          actionLabel="إدارة مؤشرات البرامج"
           onActionClick={handleActionClick}
           onEditClick={handleEditClick}
         />
@@ -51,4 +51,4 @@ const PlanPerspectivesPage = () => {
   );
 };
 
-export default PlanPerspectivesPage;
+export default ProgramsIndicatorsPage;
