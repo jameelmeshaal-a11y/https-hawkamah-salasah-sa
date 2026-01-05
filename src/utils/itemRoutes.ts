@@ -92,6 +92,22 @@ const ProjectTasksPage = lazy(() => import("@/pages/items/ProjectTasksPage"));
 const StrategicPlanMapPage = lazy(() => import("@/pages/items/StrategicPlanMapPage"));
 const AssignedIndicatorsPage = lazy(() => import("@/pages/items/AssignedIndicatorsPage"));
 
+// Institutional Excellence - Governance pages
+const StandardsAnswersPage = lazy(() => import("@/pages/items/StandardsAnswersPage"));
+const GovernanceEvaluationFormPage = lazy(() => import("@/pages/items/GovernanceEvaluationFormPage"));
+const GovernanceEvaluationReportPage = lazy(() => import("@/pages/items/GovernanceEvaluationReportPage"));
+const FinancialPerformanceIndicatorsPage = lazy(() => import("@/pages/items/FinancialPerformanceIndicatorsPage"));
+const GovernanceTasksStatsPage = lazy(() => import("@/pages/items/GovernanceTasksStatsPage"));
+
+// Institutional Excellence - Strategic Plan pages
+const StrategicPlansManagementPage = lazy(() => import("@/pages/items/StrategicPlansManagementPage"));
+const PlanPerspectivesPage = lazy(() => import("@/pages/items/PlanPerspectivesPage"));
+const StrategicGoalsManagementPage = lazy(() => import("@/pages/items/StrategicGoalsManagementPage"));
+const MainIndicatorsManagementPage = lazy(() => import("@/pages/items/MainIndicatorsManagementPage"));
+const StrategicPlanTreePage = lazy(() => import("@/pages/items/StrategicPlanTreePage"));
+const Vision2030AlignmentPage = lazy(() => import("@/pages/items/Vision2030AlignmentPage"));
+const SustainableDevelopmentGoalsPage = lazy(() => import("@/pages/items/SustainableDevelopmentGoalsPage"));
+
 // Supervision Module pages
 const AidCommitteeBalancePage = lazy(() => import("@/pages/items/AidCommitteeBalancePage"));
 const AidCommitteeDecisionsPage = lazy(() => import("@/pages/items/AidCommitteeDecisionsPage"));
@@ -397,6 +413,20 @@ export const itemPages: Record<string, React.ComponentType> = {
   "add-sponsor-activity": AddSponsorActivityPage,
   "add-assistance-request-activity": AddAssistanceRequestActivityPage,
   "add-dependent-activity": AddDependentActivityPage,
+  // Institutional Excellence - Governance
+  "standards-answers": StandardsAnswersPage,
+  "governance-evaluation-form": GovernanceEvaluationFormPage,
+  "governance-evaluation-report": GovernanceEvaluationReportPage,
+  "financial-performance-indicators": FinancialPerformanceIndicatorsPage,
+  "governance-tasks-stats": GovernanceTasksStatsPage,
+  // Institutional Excellence - Strategic Plan
+  "strategic-plans-management": StrategicPlansManagementPage,
+  "plan-perspectives": PlanPerspectivesPage,
+  "strategic-goals-management": StrategicGoalsManagementPage,
+  "main-indicators-management": MainIndicatorsManagementPage,
+  "strategic-plan-tree": StrategicPlanTreePage,
+  "vision-2030-alignment": Vision2030AlignmentPage,
+  "sustainable-development-goals": SustainableDevelopmentGoalsPage,
 };
 
 // Get page component by slug - returns generic page if specific page not found
