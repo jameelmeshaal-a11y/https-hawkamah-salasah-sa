@@ -151,6 +151,45 @@ const EmployeeProfilePage = lazy(() => import("@/pages/items/EmployeeProfilePage
 
 // Beneficiary pages
 const BeneficiaryProfilePage = lazy(() => import("@/pages/items/BeneficiaryProfilePage"));
+const AddBeneficiaryFilePage = lazy(() => import("@/pages/items/AddBeneficiaryFilePage"));
+const UpdateBeneficiaryFilePage = lazy(() => import("@/pages/items/UpdateBeneficiaryFilePage"));
+const DeleteBeneficiaryFilePage = lazy(() => import("@/pages/items/DeleteBeneficiaryFilePage"));
+const DependentsDatabasePage = lazy(() => import("@/pages/items/DependentsDatabasePage"));
+const UpdateBeneficiaryStatusPage = lazy(() => import("@/pages/items/UpdateBeneficiaryStatusPage"));
+const UpdateBeneficiaryCategoryPage = lazy(() => import("@/pages/items/UpdateBeneficiaryCategoryPage"));
+const UpdateDependentCategoryPage = lazy(() => import("@/pages/items/UpdateDependentCategoryPage"));
+const DeletedFilesLogPage = lazy(() => import("@/pages/items/DeletedFilesLogPage"));
+const DeletedDependentsFilesPage = lazy(() => import("@/pages/items/DeletedDependentsFilesPage"));
+const ExportBeneficiaryCardsPage = lazy(() => import("@/pages/items/ExportBeneficiaryCardsPage"));
+const FilesBarcodeReaderPage = lazy(() => import("@/pages/items/FilesBarcodeReaderPage"));
+const WebsiteJoinRequestsPage = lazy(() => import("@/pages/items/WebsiteJoinRequestsPage"));
+const AssociationsSearchPage = lazy(() => import("@/pages/items/AssociationsSearchPage"));
+const ManageGuardiansAccountsPage = lazy(() => import("@/pages/items/ManageGuardiansAccountsPage"));
+const GuardiansDatabasePage = lazy(() => import("@/pages/items/GuardiansDatabasePage"));
+const ConvertBeneficiaryToGuardianPage = lazy(() => import("@/pages/items/ConvertBeneficiaryToGuardianPage"));
+const ConvertGuardianToBeneficiaryPage = lazy(() => import("@/pages/items/ConvertGuardianToBeneficiaryPage"));
+const DeleteGuardianFilePage = lazy(() => import("@/pages/items/DeleteGuardianFilePage"));
+const DeletedGuardiansLogPage = lazy(() => import("@/pages/items/DeletedGuardiansLogPage"));
+const CreateGroupUpdateTaskPage = lazy(() => import("@/pages/items/CreateGroupUpdateTaskPage"));
+const ManageGroupUpdateTasksPage = lazy(() => import("@/pages/items/ManageGroupUpdateTasksPage"));
+const GroupUpdateApprovalsPage = lazy(() => import("@/pages/items/GroupUpdateApprovalsPage"));
+const GroupUpdateTasksPage = lazy(() => import("@/pages/items/GroupUpdateTasksPage"));
+const ManageSelfUpdateRequestsPage = lazy(() => import("@/pages/items/ManageSelfUpdateRequestsPage"));
+const ReceivedSelfUpdateRequestsPage = lazy(() => import("@/pages/items/ReceivedSelfUpdateRequestsPage"));
+const SelfUpdateApprovalTasksPage = lazy(() => import("@/pages/items/SelfUpdateApprovalTasksPage"));
+const UpdateFileForAidRequestPage = lazy(() => import("@/pages/items/UpdateFileForAidRequestPage"));
+const UpdateBeneficiaryDataStatusPage = lazy(() => import("@/pages/items/UpdateBeneficiaryDataStatusPage"));
+const NotUpdatedFilesPage = lazy(() => import("@/pages/items/NotUpdatedFilesPage"));
+const WronglyUpdatedFilesPage = lazy(() => import("@/pages/items/WronglyUpdatedFilesPage"));
+const SelfUpdateFilesPage = lazy(() => import("@/pages/items/SelfUpdateFilesPage"));
+const FieldUpdateFilesPage = lazy(() => import("@/pages/items/FieldUpdateFilesPage"));
+const ManageEntitiesAccountsPage = lazy(() => import("@/pages/items/ManageEntitiesAccountsPage"));
+const ManageRepresentativesAccountsPage = lazy(() => import("@/pages/items/ManageRepresentativesAccountsPage"));
+const DeleteEntityFilePage = lazy(() => import("@/pages/items/DeleteEntityFilePage"));
+const RestoreEntityFilePage = lazy(() => import("@/pages/items/RestoreEntityFilePage"));
+const RepresentativesDatabasePage = lazy(() => import("@/pages/items/RepresentativesDatabasePage"));
+const EntitiesDatabasePage = lazy(() => import("@/pages/items/EntitiesDatabasePage"));
+const EntitiesRegistrationRequestsPage = lazy(() => import("@/pages/items/EntitiesRegistrationRequestsPage"));
 
 // Sponsorship pages
 const SponsorsListPage = lazy(() => import("@/pages/items/SponsorsListPage"));
