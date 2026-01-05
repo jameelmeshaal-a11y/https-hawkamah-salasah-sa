@@ -112,6 +112,7 @@ const OwnedIndicatorsManagementPage = lazy(() => import("@/pages/items/OwnedIndi
 const ProgramsIndicatorsPage = lazy(() => import("@/pages/items/ProgramsIndicatorsPage"));
 const ProjectsIndicatorsPage = lazy(() => import("@/pages/items/ProjectsIndicatorsPage"));
 const StrategicPlanTreePage = lazy(() => import("@/pages/items/StrategicPlanTreePage"));
+const PlanReportBuilderPage = lazy(() => import("@/pages/items/PlanReportBuilderPage"));
 const Vision2030AlignmentPage = lazy(() => import("@/pages/items/Vision2030AlignmentPage"));
 const SustainableDevelopmentGoalsPage = lazy(() => import("@/pages/items/SustainableDevelopmentGoalsPage"));
 const VerificationAttachmentsPage = lazy(() => import("@/pages/items/VerificationAttachmentsPage"));
@@ -440,6 +441,7 @@ export const itemPages: Record<string, React.ComponentType> = {
   "programs-indicators": ProgramsIndicatorsPage,
   "projects-indicators": ProjectsIndicatorsPage,
   "strategic-plan-tree": StrategicPlanTreePage,
+  "plan-report-builder": PlanReportBuilderPage,
   "vision-2030-alignment": Vision2030AlignmentPage,
   "sustainable-development-goals": SustainableDevelopmentGoalsPage,
   // Institutional Excellence - Governance (Additional)
