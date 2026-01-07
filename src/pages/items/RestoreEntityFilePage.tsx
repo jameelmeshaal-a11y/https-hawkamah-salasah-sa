@@ -2,15 +2,17 @@ import InnerPageLayout from "@/components/layout/InnerPageLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { RotateCcw, Search, Eye } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RotateCcw, Eye, RefreshCw, Filter } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useState } from "react";
 import { toast } from "sonner";
+import ExportDropdown from "@/components/shared/ExportDropdown";
 import EmptyState from "@/components/shared/EmptyState";
 
 const RestoreEntityFilePage = () => {
   const [entities, setEntities] = useState([
-    { id: "1", name: "جمعية الخير", type: "جمعية", deletedAt: "2024-01-10", deletedBy: "أحمد محمد" },
+    { id: "1", name: "جمعية الخير", type: "جمعية", sector: "محافظة الرياض", district: "أخرى", regNumber: "غير متاح" },
   ]);
 
   const handleRestore = (id: string) => {
@@ -18,20 +20,44 @@ const RestoreEntityFilePage = () => {
     toast.success("تم استعادة الجهة بنجاح");
   };
 
+  const exportColumns = [
+    { key: "name", label: "ملف الجهة" },
+    { key: "type", label: "نوع الجهة" },
+    { key: "sector", label: "القطاع - المحافظة" },
+    { key: "district", label: "القرية - الحي" },
+    { key: "regNumber", label: "رقم التسجيل" },
+  ];
+
   return (
     <InnerPageLayout moduleId="beneficiary-accounts" title="استعادة ملف جهة" sectionTitle="إدارة الجهات المستفيدة" moduleTitle="إدارة حسابات المستفيدين">
       <div className="p-6" dir="rtl">
         <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 bg-primary/10 rounded-lg"><RotateCcw className="h-6 w-6 text-primary" /></div>
+          <div className="p-2 bg-green-100 rounded-lg"><RotateCcw className="h-6 w-6 text-green-600" /></div>
           <h1 className="text-2xl font-bold">استعادة ملف جهة</h1>
         </div>
+
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-4">
               <CardTitle>الجهات المحذوفة ({entities.length})</CardTitle>
-              <div className="flex items-center gap-2">
-                <Input placeholder="بحث..." className="w-64" />
-                <Button variant="outline" size="icon"><Search className="h-4 w-4" /></Button>
+              <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span>سجلات الصفحة</span>
+                  <Select defaultValue="20">
+                    <SelectTrigger className="w-20">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="20">20</SelectItem>
+                      <SelectItem value="50">50</SelectItem>
+                      <SelectItem value="100">100</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Input placeholder="بحث عام..." className="w-48" />
+                <ExportDropdown columns={exportColumns} onExport={(type, cols) => toast.success(`تصدير ${type} - ${cols.length} أعمدة`)} />
+                <Button variant="outline" size="icon"><Filter className="h-4 w-4" /></Button>
+                <Button variant="outline" size="icon"><RefreshCw className="h-4 w-4" /></Button>
               </div>
             </div>
           </CardHeader>
@@ -40,26 +66,39 @@ const RestoreEntityFilePage = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="text-right">اسم الجهة</TableHead>
-                    <TableHead className="text-right">النوع</TableHead>
-                    <TableHead className="text-right">تاريخ الحذف</TableHead>
-                    <TableHead className="text-right">حذف بواسطة</TableHead>
-                    <TableHead className="text-right">الإجراءات</TableHead>
+                    <TableHead className="text-right w-24">استعادة</TableHead>
+                    <TableHead className="text-right">ملف الجهة</TableHead>
+                    <TableHead className="text-right">نوع الجهة</TableHead>
+                    <TableHead className="text-right">القطاع - المحافظة</TableHead>
+                    <TableHead className="text-right">القرية - الحي</TableHead>
+                    <TableHead className="text-right">رقم التسجيل</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {entities.map((entity) => (
                     <TableRow key={entity.id}>
-                      <TableCell className="font-medium">{entity.name}</TableCell>
-                      <TableCell>{entity.type}</TableCell>
-                      <TableCell>{entity.deletedAt}</TableCell>
-                      <TableCell>{entity.deletedBy}</TableCell>
                       <TableCell>
-                        <div className="flex gap-2">
-                          <Button variant="outline" size="sm"><Eye className="h-4 w-4" /></Button>
-                          <Button variant="outline" size="sm" className="text-green-600 hover:text-green-700" onClick={() => handleRestore(entity.id)}><RotateCcw className="h-4 w-4" /></Button>
+                        <Button 
+                          size="sm"
+                          className="bg-green-600 hover:bg-green-700"
+                          onClick={() => handleRestore(entity.id)}
+                        >
+                          <RotateCcw className="h-4 w-4 ml-1" />
+                          استعادة
+                        </Button>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">{entity.name}</span>
+                          <Button variant="outline" size="sm" className="h-7 px-2">
+                            <Eye className="h-3 w-3" />
+                          </Button>
                         </div>
                       </TableCell>
+                      <TableCell>{entity.type}</TableCell>
+                      <TableCell>{entity.sector}</TableCell>
+                      <TableCell>{entity.district}</TableCell>
+                      <TableCell className="text-muted-foreground">{entity.regNumber}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
