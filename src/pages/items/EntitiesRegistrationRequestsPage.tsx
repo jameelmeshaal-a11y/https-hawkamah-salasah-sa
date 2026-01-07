@@ -2,28 +2,41 @@ import InnerPageLayout from "@/components/layout/InnerPageLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FileText, Search, Eye, Check, X } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { FileText, Search, Filter, RefreshCw, ChevronDown } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
-import { toast } from "sonner";
+import ExportDropdown from "@/components/shared/ExportDropdown";
 import EmptyState from "@/components/shared/EmptyState";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const EntitiesRegistrationRequestsPage = () => {
-  const [requests, setRequests] = useState([
-    { id: "1", entityName: "جمعية الأمل", type: "جمعية خيرية", representativeName: "محمد سالم", phone: "0512345678", requestDate: "2024-01-20", status: "pending" },
-    { id: "2", entityName: "مؤسسة النور", type: "مؤسسة", representativeName: "سارة أحمد", phone: "0512345679", requestDate: "2024-01-19", status: "pending" },
-  ]);
+  const [typeFilter, setTypeFilter] = useState<string | null>(null);
 
-  const handleApprove = (id: string) => {
-    setRequests(requests.map(r => r.id === id ? { ...r, status: "approved" } : r));
-    toast.success("تم قبول طلب التسجيل");
+  const requests = [
+    { id: "1", entityName: "لايوجد", type: "مستشفى", sector: "سكاكا", district: "أخرى" },
+    { id: "2", entityName: "مستشفى الغفالي", type: "مستشفى", sector: "وادي الدواسر", district: "أخرى" },
+    { id: "3", entityName: "مستشفى العام", type: "مستشفى", sector: "محافظة الرياض", district: "أخرى" },
+  ];
+
+  const typeCounts = {
+    "مستشفى": 3,
+    "جمعية": 5,
+    "مسجد": 4,
+    "النموذج الافتراضي": 0,
   };
 
-  const handleReject = (id: string) => {
-    setRequests(requests.map(r => r.id === id ? { ...r, status: "rejected" } : r));
-    toast.success("تم رفض طلب التسجيل");
-  };
+  const filteredRequests = typeFilter 
+    ? requests.filter(r => r.type === typeFilter)
+    : requests;
+
+  const exportColumns = [
+    { key: "entityName", label: "اسم الجهة" },
+    { key: "type", label: "نوع الجهة" },
+    { key: "sector", label: "القطاع - المحافظة" },
+    { key: "district", label: "القرية - الحي" },
+  ];
 
   return (
     <InnerPageLayout moduleId="beneficiary-accounts" title="طلبات تسجيل الجهات" sectionTitle="إدارة الجهات المستفيدة" moduleTitle="إدارة حسابات المستفيدين">
@@ -33,57 +46,111 @@ const EntitiesRegistrationRequestsPage = () => {
           <h1 className="text-2xl font-bold">طلبات تسجيل الجهات</h1>
         </div>
         <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>الطلبات</CardTitle>
-              <div className="flex items-center gap-2">
-                <Input placeholder="بحث..." className="w-64" />
-                <Button variant="outline" size="icon"><Search className="h-4 w-4" /></Button>
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between flex-wrap gap-3">
+              <div className="flex items-center gap-3">
+                <CardTitle className="text-lg">الطلبات ({filteredRequests.length})</CardTitle>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="gap-2">
+                      {typeFilter || "نوع الجهة"}
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-56 p-2" align="start">
+                    <div className="space-y-1">
+                      <Button 
+                        variant="ghost" 
+                        className="w-full justify-between"
+                        onClick={() => setTypeFilter(null)}
+                      >
+                        <span>الكل</span>
+                        <span className="text-muted-foreground">{requests.length}</span>
+                      </Button>
+                      {Object.entries(typeCounts).map(([type, count]) => (
+                        <Button 
+                          key={type}
+                          variant={typeFilter === type ? "secondary" : "ghost"}
+                          className="w-full justify-between"
+                          onClick={() => setTypeFilter(type)}
+                        >
+                          <span>{type}</span>
+                          <span className="text-muted-foreground">{count}</span>
+                        </Button>
+                      ))}
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <Select defaultValue="20">
+                  <SelectTrigger className="w-20">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="20">20</SelectItem>
+                    <SelectItem value="50">50</SelectItem>
+                    <SelectItem value="100">100</SelectItem>
+                  </SelectContent>
+                </Select>
+                <div className="relative">
+                  <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input placeholder="بحث..." className="w-48 pr-9" />
+                </div>
+                <ExportDropdown columns={exportColumns} />
+                <Button variant="outline" size="icon"><Filter className="h-4 w-4" /></Button>
+                <Button variant="outline" size="icon"><RefreshCw className="h-4 w-4" /></Button>
               </div>
             </div>
           </CardHeader>
           <CardContent>
-            {requests.length > 0 ? (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-right">اسم الجهة</TableHead>
-                    <TableHead className="text-right">النوع</TableHead>
-                    <TableHead className="text-right">اسم الممثل</TableHead>
-                    <TableHead className="text-right">الجوال</TableHead>
-                    <TableHead className="text-right">تاريخ الطلب</TableHead>
-                    <TableHead className="text-right">الحالة</TableHead>
-                    <TableHead className="text-right">الإجراءات</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {requests.map((request) => (
-                    <TableRow key={request.id}>
-                      <TableCell className="font-medium">{request.entityName}</TableCell>
-                      <TableCell>{request.type}</TableCell>
-                      <TableCell>{request.representativeName}</TableCell>
-                      <TableCell>{request.phone}</TableCell>
-                      <TableCell>{request.requestDate}</TableCell>
-                      <TableCell>
-                        <Badge variant={request.status === "approved" ? "default" : request.status === "rejected" ? "destructive" : "secondary"}>
-                          {request.status === "pending" ? "قيد الانتظار" : request.status === "approved" ? "مقبول" : "مرفوض"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex gap-2">
-                          <Button variant="outline" size="sm"><Eye className="h-4 w-4" /></Button>
-                          {request.status === "pending" && (
-                            <>
-                              <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={() => handleApprove(request.id)}><Check className="h-4 w-4" /></Button>
-                              <Button variant="destructive" size="sm" onClick={() => handleReject(request.id)}><X className="h-4 w-4" /></Button>
-                            </>
-                          )}
+            {filteredRequests.length > 0 ? (
+              <>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="text-right">إدارة</TableHead>
+                      <TableHead className="text-right">اسم الجهة</TableHead>
+                      <TableHead className="text-right">نوع الجهة</TableHead>
+                      <TableHead className="text-right">
+                        <div className="flex items-center gap-1">
+                          القطاع - المحافظة
+                          <Filter className="h-3 w-3 text-muted-foreground" />
                         </div>
-                      </TableCell>
+                      </TableHead>
+                      <TableHead className="text-right">القرية - الحي</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredRequests.map((request) => (
+                      <TableRow key={request.id}>
+                        <TableCell>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button className="bg-green-600 hover:bg-green-700 text-white gap-1">
+                                إدارة الجهة
+                                <ChevronDown className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start">
+                              <DropdownMenuItem>تعديل</DropdownMenuItem>
+                              <DropdownMenuItem>حذف</DropdownMenuItem>
+                              <DropdownMenuItem>موافقة</DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                        <TableCell className="font-medium">{request.entityName}</TableCell>
+                        <TableCell>{request.type}</TableCell>
+                        <TableCell>{request.sector}</TableCell>
+                        <TableCell>{request.district}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+                <div className="mt-4 text-sm text-muted-foreground text-center">
+                  إظهار السجلات 1 ل {filteredRequests.length} من {filteredRequests.length}
+                </div>
+              </>
             ) : (
               <EmptyState message="لا توجد طلبات تسجيل" />
             )}
