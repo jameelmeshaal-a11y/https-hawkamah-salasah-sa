@@ -1,68 +1,171 @@
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FileInput, Search, Eye, Check, X } from "lucide-react";
+import { FileInput, Eye, Check, X, Filter, RotateCcw } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import { toast } from "sonner";
 import EmptyState from "@/components/shared/EmptyState";
+import ExportDropdown from "@/components/shared/ExportDropdown";
+
+interface SelfUpdateRequest {
+  id: string;
+  beneficiaryName: string;
+  fileNumber: string;
+  field: string;
+  oldValue: string;
+  newValue: string;
+  requestDate: string;
+  status: string;
+}
 
 const ReceivedSelfUpdateRequestsPage = () => {
-  const [requests] = useState([
-    { id: "1", beneficiaryName: "خالد سعد", field: "رقم الجوال", oldValue: "0512345678", newValue: "0598765432", requestDate: "2024-01-20" },
-    { id: "2", beneficiaryName: "نورة محمد", field: "العنوان", oldValue: "الرياض - النسيم", newValue: "الرياض - الملز", requestDate: "2024-01-19" },
+  const [requests, setRequests] = useState<SelfUpdateRequest[]>([
+    { id: "1", beneficiaryName: "خالد مسفر العازمي", fileNumber: "150001277", field: "رقم الجوال", oldValue: "0554698656", newValue: "0512345678", requestDate: "07/01/2026", status: "pending" },
+    { id: "2", beneficiaryName: "تهاني خالد جبران", fileNumber: "540001195", field: "العنوان", oldValue: "الرياض - النسيم", newValue: "الرياض - الملز", requestDate: "06/01/2026", status: "pending" },
+    { id: "3", beneficiaryName: "فيحان فرج مفلح", fileNumber: "580001047", field: "رقم الجوال", oldValue: "0567887778", newValue: "0598765432", requestDate: "05/01/2026", status: "approved" },
+    { id: "4", beneficiaryName: "هيفاء حاتم بركة", fileNumber: "840000778", field: "البريد الإلكتروني", oldValue: "old@email.com", newValue: "new@email.com", requestDate: "04/01/2026", status: "rejected" },
   ]);
 
+  const columns = [
+    { key: "beneficiaryName", label: "اسم المستفيد" },
+    { key: "fileNumber", label: "رقم الملف" },
+    { key: "field", label: "الحقل" },
+    { key: "oldValue", label: "القيمة القديمة" },
+    { key: "newValue", label: "القيمة الجديدة" },
+    { key: "requestDate", label: "التاريخ" },
+    { key: "status", label: "الحالة" },
+  ];
+
+  const handleApprove = (id: string) => {
+    setRequests(requests.map(r => r.id === id ? { ...r, status: "approved" } : r));
+    toast.success("تم اعتماد الطلب");
+  };
+
+  const handleReject = (id: string) => {
+    setRequests(requests.map(r => r.id === id ? { ...r, status: "rejected" } : r));
+    toast.success("تم رفض الطلب");
+  };
+
+  const getStatusBadge = (status: string) => {
+    if (status === "approved") {
+      return <Badge className="bg-green-600 hover:bg-green-700 text-white">معتمد</Badge>;
+    }
+    if (status === "rejected") {
+      return <Badge variant="destructive">مرفوض</Badge>;
+    }
+    return <Badge className="bg-amber-500 hover:bg-amber-600 text-white">قيد الانتظار</Badge>;
+  };
+
   return (
-    <InnerPageLayout moduleId="beneficiary-accounts" title="طلبات التحديث الذاتي المستلمة" sectionTitle="إدارة تحديث البيانات" moduleTitle="إدارة حسابات المستفيدين">
+    <InnerPageLayout 
+      moduleId="beneficiary-accounts" 
+      title="طلبات التحديث الذاتي المستلمة" 
+      sectionTitle="إدارة تحديث البيانات" 
+      moduleTitle="إدارة حسابات المستفيدين"
+    >
       <div className="p-6" dir="rtl">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 bg-primary/10 rounded-lg"><FileInput className="h-6 w-6 text-primary" /></div>
-          <h1 className="text-2xl font-bold">طلبات التحديث الذاتي المستلمة</h1>
-        </div>
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>الطلبات المستلمة</CardTitle>
+        {/* شريط الأدوات */}
+        <Card className="mb-6">
+          <CardContent className="pt-4">
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              {/* الجانب الأيمن */}
               <div className="flex items-center gap-2">
-                <Input placeholder="بحث..." className="w-64" />
-                <Button variant="outline" size="icon"><Search className="h-4 w-4" /></Button>
+                <span className="text-sm text-muted-foreground">سجلات الصفحة</span>
+                <Select defaultValue="20">
+                  <SelectTrigger className="w-20">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="20">20</SelectItem>
+                    <SelectItem value="50">50</SelectItem>
+                    <SelectItem value="100">100</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* الجانب الأيسر */}
+              <div className="flex items-center gap-2">
+                <Input placeholder="بحث عام" className="w-48" />
+                <ExportDropdown columns={columns} />
+                <Button variant="outline" size="icon">
+                  <Filter className="h-4 w-4" />
+                </Button>
+                <Button variant="outline" size="icon">
+                  <RotateCcw className="h-4 w-4" />
+                </Button>
               </div>
             </div>
-          </CardHeader>
-          <CardContent>
+          </CardContent>
+        </Card>
+
+        {/* الجدول */}
+        <Card>
+          <CardContent className="pt-6">
             {requests.length > 0 ? (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-right">اسم المستفيد</TableHead>
-                    <TableHead className="text-right">الحقل</TableHead>
-                    <TableHead className="text-right">القيمة القديمة</TableHead>
-                    <TableHead className="text-right">القيمة الجديدة</TableHead>
-                    <TableHead className="text-right">التاريخ</TableHead>
-                    <TableHead className="text-right">الإجراءات</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {requests.map((request) => (
-                    <TableRow key={request.id}>
-                      <TableCell className="font-medium">{request.beneficiaryName}</TableCell>
-                      <TableCell>{request.field}</TableCell>
-                      <TableCell className="text-red-600">{request.oldValue}</TableCell>
-                      <TableCell className="text-green-600">{request.newValue}</TableCell>
-                      <TableCell>{request.requestDate}</TableCell>
-                      <TableCell>
-                        <div className="flex gap-2">
-                          <Button variant="outline" size="sm"><Eye className="h-4 w-4" /></Button>
-                          <Button size="sm" className="bg-green-600 hover:bg-green-700"><Check className="h-4 w-4" /></Button>
-                          <Button variant="destructive" size="sm"><X className="h-4 w-4" /></Button>
-                        </div>
-                      </TableCell>
+              <>
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/50">
+                      <TableHead className="text-right">اسم المستفيد</TableHead>
+                      <TableHead className="text-right">رقم الملف</TableHead>
+                      <TableHead className="text-right">الحقل</TableHead>
+                      <TableHead className="text-right">القيمة القديمة</TableHead>
+                      <TableHead className="text-right">القيمة الجديدة</TableHead>
+                      <TableHead className="text-right">التاريخ</TableHead>
+                      <TableHead className="text-right">الحالة</TableHead>
+                      <TableHead className="text-right">الإجراءات</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {requests.map((request) => (
+                      <TableRow key={request.id}>
+                        <TableCell className="font-medium">{request.beneficiaryName}</TableCell>
+                        <TableCell>{request.fileNumber}</TableCell>
+                        <TableCell>{request.field}</TableCell>
+                        <TableCell className="text-red-600">{request.oldValue}</TableCell>
+                        <TableCell className="text-green-600">{request.newValue}</TableCell>
+                        <TableCell>{request.requestDate}</TableCell>
+                        <TableCell>{getStatusBadge(request.status)}</TableCell>
+                        <TableCell>
+                          <div className="flex gap-2">
+                            <Button className="bg-primary hover:bg-primary/90 text-white" size="sm">
+                              <Eye className="h-4 w-4 ml-1" />
+                              معاينة
+                            </Button>
+                            {request.status === "pending" && (
+                              <>
+                                <Button 
+                                  size="sm" 
+                                  className="bg-green-600 hover:bg-green-700" 
+                                  onClick={() => handleApprove(request.id)}
+                                >
+                                  <Check className="h-4 w-4" />
+                                </Button>
+                                <Button 
+                                  variant="destructive" 
+                                  size="sm" 
+                                  onClick={() => handleReject(request.id)}
+                                >
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              </>
+                            )}
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+
+                {/* ترقيم الصفحات */}
+                <div className="flex justify-end mt-4 text-sm text-muted-foreground">
+                  إظهار السجلات 1 الى {requests.length} من {requests.length}
+                </div>
+              </>
             ) : (
               <EmptyState message="لا توجد طلبات مستلمة" />
             )}
