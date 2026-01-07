@@ -414,6 +414,14 @@ export const itemPages: Record<string, React.ComponentType> = {
   "convert-guardian-to-beneficiary": ConvertGuardianToBeneficiaryPage,
   "delete-guardian-file": DeleteGuardianFilePage,
   "deleted-guardians-log": DeletedGuardiansLogPage,
+  // Beneficiary Entities Management
+  "manage-entities-accounts": ManageEntitiesAccountsPage,
+  "entities-database": EntitiesDatabasePage,
+  "manage-representatives-accounts": ManageRepresentativesAccountsPage,
+  "representatives-database": RepresentativesDatabasePage,
+  "delete-entity-file": DeleteEntityFilePage,
+  "restore-entity-file": RestoreEntityFilePage,
+  "entities-registration-requests": EntitiesRegistrationRequestsPage,
   // Sponsorship pages
   "sponsors-list": SponsorsListPage,
   "sponsors-database": SponsorsListPage,
