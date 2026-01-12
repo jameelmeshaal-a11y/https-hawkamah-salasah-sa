@@ -1,254 +1,197 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { FileText } from "lucide-react";
+import HijriGregorianDatePicker from "@/components/reports/HijriGregorianDatePicker";
+import ReportExportButtons from "@/components/reports/ReportExportButtons";
 import { Label } from "@/components/ui/label";
-import { BookMarked, Download, Printer, Search, Eye } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
-interface JournalBookEntry {
-  id: string;
+interface JournalEntry {
   entryNumber: string;
-  date: string;
+  account: string;
   description: string;
-  lines: {
-    accountCode: string;
-    accountName: string;
-    debit: number;
-    credit: number;
-  }[];
+  costCenter: string;
+  debit: number;
+  credit: number;
+  balance: number;
+  date: string;
+  documentNumber: string;
 }
 
 const JournalBookPage = () => {
-  const [fromDate, setFromDate] = useState("2024-01-01");
-  const [toDate, setToDate] = useState("2024-01-31");
+  const [bookType, setBookType] = useState("banks");
 
-  const entries: JournalBookEntry[] = [
+  const dummyData: JournalEntry[] = [
     {
-      id: "1",
-      entryNumber: "JE-2024-0001",
-      date: "2024-01-05",
-      description: "تحصيل تبرع نقدي من متبرع",
-      lines: [
-        { accountCode: "1101", accountName: "النقدية في الصندوق", debit: 5000, credit: 0 },
-        { accountCode: "4101", accountName: "إيرادات التبرعات", debit: 0, credit: 5000 },
-      ],
+      entryNumber: "QID-001",
+      account: "1102 - البنك الأهلي",
+      description: "تحويل من حساب التبرعات",
+      costCenter: "مركز التكلفة الرئيسي",
+      debit: 100000,
+      credit: 0,
+      balance: 100000,
+      date: "01/07/1447",
+      documentNumber: "TRN-2026-001",
     },
     {
-      id: "2",
-      entryNumber: "JE-2024-0002",
-      date: "2024-01-08",
-      description: "صرف مصروفات إدارية",
-      lines: [
-        { accountCode: "5102", accountName: "مصروفات إدارية", debit: 2500, credit: 0 },
-        { accountCode: "1101", accountName: "النقدية في الصندوق", debit: 0, credit: 2500 },
-      ],
-    },
-    {
-      id: "3",
-      entryNumber: "JE-2024-0003",
-      date: "2024-01-10",
-      description: "تحصيل اشتراكات الأعضاء",
-      lines: [
-        { accountCode: "1102", accountName: "البنك الأهلي", debit: 12000, credit: 0 },
-        { accountCode: "4102", accountName: "إيرادات الاشتراكات", debit: 0, credit: 12000 },
-      ],
-    },
-    {
-      id: "4",
-      entryNumber: "JE-2024-0004",
-      date: "2024-01-12",
-      description: "إيداع نقدية في البنك",
-      lines: [
-        { accountCode: "1102", accountName: "البنك الأهلي", debit: 50000, credit: 0 },
-        { accountCode: "1101", accountName: "النقدية في الصندوق", debit: 0, credit: 50000 },
-      ],
-    },
-    {
-      id: "5",
-      entryNumber: "JE-2024-0005",
-      date: "2024-01-15",
+      entryNumber: "QID-002",
+      account: "1102 - البنك الأهلي",
       description: "صرف رواتب الموظفين",
-      lines: [
-        { accountCode: "5101", accountName: "مصروفات الرواتب", debit: 120000, credit: 0 },
-        { accountCode: "1102", accountName: "البنك الأهلي", debit: 0, credit: 120000 },
-      ],
+      costCenter: "إدارة الموارد البشرية",
+      debit: 0,
+      credit: 45000,
+      balance: 55000,
+      date: "05/07/1447",
+      documentNumber: "SAL-2026-001",
+    },
+    {
+      entryNumber: "QID-003",
+      account: "1103 - بنك الراجحي",
+      description: "إيداع تبرعات رمضان",
+      costCenter: "إدارة التبرعات",
+      debit: 75000,
+      credit: 0,
+      balance: 75000,
+      date: "08/07/1447",
+      documentNumber: "DON-2026-001",
+    },
+    {
+      entryNumber: "QID-004",
+      account: "1103 - بنك الراجحي",
+      description: "دفع فواتير الكهرباء",
+      costCenter: "الإدارة العامة",
+      debit: 0,
+      credit: 8500,
+      balance: 66500,
+      date: "12/07/1447",
+      documentNumber: "BIL-2026-001",
     },
   ];
 
+  const totals = dummyData.reduce(
+    (acc, entry) => ({
+      debit: acc.debit + entry.debit,
+      credit: acc.credit + entry.credit,
+    }),
+    { debit: 0, credit: 0 }
+  );
+
   const formatCurrency = (amount: number) => {
-    if (amount === 0) return "-";
-    return new Intl.NumberFormat("ar-SA").format(amount);
+    return amount.toLocaleString("ar-SA", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   };
 
-  const totalDebit = entries.reduce(
-    (sum, entry) => sum + entry.lines.reduce((s, l) => s + l.debit, 0),
-    0
-  );
-  const totalCredit = entries.reduce(
-    (sum, entry) => sum + entry.lines.reduce((s, l) => s + l.credit, 0),
-    0
-  );
+  const handleExportPDF = () => {
+    console.log("Exporting PDF...");
+  };
+
+  const handleExportExcel = () => {
+    console.log("Exporting Excel...");
+  };
 
   return (
-    <InnerPageLayout
-      moduleId="financial-affairs"
-      title="دفتر اليومية"
-      moduleTitle="إدارة الشؤون المالية"
-    >
-      <div className="space-y-6">
+    <InnerPageLayout moduleId="financial-affairs" moduleTitle="إدارة الشؤون المالية" title="دفتر اليومية">
+      <div className="p-6 space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+              <FileText className="w-5 h-5 text-primary" />
+            </div>
+            <h1 className="text-xl font-bold">دفتر اليومية</h1>
+          </div>
+          <ReportExportButtons onExportPDF={handleExportPDF} onExportExcel={handleExportExcel} />
+        </div>
+
         {/* Filters */}
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <Label>من تاريخ:</Label>
-                  <Input
-                    type="date"
-                    value={fromDate}
-                    onChange={(e) => setFromDate(e.target.value)}
-                    className="w-40"
-                  />
-                </div>
-                <div className="flex items-center gap-2">
-                  <Label>إلى تاريخ:</Label>
-                  <Input
-                    type="date"
-                    value={toDate}
-                    onChange={(e) => setToDate(e.target.value)}
-                    className="w-40"
-                  />
-                </div>
-                <Button>
-                  <Search className="h-4 w-4 ml-2" />
-                  عرض
-                </Button>
-              </div>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="icon">
-                  <Download className="h-4 w-4" />
-                </Button>
-                <Button variant="outline" size="icon">
-                  <Printer className="h-4 w-4" />
-                </Button>
-              </div>
+        <div className="bg-card border rounded-lg p-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="space-y-2">
+              <Label>نوع الدفتر</Label>
+              <Select value={bookType} onValueChange={setBookType}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="banks">دفتر البنوك</SelectItem>
+                  <SelectItem value="cash">دفتر النقدية</SelectItem>
+                  <SelectItem value="purchases">دفتر المشتريات</SelectItem>
+                  <SelectItem value="sales">دفتر المبيعات</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
-          </CardContent>
-        </Card>
+            <HijriGregorianDatePicker label="من" hijriDate="01/07/1447" gregorianDate="2026/01/01" />
+            <HijriGregorianDatePicker label="إلى" hijriDate="13/07/1447" gregorianDate="2026/01/13" />
+            <div className="flex items-end">
+              <Button className="bg-green-500 hover:bg-green-600 text-white w-full">
+                عرض التقرير
+              </Button>
+            </div>
+          </div>
+        </div>
 
-        {/* Journal Book */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BookMarked className="h-5 w-5" />
-              دفتر اليومية العامة
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="border rounded-lg overflow-hidden">
-              {entries.map((entry, entryIndex) => (
-                <div
-                  key={entry.id}
-                  className={`${entryIndex > 0 ? "border-t-2 border-primary/20" : ""}`}
-                >
-                  {/* Entry Header */}
-                  <div className="bg-muted/50 p-3 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <span className="font-mono font-bold text-primary">
-                        {entry.entryNumber}
-                      </span>
-                      <span className="text-muted-foreground">{entry.date}</span>
-                      <span>{entry.description}</span>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => toast.info("عرض تفاصيل القيد")}
-                    >
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  {/* Entry Lines */}
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="text-right w-32">رقم الحساب</TableHead>
-                        <TableHead className="text-right">اسم الحساب</TableHead>
-                        <TableHead className="text-right w-36">مدين</TableHead>
-                        <TableHead className="text-right w-36">دائن</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {entry.lines.map((line, lineIndex) => (
-                        <TableRow key={lineIndex}>
-                          <TableCell className="font-mono">{line.accountCode}</TableCell>
-                          <TableCell
-                            className={line.credit > 0 ? "pr-8" : ""}
-                          >
-                            {line.credit > 0 ? "إلى حـ/ " : "من حـ/ "}
-                            {line.accountName}
-                          </TableCell>
-                          <TableCell className="font-mono text-green-600">
-                            {line.debit > 0 ? formatCurrency(line.debit) : "-"}
-                          </TableCell>
-                          <TableCell className="font-mono text-red-600">
-                            {line.credit > 0 ? formatCurrency(line.credit) : "-"}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              ))}
-            </div>
-
-            {/* Totals */}
-            <div className="mt-4 p-4 bg-primary/10 rounded-lg">
-              <div className="flex items-center justify-between">
-                <span className="font-bold">إجمالي القيود</span>
-                <div className="flex items-center gap-8">
-                  <div className="text-center">
-                    <div className="text-sm text-muted-foreground">إجمالي المدين</div>
-                    <div className="font-mono font-bold text-lg text-green-600">
-                      {formatCurrency(totalDebit)} ر.س
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-sm text-muted-foreground">إجمالي الدائن</div>
-                    <div className="font-mono font-bold text-lg text-red-600">
-                      {formatCurrency(totalCredit)} ر.س
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-sm text-muted-foreground">الفرق</div>
-                    <div
-                      className={`font-mono font-bold text-lg ${
-                        totalDebit === totalCredit ? "text-green-600" : "text-red-600"
-                      }`}
-                    >
-                      {totalDebit === totalCredit ? "✓ متوازن" : formatCurrency(Math.abs(totalDebit - totalCredit))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Summary */}
-            <div className="mt-4 text-sm text-muted-foreground text-center">
-              عدد القيود: {entries.length} | الفترة: {fromDate} إلى {toDate}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Table */}
+        <div className="bg-card border rounded-lg overflow-hidden">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-muted/50">
+                <TableHead className="text-right font-bold">رقم القيد</TableHead>
+                <TableHead className="text-right font-bold">الحساب / بيان العملية</TableHead>
+                <TableHead className="text-right font-bold">مركز التكلفة</TableHead>
+                <TableHead className="text-center font-bold">مدين</TableHead>
+                <TableHead className="text-center font-bold">دائن</TableHead>
+                <TableHead className="text-center font-bold">الرصيد لكل حركة</TableHead>
+                <TableHead className="text-center font-bold">تاريخ القيد</TableHead>
+                <TableHead className="text-center font-bold">رقم المستند</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {dummyData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                    لا يوجد سجلات
+                  </TableCell>
+                </TableRow>
+              ) : (
+                <>
+                  {dummyData.map((entry, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium">{entry.entryNumber}</TableCell>
+                      <TableCell>
+                        <div>
+                          <div className="font-medium">{entry.account}</div>
+                          <div className="text-sm text-muted-foreground">{entry.description}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell>{entry.costCenter}</TableCell>
+                      <TableCell className="text-center">{entry.debit > 0 ? formatCurrency(entry.debit) : "-"}</TableCell>
+                      <TableCell className="text-center">{entry.credit > 0 ? formatCurrency(entry.credit) : "-"}</TableCell>
+                      <TableCell className="text-center">{formatCurrency(entry.balance)}</TableCell>
+                      <TableCell className="text-center">{entry.date}</TableCell>
+                      <TableCell className="text-center">{entry.documentNumber}</TableCell>
+                    </TableRow>
+                  ))}
+                  {/* Totals Row */}
+                  <TableRow className="bg-muted/50 font-bold">
+                    <TableCell colSpan={3} className="text-center">المجموع</TableCell>
+                    <TableCell className="text-center">{formatCurrency(totals.debit)}</TableCell>
+                    <TableCell className="text-center">{formatCurrency(totals.credit)}</TableCell>
+                    <TableCell colSpan={3}></TableCell>
+                  </TableRow>
+                  {/* Final Balance Row */}
+                  <TableRow className="bg-primary/10 font-bold">
+                    <TableCell colSpan={3} className="text-center">الرصيد النهائي</TableCell>
+                    <TableCell className="text-center">{formatCurrency(totals.debit)}</TableCell>
+                    <TableCell className="text-center">{formatCurrency(totals.credit)}</TableCell>
+                    <TableCell className="text-center">{formatCurrency(totals.debit - totals.credit)}</TableCell>
+                    <TableCell colSpan={2}></TableCell>
+                  </TableRow>
+                </>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </InnerPageLayout>
   );
