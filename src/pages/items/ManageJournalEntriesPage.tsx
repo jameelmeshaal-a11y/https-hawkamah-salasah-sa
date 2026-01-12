@@ -136,9 +136,9 @@ const ManageJournalEntriesPage = () => {
 
   return (
     <InnerPageLayout
+      moduleId="financial-affairs"
       title="إدارة قيود اليومية"
-      subtitle="إدارة الشؤون المالية"
-      icon={List}
+      moduleTitle="إدارة الشؤون المالية"
     >
       <div className="space-y-6">
         {/* Stats Cards */}

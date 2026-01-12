@@ -101,9 +101,9 @@ const JournalBookPage = () => {
 
   return (
     <InnerPageLayout
+      moduleId="financial-affairs"
       title="دفتر اليومية"
-      subtitle="إدارة الشؤون المالية"
-      icon={BookMarked}
+      moduleTitle="إدارة الشؤون المالية"
     >
       <div className="space-y-6">
         {/* Filters */}

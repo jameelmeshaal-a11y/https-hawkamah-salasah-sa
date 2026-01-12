@@ -92,9 +92,9 @@ const ManageBankAccountsPage = () => {
 
   return (
     <InnerPageLayout
+      moduleId="financial-affairs"
       title="إدارة حسابات البنوك"
-      subtitle="إدارة الشؤون المالية"
-      icon={Building2}
+      moduleTitle="إدارة الشؤون المالية"
     >
       <div className="space-y-6">
         {/* Stats Cards */}

@@ -176,9 +176,9 @@ const ManageBudgetsPage = () => {
 
   return (
     <InnerPageLayout
+      moduleId="financial-affairs"
       title="إدارة الموازنات"
-      subtitle="إدارة الشؤون المالية"
-      icon={Calculator}
+      moduleTitle="إدارة الشؤون المالية"
     >
       <div className="space-y-6">
         {/* Stats Cards */}

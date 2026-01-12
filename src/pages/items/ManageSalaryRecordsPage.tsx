@@ -129,9 +129,9 @@ const ManageSalaryRecordsPage = () => {
 
   return (
     <InnerPageLayout
+      moduleId="financial-affairs"
       title="إدارة سجلات الرواتب"
-      subtitle="إدارة الشؤون المالية"
-      icon={FileSpreadsheet}
+      moduleTitle="إدارة الشؤون المالية"
     >
       <div className="space-y-6">
         {/* Stats Cards */}

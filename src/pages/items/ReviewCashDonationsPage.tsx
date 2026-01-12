@@ -133,9 +133,9 @@ const ReviewCashDonationsPage = () => {
 
   return (
     <InnerPageLayout
+      moduleId="financial-affairs"
       title="مراجعة التبرعات النقدية"
-      subtitle="إدارة الشؤون المالية"
-      icon={Search}
+      moduleTitle="إدارة الشؤون المالية"
     >
       <div className="space-y-6">
         {/* Stats Cards */}
