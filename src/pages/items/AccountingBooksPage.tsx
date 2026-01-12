@@ -93,7 +93,7 @@ const AccountingBooksPage = () => {
   };
 
   return (
-    <InnerPageLayout>
+    <InnerPageLayout moduleId="financial-affairs" moduleTitle="إدارة الشؤون المالية" title="الدفاتر المحاسبية">
       <div className="p-6 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -123,14 +123,8 @@ const AccountingBooksPage = () => {
                 </SelectContent>
               </Select>
             </div>
-            <div className="space-y-2">
-              <Label>من</Label>
-              <HijriGregorianDatePicker date={fromDate} onDateChange={setFromDate} />
-            </div>
-            <div className="space-y-2">
-              <Label>إلى</Label>
-              <HijriGregorianDatePicker date={toDate} onDateChange={setToDate} />
-            </div>
+            <HijriGregorianDatePicker label="من" hijriDate="01/07/1447" gregorianDate="2026/01/01" />
+            <HijriGregorianDatePicker label="إلى" hijriDate="13/07/1447" gregorianDate="2026/01/13" />
             <div className="flex items-end">
               <Button className="bg-green-500 hover:bg-green-600 text-white w-full">
                 عرض التقرير
