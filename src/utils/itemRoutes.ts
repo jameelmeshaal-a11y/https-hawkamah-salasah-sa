@@ -211,6 +211,13 @@ const CostCentersTrialBalancePage = lazy(() => import("@/pages/items/CostCenters
 const CreateSmartFinancialReportPage = lazy(() => import("@/pages/items/CreateSmartFinancialReportPage"));
 const PreviewSmartFinancialReportPage = lazy(() => import("@/pages/items/PreviewSmartFinancialReportPage"));
 const CreateDynamicListFormsPage = lazy(() => import("@/pages/items/CreateDynamicListFormsPage"));
+const PreviewDynamicListFormPage = lazy(() => import("@/pages/items/PreviewDynamicListFormPage"));
+const RevenueStatisticsPage = lazy(() => import("@/pages/items/RevenueStatisticsPage"));
+const ExpensesStatisticsPage = lazy(() => import("@/pages/items/ExpensesStatisticsPage"));
+const RevenueGrowthStatisticsPage = lazy(() => import("@/pages/items/RevenueGrowthStatisticsPage"));
+const ExpenseChangeStatisticsPage = lazy(() => import("@/pages/items/ExpenseChangeStatisticsPage"));
+const BudgetDeviationReportPage = lazy(() => import("@/pages/items/BudgetDeviationReportPage"));
+const ManageBudgetsPage = lazy(() => import("@/pages/items/ManageBudgetsPage"));
 
 // Rehabilitation Projects Management pages
 const RehabilitationProjectsReportsPage = lazy(() => import("@/pages/items/RehabilitationProjectsReportsPage"));
@@ -483,6 +490,13 @@ export const itemPages: Record<string, React.ComponentType> = {
   "create-smart-financial-report": CreateSmartFinancialReportPage,
   "preview-smart-financial-report": PreviewSmartFinancialReportPage,
   "create-dynamic-list-forms": CreateDynamicListFormsPage,
+  "preview-dynamic-list-form": PreviewDynamicListFormPage,
+  "revenue-statistics": RevenueStatisticsPage,
+  "expenses-statistics": ExpensesStatisticsPage,
+  "revenue-growth-statistics": RevenueGrowthStatisticsPage,
+  "expense-change-statistics": ExpenseChangeStatisticsPage,
+  "budget-deviation-report": BudgetDeviationReportPage,
+  "manage-budgets": ManageBudgetsPage,
   // Rehabilitation Projects Management
   "rehabilitation-projects-reports": RehabilitationProjectsReportsPage,
   "installments-database": InstallmentsDatabasePage,
