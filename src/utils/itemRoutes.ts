@@ -200,9 +200,17 @@ const PaymentOrdersPage = lazy(() => import("@/pages/items/PaymentOrdersPage"));
 const FinancialReportsPage = lazy(() => import("@/pages/items/FinancialReportsPage"));
 const JournalBookPage = lazy(() => import("@/pages/items/JournalBookPage"));
 const GeneralLedgerPage = lazy(() => import("@/pages/items/GeneralLedgerPage"));
+const TrialBalancePage = lazy(() => import("@/pages/items/TrialBalancePage"));
 const ChartOfAccountsReportPage = lazy(() => import("@/pages/items/ChartOfAccountsReportPage"));
 const AccountStatementReportPage = lazy(() => import("@/pages/items/AccountStatementReportPage"));
 const MonthlyGeneralLedgerPage = lazy(() => import("@/pages/items/MonthlyGeneralLedgerPage"));
+const AccountingBooksPage = lazy(() => import("@/pages/items/AccountingBooksPage"));
+const CostCenterStatementReportPage = lazy(() => import("@/pages/items/CostCenterStatementReportPage"));
+const CostCentersGeneralLedgerPage = lazy(() => import("@/pages/items/CostCentersGeneralLedgerPage"));
+const CostCentersTrialBalancePage = lazy(() => import("@/pages/items/CostCentersTrialBalancePage"));
+const CreateSmartFinancialReportPage = lazy(() => import("@/pages/items/CreateSmartFinancialReportPage"));
+const PreviewSmartFinancialReportPage = lazy(() => import("@/pages/items/PreviewSmartFinancialReportPage"));
+const CreateDynamicListFormsPage = lazy(() => import("@/pages/items/CreateDynamicListFormsPage"));
 
 // Rehabilitation Projects Management pages
 const RehabilitationProjectsReportsPage = lazy(() => import("@/pages/items/RehabilitationProjectsReportsPage"));
@@ -398,11 +406,6 @@ export const itemPages: Record<string, React.ComponentType> = {
   "manage-org-structure": OrgChartPage,
   "sponsorships-table": SponsorshipsTablePage,
   "accounts-chart": AccountsChartPage,
-  "journal-book": JournalBookPage,
-  "general-ledger": GeneralLedgerPage,
-  "chart-of-accounts-report": ChartOfAccountsReportPage,
-  "account-statement-report": AccountStatementReportPage,
-  "monthly-general-ledger": MonthlyGeneralLedgerPage,
   // Cybersecurity pages
   "login-logs": LoginLogsPage,
   "user-permissions": UserPermissionsPage,
@@ -467,6 +470,19 @@ export const itemPages: Record<string, React.ComponentType> = {
   // Financial pages
   "payment-orders": PaymentOrdersPage,
   "financial-reports": FinancialReportsPage,
+  "journal-book": JournalBookPage,
+  "general-ledger": GeneralLedgerPage,
+  "trial-balance": TrialBalancePage,
+  "chart-of-accounts-report": ChartOfAccountsReportPage,
+  "account-statement-report": AccountStatementReportPage,
+  "monthly-general-ledger": MonthlyGeneralLedgerPage,
+  "accounting-books": AccountingBooksPage,
+  "cost-center-statement-report": CostCenterStatementReportPage,
+  "cost-centers-general-ledger": CostCentersGeneralLedgerPage,
+  "cost-centers-trial-balance": CostCentersTrialBalancePage,
+  "create-smart-financial-report": CreateSmartFinancialReportPage,
+  "preview-smart-financial-report": PreviewSmartFinancialReportPage,
+  "create-dynamic-list-forms": CreateDynamicListFormsPage,
   // Rehabilitation Projects Management
   "rehabilitation-projects-reports": RehabilitationProjectsReportsPage,
   "installments-database": InstallmentsDatabasePage,
