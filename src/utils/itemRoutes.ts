@@ -198,6 +198,11 @@ const SponsorshipPaymentsPage = lazy(() => import("@/pages/items/SponsorshipPaym
 // Financial pages
 const PaymentOrdersPage = lazy(() => import("@/pages/items/PaymentOrdersPage"));
 const FinancialReportsPage = lazy(() => import("@/pages/items/FinancialReportsPage"));
+const JournalBookPage = lazy(() => import("@/pages/items/JournalBookPage"));
+const GeneralLedgerPage = lazy(() => import("@/pages/items/GeneralLedgerPage"));
+const ChartOfAccountsReportPage = lazy(() => import("@/pages/items/ChartOfAccountsReportPage"));
+const AccountStatementReportPage = lazy(() => import("@/pages/items/AccountStatementReportPage"));
+const MonthlyGeneralLedgerPage = lazy(() => import("@/pages/items/MonthlyGeneralLedgerPage"));
 
 // Rehabilitation Projects Management pages
 const RehabilitationProjectsReportsPage = lazy(() => import("@/pages/items/RehabilitationProjectsReportsPage"));
@@ -393,6 +398,11 @@ export const itemPages: Record<string, React.ComponentType> = {
   "manage-org-structure": OrgChartPage,
   "sponsorships-table": SponsorshipsTablePage,
   "accounts-chart": AccountsChartPage,
+  "journal-book": JournalBookPage,
+  "general-ledger": GeneralLedgerPage,
+  "chart-of-accounts-report": ChartOfAccountsReportPage,
+  "account-statement-report": AccountStatementReportPage,
+  "monthly-general-ledger": MonthlyGeneralLedgerPage,
   // Cybersecurity pages
   "login-logs": LoginLogsPage,
   "user-permissions": UserPermissionsPage,
