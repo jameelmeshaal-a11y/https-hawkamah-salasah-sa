@@ -42,7 +42,7 @@ const CreateSmartFinancialReportPage = () => {
   const years = ["2026", "2025", "2024", "2023", "2022", "2021", "2020"];
 
   return (
-    <InnerPageLayout>
+    <InnerPageLayout moduleId="financial-affairs" moduleTitle="إدارة الشؤون المالية" title="إنشاء تقرير مالي ذكي">
       <div className="p-6 space-y-6">
         {/* Header */}
         <div className="flex items-center gap-3">

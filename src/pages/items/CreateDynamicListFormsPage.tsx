@@ -40,7 +40,7 @@ const CreateDynamicListFormsPage = () => {
   const removeRow = () => setRows((prev) => (prev > 1 ? prev - 1 : 1));
 
   return (
-    <InnerPageLayout>
+    <InnerPageLayout moduleId="financial-affairs" moduleTitle="إدارة الشؤون المالية" title="إنشاء نماذج قوائم ديناميكية">
       <div className="p-6 space-y-6">
         {/* Header */}
         <div className="flex items-center gap-3">

@@ -52,7 +52,7 @@ const PreviewSmartFinancialReportPage = () => {
   };
 
   return (
-    <InnerPageLayout>
+    <InnerPageLayout moduleId="financial-affairs" moduleTitle="إدارة الشؤون المالية" title="معاينة تقرير مالي ذكي">
       <div className="p-6 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
