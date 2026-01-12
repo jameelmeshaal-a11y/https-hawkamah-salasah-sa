@@ -2,8 +2,16 @@ import { useState } from "react";
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Calculator, Plus, Search, Download, Edit, Eye, BarChart3, TrendingUp, TrendingDown } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -12,333 +20,332 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { toast } from "sonner";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Wallet, Plus, Trash2, AlertTriangle, X } from "lucide-react";
 
-interface BudgetItem {
+interface BudgetAccount {
   id: string;
   accountCode: string;
   accountName: string;
-  budgetAmount: number;
-  actualAmount: number;
-  variance: number;
-  variancePercentage: number;
-  status: "under" | "normal" | "over";
-}
-
-interface Budget {
-  id: string;
-  name: string;
-  year: string;
-  status: "draft" | "approved" | "active" | "closed";
-  totalBudget: number;
-  totalActual: number;
-  items: BudgetItem[];
+  distribution: "yearly" | "monthly";
+  jan: number;
+  feb: number;
+  mar: number;
+  apr: number;
+  may: number;
+  jun: number;
+  jul: number;
+  aug: number;
+  sep: number;
+  oct: number;
+  nov: number;
+  dec: number;
 }
 
 const ManageBudgetsPage = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedYear, setSelectedYear] = useState("2024");
-  
-  const budgets: Budget[] = [
-    {
-      id: "1",
-      name: "الموازنة التشغيلية 2024",
-      year: "2024",
-      status: "active",
-      totalBudget: 5000000,
-      totalActual: 3200000,
-      items: [],
-    },
-    {
-      id: "2",
-      name: "موازنة المشاريع 2024",
-      year: "2024",
-      status: "active",
-      totalBudget: 8000000,
-      totalActual: 5500000,
-      items: [],
-    },
-    {
-      id: "3",
-      name: "الموازنة التشغيلية 2023",
-      year: "2023",
-      status: "closed",
-      totalBudget: 4500000,
-      totalActual: 4200000,
-      items: [],
-    },
-  ];
+  const [principal, setPrincipal] = useState("");
+  const [year, setYear] = useState("");
+  const [budgetType, setBudgetType] = useState("revenue");
+  const [source, setSource] = useState("classifications");
+  const [accounts, setAccounts] = useState<BudgetAccount[]>([]);
 
-  const budgetItems: BudgetItem[] = [
-    {
-      id: "1",
-      accountCode: "5101",
-      accountName: "مصروفات الرواتب",
-      budgetAmount: 2400000,
-      actualAmount: 1600000,
-      variance: -800000,
-      variancePercentage: -33.3,
-      status: "under",
-    },
-    {
-      id: "2",
-      accountCode: "5102",
-      accountName: "مصروفات إدارية",
-      budgetAmount: 600000,
-      actualAmount: 580000,
-      variance: -20000,
-      variancePercentage: -3.3,
-      status: "normal",
-    },
-    {
-      id: "3",
-      accountCode: "5103",
-      accountName: "مصروفات صيانة",
-      budgetAmount: 300000,
-      actualAmount: 350000,
-      variance: 50000,
-      variancePercentage: 16.7,
-      status: "over",
-    },
-    {
-      id: "4",
-      accountCode: "5104",
-      accountName: "مصروفات تشغيلية",
-      budgetAmount: 800000,
-      actualAmount: 420000,
-      variance: -380000,
-      variancePercentage: -47.5,
-      status: "under",
-    },
-    {
-      id: "5",
-      accountCode: "5105",
-      accountName: "مصروفات مشاريع",
-      budgetAmount: 900000,
-      actualAmount: 250000,
-      variance: -650000,
-      variancePercentage: -72.2,
-      status: "under",
-    },
-  ];
+  const years = ["2023", "2024", "2025", "2026"];
 
-  const getStatusBadge = (status: Budget["status"]) => {
-    switch (status) {
-      case "active":
-        return <Badge className="bg-green-100 text-green-800 hover:bg-green-100">نشطة</Badge>;
-      case "approved":
-        return <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">معتمدة</Badge>;
-      case "draft":
-        return <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">مسودة</Badge>;
-      case "closed":
-        return <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">مغلقة</Badge>;
-    }
+  const handleAddAccount = () => {
+    const newAccount: BudgetAccount = {
+      id: Date.now().toString(),
+      accountCode: "",
+      accountName: "",
+      distribution: "yearly",
+      jan: 0,
+      feb: 0,
+      mar: 0,
+      apr: 0,
+      may: 0,
+      jun: 0,
+      jul: 0,
+      aug: 0,
+      sep: 0,
+      oct: 0,
+      nov: 0,
+      dec: 0,
+    };
+    setAccounts([...accounts, newAccount]);
   };
 
-  const getVarianceIndicator = (status: BudgetItem["status"], variance: number) => {
-    switch (status) {
-      case "under":
-        return (
-          <span className="flex items-center gap-1 text-green-600">
-            <TrendingDown className="h-4 w-4" />
-            وفر
-          </span>
-        );
-      case "over":
-        return (
-          <span className="flex items-center gap-1 text-red-600">
-            <TrendingUp className="h-4 w-4" />
-            تجاوز
-          </span>
-        );
-      default:
-        return <span className="text-muted-foreground">ضمن الحد</span>;
-    }
+  const handleDeleteAll = () => {
+    setAccounts([]);
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("ar-SA").format(Math.abs(amount)) + " ر.س";
+  const handleRemoveAccount = (id: string) => {
+    setAccounts(accounts.filter((acc) => acc.id !== id));
   };
 
-  const totalBudget = budgetItems.reduce((sum, item) => sum + item.budgetAmount, 0);
-  const totalActual = budgetItems.reduce((sum, item) => sum + item.actualAmount, 0);
-  const totalVariance = totalBudget - totalActual;
-  const utilizationRate = (totalActual / totalBudget) * 100;
+  const handleAccountChange = (
+    id: string,
+    field: keyof BudgetAccount,
+    value: string | number
+  ) => {
+    setAccounts(
+      accounts.map((acc) =>
+        acc.id === id ? { ...acc, [field]: value } : acc
+      )
+    );
+  };
+
+  const handleSubmit = () => {
+    console.log("Budget data:", { principal, year, budgetType, source, accounts });
+  };
 
   return (
     <InnerPageLayout
       moduleId="financial-affairs"
-      title="إدارة الموازنات"
       moduleTitle="إدارة الشؤون المالية"
+      title="إدارة الموازنات"
     >
       <div className="space-y-6">
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
-            <CardContent className="p-4">
-              <div className="text-sm text-muted-foreground">إجمالي الموازنة</div>
-              <div className="text-2xl font-bold text-primary">
-                {formatCurrency(totalBudget)}
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="text-sm text-muted-foreground">المصروف الفعلي</div>
-              <div className="text-2xl font-bold text-orange-600">
-                {formatCurrency(totalActual)}
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="text-sm text-muted-foreground">المتبقي</div>
-              <div className="text-2xl font-bold text-green-600">
-                {formatCurrency(totalVariance)}
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="text-sm text-muted-foreground">نسبة الاستخدام</div>
-              <div className="text-2xl font-bold text-primary">
-                {utilizationRate.toFixed(1)}%
-              </div>
-              <Progress value={utilizationRate} className="mt-2" />
-            </CardContent>
-          </Card>
+        {/* Header */}
+        <div className="flex items-center gap-3">
+          <div className="bg-primary/10 p-2 rounded-lg">
+            <Wallet className="h-6 w-6 text-primary" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">إدارة الموازنات</h1>
+            <p className="text-muted-foreground">إنشاء وإدارة موازنات الإيرادات والتكاليف</p>
+          </div>
         </div>
 
-        {/* Budget Items Table */}
+        {/* Form Card */}
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5" />
-              بنود الموازنة التشغيلية 2024
-            </CardTitle>
-            <div className="flex items-center gap-2">
-              <div className="relative">
-                <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <CardHeader>
+            <CardTitle>بيانات الموازنة</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Basic Info */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Principal */}
+              <div className="space-y-2">
+                <Label className="text-foreground font-medium">
+                  المعول <span className="text-red-500">*</span>
+                </Label>
                 <Input
-                  placeholder="بحث..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pr-9 w-40"
+                  value={principal}
+                  onChange={(e) => setPrincipal(e.target.value)}
+                  placeholder="أدخل اسم المعول"
                 />
               </div>
-              <Select value={selectedYear} onValueChange={setSelectedYear}>
-                <SelectTrigger className="w-28">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="2024">2024</SelectItem>
-                  <SelectItem value="2023">2023</SelectItem>
-                  <SelectItem value="2022">2022</SelectItem>
-                </SelectContent>
-              </Select>
-              <Button variant="outline" size="icon">
-                <Download className="h-4 w-4" />
-              </Button>
-              <Button className="bg-green-600 hover:bg-green-700">
-                <Plus className="h-4 w-4 ml-2" />
-                إضافة بند
+
+              {/* Year */}
+              <div className="space-y-2">
+                <Label className="text-foreground font-medium">
+                  السنة <span className="text-red-500">*</span>
+                </Label>
+                <Select value={year} onValueChange={setYear}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="اختر السنة" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {years.map((y) => (
+                      <SelectItem key={y} value={y}>
+                        {y}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {/* Budget Type */}
+            <div className="space-y-2">
+              <Label className="text-foreground font-medium">
+                النوع <span className="text-red-500">*</span>
+              </Label>
+              <RadioGroup
+                value={budgetType}
+                onValueChange={setBudgetType}
+                className="flex flex-wrap gap-4"
+              >
+                <div className="flex items-center gap-2">
+                  <RadioGroupItem value="revenue" id="revenue" />
+                  <Label htmlFor="revenue" className="cursor-pointer">موازنة إيرادات</Label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <RadioGroupItem value="costs" id="costs" />
+                  <Label htmlFor="costs" className="cursor-pointer">موازنة تكاليف</Label>
+                </div>
+              </RadioGroup>
+            </div>
+
+            {/* Source */}
+            <div className="space-y-2">
+              <Label className="text-foreground font-medium">المصدر</Label>
+              <RadioGroup
+                value={source}
+                onValueChange={setSource}
+                className="flex flex-wrap gap-4"
+              >
+                <div className="flex items-center gap-2">
+                  <RadioGroupItem value="classifications" id="classifications" />
+                  <Label htmlFor="classifications" className="cursor-pointer">التصنيفات المالية</Label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <RadioGroupItem value="cost-centers" id="cost-centers" />
+                  <Label htmlFor="cost-centers" className="cursor-pointer">مراكز التكلفة</Label>
+                </div>
+              </RadioGroup>
+            </div>
+
+            {/* Budget Accounts Section */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <Label className="text-foreground font-medium text-lg">
+                  حسابات الموازنة <span className="text-red-500">*</span>
+                </Label>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    onClick={handleAddAccount}
+                    className="bg-green-500 hover:bg-green-600 text-white"
+                  >
+                    <Plus className="h-4 w-4 ml-2" />
+                    إضافة حساب
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={handleDeleteAll}
+                    variant="outline"
+                    className="text-blue-600 border-blue-600 hover:bg-blue-50"
+                  >
+                    <Trash2 className="h-4 w-4 ml-2" />
+                    حذف الكل
+                  </Button>
+                </div>
+              </div>
+
+              {/* Warning Alert */}
+              <Alert className="bg-yellow-50 border-yellow-200">
+                <AlertTriangle className="h-4 w-4 text-yellow-600" />
+                <AlertDescription className="text-yellow-800">
+                  يمكنك إضافة حتى 100 حساب من الشجرة
+                </AlertDescription>
+              </Alert>
+
+              {/* Accounts Table */}
+              <div className="border rounded-lg overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/50">
+                      <TableHead className="text-right w-10">×</TableHead>
+                      <TableHead className="text-right">الحساب</TableHead>
+                      <TableHead className="text-right">التوزيع الزمني</TableHead>
+                      <TableHead className="text-right">يناير</TableHead>
+                      <TableHead className="text-right">فبراير</TableHead>
+                      <TableHead className="text-right">مارس</TableHead>
+                      <TableHead className="text-right">أبريل</TableHead>
+                      <TableHead className="text-right">مايو</TableHead>
+                      <TableHead className="text-right">يونيو</TableHead>
+                      <TableHead className="text-right">يوليو</TableHead>
+                      <TableHead className="text-right">أغسطس</TableHead>
+                      <TableHead className="text-right">سبتمبر</TableHead>
+                      <TableHead className="text-right">أكتوبر</TableHead>
+                      <TableHead className="text-right">نوفمبر</TableHead>
+                      <TableHead className="text-right">ديسمبر</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {accounts.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={15} className="text-center py-8 text-muted-foreground">
+                          لا توجد بيانات متوفرة في الجدول
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      accounts.map((account) => (
+                        <TableRow key={account.id}>
+                          <TableCell>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleRemoveAccount(account.id)}
+                              className="text-red-500 hover:text-red-700 hover:bg-red-50 p-1 h-auto"
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </TableCell>
+                          <TableCell>
+                            <Input
+                              value={account.accountName}
+                              onChange={(e) =>
+                                handleAccountChange(account.id, "accountName", e.target.value)
+                              }
+                              placeholder="اسم الحساب"
+                              className="min-w-[150px]"
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <Select
+                              value={account.distribution}
+                              onValueChange={(value) =>
+                                handleAccountChange(account.id, "distribution", value)
+                              }
+                            >
+                              <SelectTrigger className="min-w-[100px]">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="yearly">سنوي</SelectItem>
+                                <SelectItem value="monthly">شهري</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </TableCell>
+                          {["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"].map(
+                            (month) => (
+                              <TableCell key={month}>
+                                <Input
+                                  type="number"
+                                  value={account[month as keyof BudgetAccount] as number}
+                                  onChange={(e) =>
+                                    handleAccountChange(
+                                      account.id,
+                                      month as keyof BudgetAccount,
+                                      parseFloat(e.target.value) || 0
+                                    )
+                                  }
+                                  className="min-w-[80px]"
+                                />
+                              </TableCell>
+                            )
+                          )}
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <div className="flex justify-center pt-4">
+              <Button
+                onClick={handleSubmit}
+                className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 text-lg"
+              >
+                <Plus className="h-5 w-5 ml-2" />
+                إضافة سجل
               </Button>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Records Table */}
+        <Card>
+          <CardHeader>
+            <CardTitle>سجلات الموازنات</CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="text-right">كود الحساب</TableHead>
-                  <TableHead className="text-right">اسم البند</TableHead>
-                  <TableHead className="text-right">المبلغ المعتمد</TableHead>
-                  <TableHead className="text-right">المصروف الفعلي</TableHead>
-                  <TableHead className="text-right">نسبة الاستخدام</TableHead>
-                  <TableHead className="text-right">الفرق</TableHead>
-                  <TableHead className="text-right">الحالة</TableHead>
-                  <TableHead className="text-right">الإجراءات</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {budgetItems.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell className="font-mono font-medium">
-                      {item.accountCode}
-                    </TableCell>
-                    <TableCell>{item.accountName}</TableCell>
-                    <TableCell className="font-mono">
-                      {formatCurrency(item.budgetAmount)}
-                    </TableCell>
-                    <TableCell className="font-mono">
-                      {formatCurrency(item.actualAmount)}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Progress
-                          value={(item.actualAmount / item.budgetAmount) * 100}
-                          className="w-20"
-                        />
-                        <span className="text-sm">
-                          {((item.actualAmount / item.budgetAmount) * 100).toFixed(1)}%
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell
-                      className={`font-mono ${
-                        item.variance < 0 ? "text-green-600" : "text-red-600"
-                      }`}
-                    >
-                      {item.variance < 0 ? "-" : "+"}{formatCurrency(item.variance)}
-                    </TableCell>
-                    <TableCell>{getVarianceIndicator(item.status, item.variance)}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => toast.info("عرض التفاصيل")}
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => toast.info("تعديل البند")}
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-                {/* Totals Row */}
-                <TableRow className="font-bold bg-muted/50 border-t-2">
-                  <TableCell colSpan={2}>المجموع</TableCell>
-                  <TableCell className="font-mono">{formatCurrency(totalBudget)}</TableCell>
-                  <TableCell className="font-mono">{formatCurrency(totalActual)}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Progress value={utilizationRate} className="w-20" />
-                      <span className="text-sm">{utilizationRate.toFixed(1)}%</span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="font-mono text-green-600">
-                    -{formatCurrency(totalVariance)}
-                  </TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+            <div className="text-center py-12 text-muted-foreground">
+              لا توجد بيانات متوفرة في الجدول
+            </div>
           </CardContent>
         </Card>
       </div>
