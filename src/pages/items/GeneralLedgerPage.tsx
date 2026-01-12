@@ -127,9 +127,9 @@ const GeneralLedgerPage = () => {
 
   return (
     <InnerPageLayout
+      moduleId="financial-affairs"
       title="الأستاذ العام"
-      subtitle="إدارة الشؤون المالية"
-      icon={BookOpen}
+      moduleTitle="إدارة الشؤون المالية"
     >
       <div className="space-y-6">
         {/* Filters */}

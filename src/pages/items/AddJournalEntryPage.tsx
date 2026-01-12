@@ -113,9 +113,9 @@ const AddJournalEntryPage = () => {
 
   return (
     <InnerPageLayout
+      moduleId="financial-affairs"
       title="إضافة قيد يومية"
-      subtitle="إدارة الشؤون المالية"
-      icon={Plus}
+      moduleTitle="إدارة الشؤون المالية"
     >
       <div className="space-y-6">
         {/* Entry Header */}

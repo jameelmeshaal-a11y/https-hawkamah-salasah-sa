@@ -118,9 +118,9 @@ const ReviewCashReceiptsPage = () => {
 
   return (
     <InnerPageLayout
+      moduleId="financial-affairs"
       title="مراجعة المقبوضات النقدية"
-      subtitle="إدارة الشؤون المالية"
-      icon={Search}
+      moduleTitle="إدارة الشؤون المالية"
     >
       <div className="space-y-6">
         {/* Stats Cards */}

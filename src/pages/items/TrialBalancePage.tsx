@@ -145,9 +145,9 @@ const TrialBalancePage = () => {
 
   return (
     <InnerPageLayout
+      moduleId="financial-affairs"
       title="ميزان المراجعة"
-      subtitle="إدارة الشؤون المالية"
-      icon={BarChart3}
+      moduleTitle="إدارة الشؤون المالية"
     >
       <div className="space-y-6">
         {/* Filters */}

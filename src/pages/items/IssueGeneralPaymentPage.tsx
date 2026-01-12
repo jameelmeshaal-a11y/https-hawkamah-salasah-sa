@@ -57,9 +57,9 @@ const IssueGeneralPaymentPage = () => {
 
   return (
     <InnerPageLayout
+      moduleId="financial-affairs"
       title="إصدار سند صرف عام"
-      subtitle="إدارة الشؤون المالية"
-      icon={Send}
+      moduleTitle="إدارة الشؤون المالية"
     >
       <div className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
