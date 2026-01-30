@@ -26,7 +26,7 @@ const SidebarSection = ({ title, items, moduleId, onItemClick }: SidebarSectionP
       </div>
 
       {/* Section Items */}
-      <div className="bg-white">
+      <div className="bg-sidebar">
         {items.map((item, index) => (
           <SidebarSubItem
             key={index}
