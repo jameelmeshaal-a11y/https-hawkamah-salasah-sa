@@ -218,6 +218,12 @@ const RevenueGrowthStatisticsPage = lazy(() => import("@/pages/items/RevenueGrow
 const ExpenseChangeStatisticsPage = lazy(() => import("@/pages/items/ExpenseChangeStatisticsPage"));
 const BudgetDeviationReportPage = lazy(() => import("@/pages/items/BudgetDeviationReportPage"));
 const ManageBudgetsPage = lazy(() => import("@/pages/items/ManageBudgetsPage"));
+const ManageBankAccountsPage = lazy(() => import("@/pages/items/ManageBankAccountsPage"));
+const ManageCostCentersPage = lazy(() => import("@/pages/items/ManageCostCentersPage"));
+const AddJournalEntryPage = lazy(() => import("@/pages/items/AddJournalEntryPage"));
+const CollectGeneralDonationPage = lazy(() => import("@/pages/items/CollectGeneralDonationPage"));
+const IssueGeneralReceiptPage = lazy(() => import("@/pages/items/IssueGeneralReceiptPage"));
+const IssueGeneralPaymentPage = lazy(() => import("@/pages/items/IssueGeneralPaymentPage"));
 
 // Rehabilitation Projects Management pages
 const RehabilitationProjectsReportsPage = lazy(() => import("@/pages/items/RehabilitationProjectsReportsPage"));
@@ -496,7 +502,14 @@ export const itemPages: Record<string, React.ComponentType> = {
   "revenue-growth-statistics": RevenueGrowthStatisticsPage,
   "expense-change-statistics": ExpenseChangeStatisticsPage,
   "budget-deviation-report": BudgetDeviationReportPage,
+  "budget-variance-report": BudgetDeviationReportPage,
   "manage-budgets": ManageBudgetsPage,
+  "manage-bank-accounts": ManageBankAccountsPage,
+  "manage-cost-centers": ManageCostCentersPage,
+  "add-journal-entry": AddJournalEntryPage,
+  "collect-general-donation": CollectGeneralDonationPage,
+  "issue-general-receipt": IssueGeneralReceiptPage,
+  "issue-general-payment": IssueGeneralPaymentPage,
   // Rehabilitation Projects Management
   "rehabilitation-projects-reports": RehabilitationProjectsReportsPage,
   "installments-database": InstallmentsDatabasePage,
