@@ -14,14 +14,14 @@ const SidebarSubItem = ({ title, icon: Icon, moduleId, slug, onClick }: SidebarS
   const itemPath = slug && moduleId ? `/module/${moduleId}/${slug}` : null;
   const isActive = itemPath && location.pathname === itemPath;
 
-  const baseClasses = "w-full flex items-center gap-3 px-4 py-2.5 text-right transition-all duration-200 border-b border-border/10";
+  const baseClasses = "w-full flex items-center gap-3 px-4 py-2.5 text-right transition-all duration-200 border-b border-sidebar-foreground/10";
   const activeClasses = isActive 
-    ? "bg-primary/15 text-primary font-medium" 
-    : "text-foreground hover:bg-muted/50";
+    ? "bg-sidebar-active text-sidebar-foreground font-medium" 
+    : "text-sidebar-foreground hover:bg-sidebar-hover";
 
   const content = (
     <>
-      <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-primary" : "text-primary/70"}`} />
+      <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-sidebar-foreground" : "text-sidebar-foreground/70"}`} />
       <span className={`text-xs ${isActive ? "font-medium" : ""}`}>{title}</span>
     </>
   );
@@ -44,7 +44,7 @@ const SidebarSubItem = ({ title, icon: Icon, moduleId, slug, onClick }: SidebarS
     <button
       onClick={onClick}
       dir="rtl"
-      className={`${baseClasses} text-foreground hover:bg-muted/50`}
+      className={`${baseClasses} text-sidebar-foreground hover:bg-sidebar-hover`}
     >
       {content}
     </button>

@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { PieChart } from "lucide-react";
+import { PieChart, FileText, FileSpreadsheet } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useState } from "react";
 import {
@@ -13,9 +13,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "sonner";
 
 const ProfitsDistributionReportPage = () => {
   const [confineTransactions, setConfineTransactions] = useState(false);
+  const [selectedYear, setSelectedYear] = useState<string>("");
+  const [showReport, setShowReport] = useState(false);
   const currentYear = new Date().getFullYear();
   const years = [currentYear - 2, currentYear - 1, currentYear, currentYear + 1];
 
@@ -27,6 +30,27 @@ const ProfitsDistributionReportPage = () => {
     { key: "profitValue", label: "قيمة الأرباح" },
   ];
 
+  const handleShowReport = () => {
+    if (!selectedYear) {
+      toast.error("يرجى اختيار السنة أولاً");
+      return;
+    }
+    setShowReport(true);
+    toast.success("تم تحميل التقرير");
+  };
+
+  const handleExportPDF = () => {
+    toast.success("جاري تصدير ملف PDF...");
+    // Simulate export
+    setTimeout(() => toast.success("تم تصدير ملف PDF بنجاح"), 1000);
+  };
+
+  const handleExportExcel = () => {
+    toast.success("جاري تصدير ملف Excel...");
+    // Simulate export
+    setTimeout(() => toast.success("تم تصدير ملف Excel بنجاح"), 1000);
+  };
+
   return (
     <InnerPageLayout
       moduleId="members"
@@ -35,11 +59,33 @@ const ProfitsDistributionReportPage = () => {
     >
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-emerald-100 rounded-lg">
-            <PieChart className="h-6 w-6 text-emerald-600" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-emerald-100 rounded-lg">
+              <PieChart className="h-6 w-6 text-emerald-600" />
+            </div>
+            <h1 className="text-xl font-bold">تقرير توزيع الأرباح</h1>
           </div>
-          <h1 className="text-xl font-bold">تقرير توزيع الأرباح</h1>
+          
+          {/* Export Buttons */}
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              onClick={handleExportExcel}
+              className="bg-green-500 hover:bg-green-600 text-white"
+            >
+              <FileSpreadsheet className="h-4 w-4 ml-2" />
+              تصدير Excel
+            </Button>
+            <Button
+              type="button"
+              onClick={handleExportPDF}
+              className="bg-red-500 hover:bg-red-600 text-white"
+            >
+              <FileText className="h-4 w-4 ml-2" />
+              تصدير PDF
+            </Button>
+          </div>
         </div>
 
         {/* Filter Form */}
@@ -48,9 +94,9 @@ const ProfitsDistributionReportPage = () => {
             {/* Year Field */}
             <div className="space-y-2">
               <Label>السنة *</Label>
-              <Select defaultValue={currentYear.toString()}>
+              <Select value={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger className="w-full">
-                  <SelectValue />
+                  <SelectValue placeholder="اختر السنة" />
                 </SelectTrigger>
                 <SelectContent>
                   {years.map((year) => (
@@ -81,7 +127,10 @@ const ProfitsDistributionReportPage = () => {
         {/* Display Report Button */}
         <Card>
           <CardContent className="pt-6">
-            <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
+            <Button 
+              onClick={handleShowReport}
+              className="w-full bg-emerald-600 hover:bg-emerald-700"
+            >
               عرض التقرير
             </Button>
           </CardContent>
@@ -102,11 +151,19 @@ const ProfitsDistributionReportPage = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow>
-                    <TableCell colSpan={columns.length} className="text-center py-8 text-muted-foreground">
-                      اختر السنة ثم اضغط عرض التقرير
-                    </TableCell>
-                  </TableRow>
+                  {showReport ? (
+                    <TableRow>
+                      <TableCell colSpan={columns.length} className="text-center py-8 text-muted-foreground">
+                        لا توجد بيانات للسنة المحددة
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={columns.length} className="text-center py-8 text-muted-foreground">
+                        اختر السنة ثم اضغط عرض التقرير
+                      </TableCell>
+                    </TableRow>
+                  )}
                 </TableBody>
               </Table>
             </div>
