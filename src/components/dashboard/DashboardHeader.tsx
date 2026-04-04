@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import AddPostBar from "@/components/shared/AddPostBar";
 import TasksPopover from "@/components/dashboard/TasksPopover";
+import AdminNavMenu from "@/components/dashboard/AdminNavMenu";
 import salasahLogo from "@/assets/salasah-logo.jpeg";
 
 interface DashboardHeaderProps {
