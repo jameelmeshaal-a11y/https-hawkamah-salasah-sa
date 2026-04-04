@@ -1,4 +1,5 @@
 import { FileX, LucideIcon } from "lucide-react";
+import { TableRow, TableCell } from "@/components/ui/table";
 
 export interface EmptyStateProps {
   message?: string;
@@ -23,7 +24,6 @@ const EmptyState = ({
   );
 
   if (asTableRow) {
-    const { TableRow, TableCell } = require("@/components/ui/table");
     return (
       <TableRow>
         <TableCell colSpan={colSpan} className="h-32">
