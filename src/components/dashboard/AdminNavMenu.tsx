@@ -23,7 +23,7 @@ const AdminNavMenu = () => {
           <span className="hidden sm:inline text-sm">{profile?.full_name || "مستخدم"}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent dir="rtl" align="start" className="w-56">
+      <DropdownMenuContent align="start" className="w-56">
         {isAdmin && (
           <>
             <DropdownMenuItem asChild>
