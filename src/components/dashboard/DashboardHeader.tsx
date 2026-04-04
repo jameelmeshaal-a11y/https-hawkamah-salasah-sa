@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import AddPostBar from "@/components/shared/AddPostBar";
 import TasksPopover from "@/components/dashboard/TasksPopover";
+import AdminNavMenu from "@/components/dashboard/AdminNavMenu";
 import salasahLogo from "@/assets/salasah-logo.jpeg";
 
 interface DashboardHeaderProps {
@@ -57,24 +58,7 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
             <Globe className="h-4 w-4" />
           </Button>
           
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-header-foreground hover:bg-sidebar-hover gap-2 rounded-full px-3">
-                <div className="text-right hidden sm:block">
-                  <div className="text-sm leading-tight">مدير النظام التقني</div>
-                  <div className="text-xs opacity-60 leading-tight">مدير النظام التقني</div>
-                </div>
-                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                  <User className="h-4 w-4 text-muted-foreground" />
-                </div>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              <DropdownMenuItem>الملف الشخصي</DropdownMenuItem>
-              <DropdownMenuItem>الإعدادات</DropdownMenuItem>
-              <DropdownMenuItem>تسجيل الخروج</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <AdminNavMenu />
 
           <Button
             variant="ghost"
