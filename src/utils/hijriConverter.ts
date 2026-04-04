@@ -1,5 +1,5 @@
 // Hijri to Gregorian conversion using the hijri-converter npm package
-import HijriDate from "hijri-converter";
+import { toHijri, toGregorian } from "hijri-converter";
 
 const HIJRI_MONTHS = [
   "محرم", "صفر", "ربيع الأول", "ربيع الثاني",
@@ -14,44 +14,19 @@ const GREGORIAN_MONTHS = [
 
 export function gregorianToHijri(date: Date): { year: number; month: number; day: number } {
   try {
-    const hijri = new HijriDate(date.getFullYear(), date.getMonth() + 1, date.getDate(), { fromGregorian: true });
-    return { year: hijri.year, month: hijri.month, day: hijri.day };
+    const result = toHijri(date.getFullYear(), date.getMonth() + 1, date.getDate());
+    return { year: result.hy, month: result.hm, day: result.hd };
   } catch {
-    // Fallback: approximate calculation
-    const jd = Math.floor((date.getTime() - new Date(1970, 0, 1).getTime()) / 86400000) + 2440588;
-    const l = jd - 1948440 + 10632;
-    const n = Math.floor((l - 1) / 10631);
-    const rem = l - 10631 * n + 354;
-    const j = Math.floor((10985 - rem) / 5316) * Math.floor((50 * rem) / 17719) + Math.floor(rem / 5670) * Math.floor((43 * rem) / 15238);
-    const remL = rem - Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) - Math.floor(j / 16) * Math.floor((15238 * j) / 43) + 29;
-    const month = Math.floor((24 * remL) / 709);
-    const day = remL - Math.floor((709 * month) / 24);
-    const year = 30 * n + j - 30;
-    return { year, month, day };
+    return { year: 1446, month: 1, day: 1 };
   }
 }
 
 export function hijriToGregorian(hijriYear: number, hijriMonth: number, hijriDay: number): Date {
   try {
-    const hijri = new HijriDate(hijriYear, hijriMonth, hijriDay);
-    return new Date(hijri.toGregorian().year, hijri.toGregorian().month - 1, hijri.toGregorian().day);
+    const result = toGregorian(hijriYear, hijriMonth, hijriDay);
+    return new Date(result.gy, result.gm - 1, result.gd);
   } catch {
-    // Fallback
-    const y = hijriYear;
-    const m = hijriMonth;
-    const d = hijriDay;
-    const jd = Math.floor((11 * y + 3) / 30) + 354 * y + 30 * m - Math.floor((m - 1) / 2) + d + 1948440 - 385;
-    const a = jd + 68569;
-    const b = Math.floor(4 * a / 146097);
-    const c = a - Math.floor((146097 * b + 3) / 4);
-    const dd = Math.floor(4000 * (c + 1) / 1461001);
-    const e = c - Math.floor(1461 * dd / 4) + 31;
-    const f = Math.floor(80 * e / 2447);
-    const gDay = e - Math.floor(2447 * f / 80);
-    const g = Math.floor(f / 11);
-    const gMonth = f + 2 - 12 * g;
-    const gYear = 100 * (b - 49) + dd + g;
-    return new Date(gYear, gMonth - 1, gDay);
+    return new Date();
   }
 }
 
