@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const WelcomeCards = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const { profile } = useAuth();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -33,7 +35,7 @@ const WelcomeCards = () => {
 
   return (
     <div dir="ltr" className="flex gap-4 mb-6">
-      {/* LEFT Card - Date & Time (Light/Gray) */}
+      {/* LEFT Card - Date & Time */}
       <div className="flex-1 bg-card text-foreground py-6 px-8 text-center rounded-lg shadow-lg border border-border">
         <div className="text-sm text-muted-foreground mb-1">تاريخ اليوم</div>
         <div className="text-base font-medium mb-4">{formatFullDate(currentTime)}</div>
@@ -41,11 +43,11 @@ const WelcomeCards = () => {
         <div className="text-4xl font-bold tracking-wider">{formatTime(currentTime)}</div>
       </div>
 
-      {/* RIGHT Card - Welcome Only (Dark Teal) */}
+      {/* RIGHT Card - Welcome */}
       <div className="bg-primary text-primary-foreground py-6 px-8 flex items-center justify-center min-w-[250px] rounded-lg shadow-lg">
         <div className="text-center">
           <div className="text-sm opacity-80 mb-1">مرحبا بك</div>
-          <div className="text-xl font-bold">مدير النظام التقني</div>
+          <div className="text-xl font-bold">{profile?.full_name || "مدير النظام"}</div>
         </div>
       </div>
     </div>

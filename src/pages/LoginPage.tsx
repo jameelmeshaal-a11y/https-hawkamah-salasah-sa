@@ -39,7 +39,7 @@ const LoginPage = () => {
           <div className="mx-auto w-20 h-20 bg-primary rounded-2xl flex items-center justify-center">
             <Lock className="h-10 w-10 text-primary-foreground" />
           </div>
-          <CardTitle className="text-2xl font-bold text-foreground">نظام سلاسة</CardTitle>
+          <CardTitle className="text-2xl font-bold text-foreground">نظام حوكمة</CardTitle>
           <p className="text-muted-foreground text-sm">تسجيل الدخول إلى لوحة التحكم</p>
         </CardHeader>
         <CardContent>
@@ -52,7 +52,7 @@ const LoginPage = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@salasa.sa"
+                  placeholder="admin@hawkama.sa"
                   className="pr-10"
                   autoComplete="email"
                 />
