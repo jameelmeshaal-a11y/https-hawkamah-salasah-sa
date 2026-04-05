@@ -88,7 +88,7 @@ function generatePDFFromData(reportData: { data: any[]; columns: string[]; repor
         <thead><tr><th>${headers.join("</th><th>")}</th></tr></thead>
         <tbody>${rows.map((r) => `<tr><td>${r}</td></tr>`).join("")}</tbody>
       </table>
-      <div class="footer">نظام سلاسة الإلكتروني - ${new Date().getFullYear()}</div>
+      <div class="footer">نظام حوكمة - ${new Date().getFullYear()}</div>
       <script>window.print();</script>
     </body>
     </html>

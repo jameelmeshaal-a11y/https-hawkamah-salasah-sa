@@ -111,6 +111,235 @@ export type Database = {
           },
         ]
       }
+      board_members: {
+        Row: {
+          appointment_date: string | null
+          created_at: string
+          email: string | null
+          end_date: string | null
+          full_name: string
+          id: string
+          national_id_hash: string | null
+          notes: string | null
+          org_id: string | null
+          phone: string | null
+          position: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          appointment_date?: string | null
+          created_at?: string
+          email?: string | null
+          end_date?: string | null
+          full_name: string
+          id?: string
+          national_id_hash?: string | null
+          notes?: string | null
+          org_id?: string | null
+          phone?: string | null
+          position?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          appointment_date?: string | null
+          created_at?: string
+          email?: string | null
+          end_date?: string | null
+          full_name?: string
+          id?: string
+          national_id_hash?: string | null
+          notes?: string | null
+          org_id?: string | null
+          phone?: string | null
+          position?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "board_members_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      decisions: {
+        Row: {
+          created_at: string
+          decision_number: string
+          description: string | null
+          execution_date: string | null
+          id: string
+          meeting_id: string | null
+          org_id: string | null
+          responsible_person: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          decision_number: string
+          description?: string | null
+          execution_date?: string | null
+          id?: string
+          meeting_id?: string | null
+          org_id?: string | null
+          responsible_person?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          decision_number?: string
+          description?: string | null
+          execution_date?: string | null
+          id?: string
+          meeting_id?: string | null
+          org_id?: string | null
+          responsible_person?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "decisions_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "decisions_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      donations: {
+        Row: {
+          amount: number
+          created_at: string
+          donation_date: string
+          donor_id: string | null
+          hijri_date: string | null
+          id: string
+          notes: string | null
+          org_id: string | null
+          payment_method: string | null
+          purpose: string | null
+          receipt_number: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          donation_date?: string
+          donor_id?: string | null
+          hijri_date?: string | null
+          id?: string
+          notes?: string | null
+          org_id?: string | null
+          payment_method?: string | null
+          purpose?: string | null
+          receipt_number?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          donation_date?: string
+          donor_id?: string | null
+          hijri_date?: string | null
+          id?: string
+          notes?: string | null
+          org_id?: string | null
+          payment_method?: string | null
+          purpose?: string | null
+          receipt_number?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "donations_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "donations_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      donors: {
+        Row: {
+          city: string | null
+          created_at: string
+          donor_type: string
+          email: string | null
+          full_name: string
+          id: string
+          notes: string | null
+          org_id: string | null
+          phone: string | null
+          status: string
+          total_donations: number | null
+          updated_at: string
+        }
+        Insert: {
+          city?: string | null
+          created_at?: string
+          donor_type?: string
+          email?: string | null
+          full_name: string
+          id?: string
+          notes?: string | null
+          org_id?: string | null
+          phone?: string | null
+          status?: string
+          total_donations?: number | null
+          updated_at?: string
+        }
+        Update: {
+          city?: string | null
+          created_at?: string
+          donor_type?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          notes?: string | null
+          org_id?: string | null
+          phone?: string | null
+          status?: string
+          total_donations?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "donors_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       financial_accounts: {
         Row: {
           balance: number | null
@@ -161,6 +390,59 @@ export type Database = {
             columns: ["parent_id"]
             isOneToOne: false
             referencedRelation: "financial_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      grants: {
+        Row: {
+          amount: number
+          conditions: string | null
+          created_at: string
+          description: string | null
+          end_date: string | null
+          grantor: string
+          id: string
+          org_id: string | null
+          program_name: string
+          start_date: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          conditions?: string | null
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          grantor: string
+          id?: string
+          org_id?: string | null
+          program_name: string
+          start_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          conditions?: string | null
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          grantor?: string
+          id?: string
+          org_id?: string | null
+          program_name?: string
+          start_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "grants_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -262,6 +544,65 @@ export type Database = {
             columns: ["journal_entry_id"]
             isOneToOne: false
             referencedRelation: "journal_entries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meetings: {
+        Row: {
+          agenda: string | null
+          attendees_count: number | null
+          created_at: string
+          created_by: string | null
+          hijri_date: string | null
+          id: string
+          location: string | null
+          meeting_date: string
+          meeting_type: string
+          minutes: string | null
+          org_id: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          agenda?: string | null
+          attendees_count?: number | null
+          created_at?: string
+          created_by?: string | null
+          hijri_date?: string | null
+          id?: string
+          location?: string | null
+          meeting_date: string
+          meeting_type?: string
+          minutes?: string | null
+          org_id?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          agenda?: string | null
+          attendees_count?: number | null
+          created_at?: string
+          created_by?: string | null
+          hijri_date?: string | null
+          id?: string
+          location?: string | null
+          meeting_date?: string
+          meeting_type?: string
+          minutes?: string | null
+          org_id?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meetings_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -496,6 +837,68 @@ export type Database = {
           },
         ]
       }
+      requests: {
+        Row: {
+          assigned_to: string | null
+          attachments: Json | null
+          created_at: string
+          description: string | null
+          hijri_date: string | null
+          id: string
+          notes: string | null
+          org_id: string | null
+          priority: string
+          request_type: string
+          status: string
+          submitter_id: string | null
+          submitter_name: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          attachments?: Json | null
+          created_at?: string
+          description?: string | null
+          hijri_date?: string | null
+          id?: string
+          notes?: string | null
+          org_id?: string | null
+          priority?: string
+          request_type: string
+          status?: string
+          submitter_id?: string | null
+          submitter_name?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          attachments?: Json | null
+          created_at?: string
+          description?: string | null
+          hijri_date?: string | null
+          id?: string
+          notes?: string | null
+          org_id?: string | null
+          priority?: string
+          request_type?: string
+          status?: string
+          submitter_id?: string | null
+          submitter_name?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "requests_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       role_permissions: {
         Row: {
           granted_at: string
@@ -602,6 +1005,62 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      volunteers: {
+        Row: {
+          city: string | null
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          join_date: string | null
+          notes: string | null
+          org_id: string | null
+          phone: string | null
+          skills: string | null
+          status: string
+          updated_at: string
+          volunteer_hours: number | null
+        }
+        Insert: {
+          city?: string | null
+          created_at?: string
+          email?: string | null
+          full_name: string
+          id?: string
+          join_date?: string | null
+          notes?: string | null
+          org_id?: string | null
+          phone?: string | null
+          skills?: string | null
+          status?: string
+          updated_at?: string
+          volunteer_hours?: number | null
+        }
+        Update: {
+          city?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          join_date?: string | null
+          notes?: string | null
+          org_id?: string | null
+          phone?: string | null
+          skills?: string | null
+          status?: string
+          updated_at?: string
+          volunteer_hours?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "volunteers_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

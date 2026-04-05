@@ -1,34 +1,24 @@
-import { Bell, Globe, User, ChevronDown, Menu, Search } from "lucide-react";
+import { Bell, Globe, Menu, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import AddPostBar from "@/components/shared/AddPostBar";
 import TasksPopover from "@/components/dashboard/TasksPopover";
 import AdminNavMenu from "@/components/dashboard/AdminNavMenu";
-import salasahLogo from "@/assets/salasah-logo.jpeg";
 
 interface DashboardHeaderProps {
   onMenuToggle: () => void;
 }
 
 const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
-
   return (
     <header className="bg-header text-header-foreground">
-      {/* Top Bar */}
       <div className="flex items-center justify-between px-4 py-2">
-        {/* Right side - Brand with Logo */}
+        {/* Right side - Brand */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-accent rounded-lg overflow-hidden flex-shrink-0">
-            <img src={salasahLogo} alt="سلاسة" className="w-full h-full object-cover" />
+          <div className="w-10 h-10 bg-primary-foreground/20 rounded-lg flex items-center justify-center flex-shrink-0">
+            <span className="text-lg font-bold">ح</span>
           </div>
           <div className="text-right">
-            <div className="text-sm font-bold">سلاسة لأنظمة وحوكمة القطاع غير الربحي</div>
-            <div className="text-xs opacity-70">نظام سلاسة الإلكتروني</div>
+            <div className="text-sm font-bold">نظام حوكمة</div>
+            <div className="text-xs opacity-70">منصة حوكمة القطاع غير الربحي</div>
           </div>
         </div>
 
@@ -42,8 +32,6 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
             />
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-header-foreground/60" />
           </div>
-
-          <AddPostBar />
 
           <TasksPopover />
 

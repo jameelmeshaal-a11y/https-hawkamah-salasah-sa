@@ -90,7 +90,7 @@ const InnerPageLayout = ({
 
           {/* Footer */}
           <footer className="bg-muted/30 border-t border-border py-3 px-4 text-center text-sm text-muted-foreground">
-            جميع الحقوق محفوظة © {new Date().getFullYear()} - نظام سلاسة
+            جميع الحقوق محفوظة © {new Date().getFullYear()} - نظام حوكمة
           </footer>
         </div>
       </div>

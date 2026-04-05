@@ -38,10 +38,7 @@ const Index = () => {
             {/* Footer */}
             <footer className="text-center py-6 mt-8 border-t border-border">
               <p className="text-sm text-muted-foreground">
-                جميع الحقوق محفوظة © نظام سلاسة الإلكتروني ٢٠٢٥
-              </p>
-              <p className="text-xs text-muted-foreground/60 mt-1">
-                تصميم و تطوير الفريق التقنية للنظام
+                جميع الحقوق محفوظة © نظام حوكمة {new Date().getFullYear()}
               </p>
             </footer>
           </main>
