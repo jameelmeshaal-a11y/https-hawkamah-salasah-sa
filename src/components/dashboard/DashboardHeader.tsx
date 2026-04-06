@@ -1,7 +1,8 @@
-import { Bell, Globe, Menu, Search } from "lucide-react";
+import { Globe, Menu, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import TasksPopover from "@/components/dashboard/TasksPopover";
 import AdminNavMenu from "@/components/dashboard/AdminNavMenu";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
 
 interface DashboardHeaderProps {
   onMenuToggle: () => void;
@@ -35,11 +36,7 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
 
           <TasksPopover />
 
-          <Button variant="ghost" size="sm" className="text-header-foreground hover:bg-sidebar-hover gap-2 rounded-full px-3 relative">
-            <span className="text-sm">التنبيهات</span>
-            <Bell className="h-4 w-4" />
-            <span className="bg-green-500 text-white text-xs px-1.5 py-0.5 rounded font-bold min-w-[32px]">155</span>
-          </Button>
+          <NotificationBell />
 
           <Button variant="ghost" size="sm" className="text-header-foreground hover:bg-sidebar-hover gap-2 rounded-full px-3">
             <span className="text-sm hidden md:inline">الموقع الإلكتروني</span>
