@@ -1,109 +1,89 @@
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
-import RequestForm, { RequestField } from "@/components/requests/RequestForm";
-import RequestsTable, { RequestRecord } from "@/components/requests/RequestsTable";
-import { Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Plus, Eye, Trash2, Users } from "lucide-react";
 import { useState } from "react";
+import { useRequests } from "@/hooks/useRequests";
+import { AddRequestDialog } from "@/components/dialogs/AddRequestDialog";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
-const volunteerFields: RequestField[] = [
-  {
-    name: "title",
-    label: "عنوان الطلب",
-    type: "text",
-    placeholder: "أدخل عنوان الطلب",
-    required: true,
-  },
-  {
-    name: "classification",
-    label: "التصنيف",
-    type: "select",
-    options: [
-      { value: "charity", label: "خيري" },
-      { value: "educational", label: "تعليمي" },
-      { value: "health", label: "صحي" },
-      { value: "social", label: "اجتماعي" },
-      { value: "environmental", label: "بيئي" },
-    ],
-    required: true,
-  },
-  {
-    name: "location",
-    label: "المكان",
-    type: "text",
-    placeholder: "موقع النشاط",
-    required: true,
-  },
-  {
-    name: "membersCount",
-    label: "العدد المطلوب",
-    type: "number",
-    placeholder: "العدد المطلوب من المتطوعين",
-    required: true,
-  },
-  {
-    name: "startDate",
-    label: "تاريخ البداية",
-    type: "date",
-    required: true,
-  },
-  {
-    name: "endDate",
-    label: "تاريخ الإنتهاء",
-    type: "date",
-    required: true,
-  },
-  {
-    name: "certificates",
-    label: "الشهادات المطلوبة",
-    type: "text",
-    placeholder: "الشهادات المطلوبة للمتطوعين",
-  },
-  {
-    name: "qualifications",
-    label: "المؤهلات المطلوبة",
-    type: "text",
-    placeholder: "المؤهلات والخبرات المطلوبة",
-  },
-  {
-    name: "details",
-    label: "تفاصيل المهمة",
-    type: "textarea",
-    placeholder: "أدخل تفاصيل المهمة التطوعية...",
-    colSpan: 2,
-    required: true,
-  },
-];
+const statusLabels: Record<string, string> = {
+  pending: 'قيد الاعتماد', approved: 'معتمد', rejected: 'مرفوض', completed: 'مكتمل',
+};
 
 const VolunteerGroupRequestPage = () => {
-  const [requests] = useState<RequestRecord[]>([]);
+  const { requests, loading, addRequest, deleteRequest } = useRequests('مجموعة تطوعية');
+  const [showAdd, setShowAdd] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   return (
-    <InnerPageLayout
-      moduleId="office"
-      moduleTitle="المكتب الإلكتروني"
-      sectionTitle="الطلبات الإدارية"
-      title="تقديم طلب مجموعة تطوعية"
-    >
+    <InnerPageLayout moduleId="office" moduleTitle="المكتب الإلكتروني" sectionTitle="الطلبات الإدارية" title="طلبات مجموعات تطوعية">
       <div className="space-y-6">
-        <div className="flex items-center gap-2">
-          <Users className="h-5 w-5 text-primary" />
-          <h2 className="text-xl font-semibold text-foreground">تقديم طلب مجموعة تطوعية</h2>
-        </div>
-
-        <RequestForm 
-          title="نموذج طلب مجموعة تطوعية"
-          fields={volunteerFields}
-          submitLabel="تقديم الطلب"
-        />
-
-        <div className="space-y-4">
-          <h3 className="text-lg font-medium text-foreground">الطلبات السابقة</h3>
-          <RequestsTable 
-            requests={requests}
-            emptyMessage="لا توجد طلبات مجموعات تطوعية سابقة"
-            emptyIcon={Users}
-          />
-        </div>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle className="flex items-center gap-2"><Users className="h-5 w-5 text-primary" /> طلبات مجموعات تطوعية</CardTitle>
+            <Button onClick={() => setShowAdd(true)} className="gap-2 bg-green-600 hover:bg-green-700">
+              <Plus className="h-4 w-4" /> تقديم طلب
+            </Button>
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <div className="text-center py-8 text-muted-foreground">جارٍ التحميل...</div>
+            ) : (
+              <div className="border rounded-lg overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/50">
+                      <TableHead className="text-right">الإجراءات</TableHead>
+                      <TableHead className="text-right">العنوان</TableHead>
+                      <TableHead className="text-right">مقدم الطلب</TableHead>
+                      <TableHead className="text-right">الأولوية</TableHead>
+                      <TableHead className="text-right">الحالة</TableHead>
+                      <TableHead className="text-right">التاريخ</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {requests.length === 0 ? (
+                      <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">لا توجد طلبات</TableCell></TableRow>
+                    ) : requests.map(r => (
+                      <TableRow key={r.id}>
+                        <TableCell>
+                          <div className="flex gap-1">
+                            <Button variant="ghost" size="sm"><Eye className="h-4 w-4" /></Button>
+                            <Button variant="ghost" size="sm" className="text-destructive" onClick={() => setDeleteId(r.id)}><Trash2 className="h-4 w-4" /></Button>
+                          </div>
+                        </TableCell>
+                        <TableCell className="font-medium">{r.title}</TableCell>
+                        <TableCell>{r.submitter_name || '-'}</TableCell>
+                        <TableCell><Badge variant="outline">{r.priority}</Badge></TableCell>
+                        <TableCell><Badge>{statusLabels[r.status] || r.status}</Badge></TableCell>
+                        <TableCell className="text-muted-foreground">{new Date(r.created_at).toLocaleDateString('ar-SA')}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
+
+      <AddRequestDialog open={showAdd} onClose={() => setShowAdd(false)} onSubmit={addRequest} requestType="مجموعة تطوعية" dialogTitle="طلب مجموعة تطوعية" />
+
+      <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+        <AlertDialogContent dir="rtl">
+          <AlertDialogHeader><AlertDialogTitle>تأكيد الحذف</AlertDialogTitle><AlertDialogDescription>هل أنت متأكد؟</AlertDialogDescription></AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>إلغاء</AlertDialogCancel>
+            <AlertDialogAction onClick={() => { if (deleteId) { deleteRequest(deleteId); setDeleteId(null); } }} className="bg-destructive text-destructive-foreground">حذف</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </InnerPageLayout>
   );
 };
