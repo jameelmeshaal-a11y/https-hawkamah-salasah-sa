@@ -1,147 +1,79 @@
 import { useState } from "react";
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import AdvancedTable, { TableColumn, TableAction } from "@/components/shared/AdvancedTable";
 import StatCard from "@/components/shared/StatCard";
-import { Users, Heart, DollarSign, TrendingUp } from "lucide-react";
-import { toast } from "sonner";
+import { Users, Heart, DollarSign, TrendingUp, Plus } from "lucide-react";
+import { useDonors } from "@/hooks/useDonors";
+import { AddDonorDialog } from "@/components/dialogs/AddDonorDialog";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
-interface Sponsor {
-  id: number;
-  sponsorNumber: string;
-  name: string;
-  nationalId: string;
-  phone: string;
-  email: string;
-  sponsorshipsCount: number;
-  totalMonthly: number;
-  totalPaid: number;
-  joinDate: string;
-  status: string;
-}
+const donorTypeLabels: Record<string, string> = { individual: 'فرد', company: 'شركة', government: 'حكومي', international: 'دولي' };
 
 const SponsorsListPage = () => {
-  const [records] = useState<Sponsor[]>([
-    {
-      id: 1,
-      sponsorNumber: "SPR-001",
-      name: "محمد عبدالله الراشد",
-      nationalId: "1098765432",
-      phone: "0501234567",
-      email: "mohammed@email.com",
-      sponsorshipsCount: 3,
-      totalMonthly: 1500,
-      totalPaid: 45000,
-      joinDate: "2022-01-15",
-      status: "نشط",
-    },
-    {
-      id: 2,
-      sponsorNumber: "SPR-002",
-      name: "فهد سعود المطيري",
-      nationalId: "1087654321",
-      phone: "0559876543",
-      email: "fahad@email.com",
-      sponsorshipsCount: 2,
-      totalMonthly: 1000,
-      totalPaid: 24000,
-      joinDate: "2023-03-20",
-      status: "نشط",
-    },
-    {
-      id: 3,
-      sponsorNumber: "SPR-003",
-      name: "عبدالرحمن خالد السبيعي",
-      nationalId: "1076543210",
-      phone: "0541122334",
-      email: "abdulrahman@email.com",
-      sponsorshipsCount: 1,
-      totalMonthly: 750,
-      totalPaid: 9000,
-      joinDate: "2023-09-01",
-      status: "متوقف",
-    },
-  ]);
+  const { donors, loading, addDonor, deleteDonor } = useDonors();
+  const [showAdd, setShowAdd] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const columns: TableColumn[] = [
-    { key: "sponsorNumber", label: "رقم الكفيل", type: "link" },
-    { key: "name", label: "اسم الكفيل" },
-    { key: "nationalId", label: "رقم الهوية" },
+    { key: "full_name", label: "اسم المتبرع" },
+    { key: "donor_type", label: "النوع" },
     { key: "phone", label: "الجوال" },
     { key: "email", label: "البريد الإلكتروني" },
-    { key: "sponsorshipsCount", label: "عدد الكفالات", type: "number" },
-    { key: "totalMonthly", label: "المبلغ الشهري", type: "number" },
-    { key: "totalPaid", label: "إجمالي المدفوع", type: "number" },
-    { key: "joinDate", label: "تاريخ الانضمام", type: "date" },
+    { key: "city", label: "المدينة" },
+    { key: "total_donations", label: "إجمالي التبرعات", type: "number" },
     { key: "status", label: "الحالة", type: "status" },
   ];
 
+  const mappedData = donors.map(d => ({
+    ...d,
+    donor_type: donorTypeLabels[d.donor_type] || d.donor_type,
+  }));
+
   const actions: TableAction[] = [
-    {
-      icon: "view",
-      onClick: (row) => toast.info(`عرض ملف الكفيل: ${row.name}`),
-    },
-    {
-      icon: "edit",
-      onClick: (row) => toast.info(`تعديل بيانات: ${row.name}`),
-    },
+    { icon: "view", onClick: () => {} },
+    { icon: "edit", onClick: () => {} },
+    { icon: "delete", onClick: (row) => setDeleteId(row.id as string) },
   ];
 
-  const totalSponsors = records.length;
-  const activeSponsors = records.filter((r) => r.status === "نشط").length;
-  const totalMonthlyAmount = records.reduce((sum, r) => sum + r.totalMonthly, 0);
-  const totalPaidAmount = records.reduce((sum, r) => sum + r.totalPaid, 0);
+  const totalDonations = donors.reduce((sum, d) => sum + (d.total_donations || 0), 0);
 
   return (
-    <InnerPageLayout
-      moduleId="financial-resources"
-      title="قائمة الكفلاء"
-      sectionTitle="إدارة الكفالات"
-      moduleTitle="إدارة الموارد المالية"
-    >
+    <InnerPageLayout moduleId="financial-resources" title="قائمة المتبرعين" sectionTitle="إدارة المتبرعين" moduleTitle="إدارة الموارد المالية">
       <div className="space-y-6">
-        {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <StatCard
-            title="إجمالي الكفلاء"
-            value={totalSponsors}
-            icon={Users}
-            variant="info"
-          />
-          <StatCard
-            title="كفلاء نشطون"
-            value={activeSponsors}
-            icon={Heart}
-            variant="success"
-          />
-          <StatCard
-            title="المبلغ الشهري"
-            value={`${totalMonthlyAmount.toLocaleString()} ريال`}
-            icon={DollarSign}
-            variant="warning"
-          />
-          <StatCard
-            title="إجمالي المدفوع"
-            value={`${totalPaidAmount.toLocaleString()} ريال`}
-            icon={TrendingUp}
-            variant="default"
-          />
+          <StatCard title="إجمالي المتبرعين" value={donors.length} icon={Users} variant="info" />
+          <StatCard title="متبرعون نشطون" value={donors.filter(d => d.status === 'active').length} icon={Heart} variant="success" />
+          <StatCard title="إجمالي التبرعات" value={`${totalDonations.toLocaleString()} ريال`} icon={DollarSign} variant="warning" />
+          <StatCard title="المدن" value={new Set(donors.map(d => d.city).filter(Boolean)).size} icon={TrendingUp} variant="default" />
         </div>
 
-        {/* Table */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">سجل الكفلاء</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle className="text-lg">سجل المتبرعين</CardTitle>
+            <Button onClick={() => setShowAdd(true)} className="gap-2 bg-green-600 hover:bg-green-700"><Plus className="h-4 w-4" /> إضافة متبرع</Button>
           </CardHeader>
           <CardContent>
-            <AdvancedTable
-              columns={columns}
-              data={records}
-              actions={actions}
-            />
+            {loading ? <div className="text-center py-8 text-muted-foreground">جارٍ التحميل...</div> : <AdvancedTable columns={columns} data={mappedData} actions={actions} />}
           </CardContent>
         </Card>
       </div>
+
+      <AddDonorDialog open={showAdd} onClose={() => setShowAdd(false)} onSubmit={addDonor} />
+
+      <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+        <AlertDialogContent dir="rtl">
+          <AlertDialogHeader><AlertDialogTitle>تأكيد الحذف</AlertDialogTitle><AlertDialogDescription>هل أنت متأكد من حذف هذا المتبرع؟</AlertDialogDescription></AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>إلغاء</AlertDialogCancel>
+            <AlertDialogAction onClick={() => { if (deleteId) { deleteDonor(deleteId); setDeleteId(null); } }} className="bg-destructive text-destructive-foreground">حذف</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </InnerPageLayout>
   );
 };
