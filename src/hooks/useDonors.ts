@@ -27,7 +27,7 @@ export const useDonors = () => {
     setLoading(false);
   }, []);
 
-  const addDonor = async (payload: Partial<Donor>) => {
+  const addDonor = async (payload: { full_name: string } & Partial<Donor>) => {
     const { data, error } = await supabase.from('donors').insert([payload]).select().single();
     if (error) { toast.error('فشل إضافة المتبرع'); return null; }
     toast.success('تم إضافة المتبرع بنجاح');

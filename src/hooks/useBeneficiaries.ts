@@ -25,7 +25,7 @@ export const useBeneficiaries = () => {
     setLoading(false);
   }, []);
 
-  const addBeneficiary = async (payload: Partial<Beneficiary>) => {
+  const addBeneficiary = async (payload: { full_name: string } & Partial<Beneficiary>) => {
     const { data, error } = await supabase.from('beneficiaries').insert([payload]).select().single();
     if (error) { toast.error('فشل إضافة المستفيد'); return null; }
     toast.success('تم إضافة المستفيد بنجاح');

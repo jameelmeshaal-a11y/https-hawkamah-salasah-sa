@@ -28,7 +28,7 @@ export const useVolunteers = () => {
     setLoading(false);
   }, []);
 
-  const addVolunteer = async (payload: Partial<Volunteer>) => {
+  const addVolunteer = async (payload: { full_name: string } & Partial<Volunteer>) => {
     const { data, error } = await supabase.from('volunteers').insert([payload]).select().single();
     if (error) { toast.error('فشل إضافة المتطوع'); return null; }
     toast.success('تم إضافة المتطوع بنجاح');

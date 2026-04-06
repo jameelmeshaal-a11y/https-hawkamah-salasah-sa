@@ -28,7 +28,7 @@ export const useBoardMembers = () => {
     setLoading(false);
   }, []);
 
-  const addMember = async (payload: Partial<BoardMember>) => {
+  const addMember = async (payload: { full_name: string } & Partial<BoardMember>) => {
     const { data, error } = await supabase.from('board_members').insert([payload]).select().single();
     if (error) { toast.error('فشل إضافة العضو'); return null; }
     toast.success('تم إضافة العضو بنجاح');

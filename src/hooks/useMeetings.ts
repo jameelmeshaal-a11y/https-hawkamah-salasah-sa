@@ -28,7 +28,7 @@ export const useMeetings = () => {
     setLoading(false);
   }, []);
 
-  const addMeeting = async (payload: Partial<Meeting>) => {
+  const addMeeting = async (payload: { title: string; meeting_date: string } & Partial<Meeting>) => {
     const { data, error } = await supabase.from('meetings').insert([payload]).select().single();
     if (error) { toast.error('فشل إضافة الاجتماع'); return null; }
     toast.success('تم إضافة الاجتماع بنجاح');
