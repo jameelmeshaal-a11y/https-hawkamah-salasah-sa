@@ -46,7 +46,7 @@ const ManageTasksPage = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <EmptyState colSpan={7} />
+              <EmptyState colSpan={7} asTableRow />
             </TableBody>
           </Table>
         </div>

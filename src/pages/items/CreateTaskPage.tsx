@@ -43,7 +43,7 @@ const CreateTaskPage = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <EmptyState colSpan={4} />
+              <EmptyState colSpan={4} asTableRow />
             </TableBody>
           </Table>
         </div>
