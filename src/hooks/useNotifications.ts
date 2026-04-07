@@ -48,8 +48,11 @@ export const useNotifications = (userId?: string) => {
   useEffect(() => {
     if (!userId) return;
     fetchNotifications();
-    const channel = supabase
-      .channel(`notifications:${userId}`)
+
+    const channelName = `notifications-${userId}-${Date.now()}`;
+    const channel = supabase.channel(channelName);
+    
+    channel
       .on('postgres_changes', {
         event: 'INSERT',
         schema: 'public',
@@ -57,7 +60,10 @@ export const useNotifications = (userId?: string) => {
         filter: `user_id=eq.${userId}`,
       }, () => fetchNotifications())
       .subscribe();
-    return () => { supabase.removeChannel(channel); };
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [userId, fetchNotifications]);
 
   return { notifications, unreadCount, markAsRead, markAllAsRead };
