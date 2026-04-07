@@ -1,6 +1,3 @@
-// Hijri to Gregorian conversion using the hijri-converter npm package
-import { toHijri, toGregorian } from "hijri-converter";
-
 const HIJRI_MONTHS = [
   "محرم", "صفر", "ربيع الأول", "ربيع الثاني",
   "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان",
@@ -12,19 +9,45 @@ const GREGORIAN_MONTHS = [
   "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر",
 ];
 
-export function gregorianToHijri(date: Date): { year: number; month: number; day: number } {
+const hijriFormatter = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
+  day: 'numeric',
+  month: 'numeric',
+  year: 'numeric',
+});
+
+function parseHijriParts(date: Date): { year: number; month: number; day: number } {
   try {
-    const result = toHijri(date.getFullYear(), date.getMonth() + 1, date.getDate());
-    return { year: result.hy, month: result.hm, day: result.hd };
+    const parts = hijriFormatter.formatToParts(date);
+    const day = parseInt(parts.find(p => p.type === 'day')?.value || '1', 10);
+    const month = parseInt(parts.find(p => p.type === 'month')?.value || '1', 10);
+    const yearStr = parts.find(p => p.type === 'year')?.value || '1446';
+    const year = parseInt(yearStr, 10);
+    return { year, month, day };
   } catch {
     return { year: 1446, month: 1, day: 1 };
   }
 }
 
+export function gregorianToHijri(date: Date): { year: number; month: number; day: number } {
+  return parseHijriParts(date);
+}
+
 export function hijriToGregorian(hijriYear: number, hijriMonth: number, hijriDay: number): Date {
   try {
-    const result = toGregorian(hijriYear, hijriMonth, hijriDay);
-    return new Date(result.gy, result.gm - 1, result.gd);
+    // Binary search: find Gregorian date whose Hijri conversion matches
+    const estimatedGregorian = new Date(
+      Math.round((hijriYear - 1) * 354.36667 + (hijriMonth - 1) * 29.53056 + hijriDay + 227014) * 86400000
+    );
+    
+    // Search in a window around the estimate
+    for (let offset = -30; offset <= 30; offset++) {
+      const candidate = new Date(estimatedGregorian.getTime() + offset * 86400000);
+      const h = parseHijriParts(candidate);
+      if (h.year === hijriYear && h.month === hijriMonth && h.day === hijriDay) {
+        return candidate;
+      }
+    }
+    return estimatedGregorian;
   } catch {
     return new Date();
   }

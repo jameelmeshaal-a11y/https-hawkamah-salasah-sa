@@ -175,7 +175,7 @@ const TasksDatabasePage = () => {
                 </TableHeader>
                 <TableBody>
                   {filteredTasks.length === 0 ? (
-                    <EmptyState colSpan={14} />
+                    <EmptyState colSpan={14} asTableRow />
                   ) : (
                     filteredTasks.map((task) => (
                       <TableRow key={task.id}>

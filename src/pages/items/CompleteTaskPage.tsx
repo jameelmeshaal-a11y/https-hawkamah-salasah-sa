@@ -45,7 +45,7 @@ const CompleteTaskPage = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <EmptyState colSpan={6} />
+              <EmptyState colSpan={6} asTableRow />
             </TableBody>
           </Table>
         </div>

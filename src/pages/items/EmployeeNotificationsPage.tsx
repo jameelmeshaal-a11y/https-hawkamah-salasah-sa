@@ -44,7 +44,7 @@ const EmployeeNotificationsPage = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <EmptyState colSpan={5} />
+              <EmptyState colSpan={5} asTableRow />
             </TableBody>
           </Table>
         </div>
