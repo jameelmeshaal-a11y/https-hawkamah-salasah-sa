@@ -14,7 +14,7 @@ Deno.serve(async (req) => {
     const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, serviceRoleKey);
 
-    const { email, password, full_name } = await req.json();
+    const { email, password, full_name, role, department } = await req.json();
 
     if (!email || !password) {
       return new Response(JSON.stringify({ error: 'Email and password required' }), {
@@ -58,12 +58,16 @@ Deno.serve(async (req) => {
       }
     }
 
+    // Determine final role
+    const finalRole = role || 'system_admin';
+    const finalName = full_name || 'مدير النظام';
+
     // Create user
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email,
       password,
       email_confirm: true,
-      user_metadata: { full_name: full_name || 'مدير النظام' },
+      user_metadata: { full_name: finalName },
     });
 
     if (authError) {
@@ -76,31 +80,38 @@ Deno.serve(async (req) => {
 
     // Update profile
     await supabase.from('profiles').update({
-      full_name: full_name || 'مدير النظام',
-      department: 'تقنية المعلومات',
-      job_title: 'مدير النظام',
+      full_name: finalName,
+      department: department || 'تقنية المعلومات',
+      job_title: finalRole === 'system_admin' ? 'مدير النظام' : 'موظف',
       must_change_password: true,
     }).eq('user_id', userId);
 
-    // Assign system_admin role
+    // Assign role
     await supabase.from('user_roles').insert({
       user_id: userId,
-      role: 'system_admin',
+      role: finalRole,
     });
 
-    // Grant all permissions to system_admin
-    const { data: allPerms } = await supabase.from('permissions').select('id');
-    if (allPerms && allPerms.length > 0) {
-      const rolePerms = allPerms.map(p => ({
-        role: 'system_admin' as const,
-        permission_id: p.id,
-      }));
-      await supabase.from('role_permissions').upsert(rolePerms, { onConflict: 'role,permission_id' });
+    // If system_admin, grant all permissions and mark as protected
+    if (finalRole === 'system_admin') {
+      const { data: allPerms } = await supabase.from('permissions').select('id');
+      if (allPerms && allPerms.length > 0) {
+        const rolePerms = allPerms.map((p: any) => ({
+          role: 'system_admin' as const,
+          permission_id: p.id,
+        }));
+        await supabase.from('role_permissions').upsert(rolePerms, { onConflict: 'role,permission_id' });
+      }
+
+      // Mark first system_admin as protected
+      if (!existingAdmins || existingAdmins.length === 0) {
+        await supabase.from('profiles').update({ is_protected: true }).eq('user_id', userId);
+      }
     }
 
     return new Response(JSON.stringify({ 
       success: true, 
-      message: 'Admin user created successfully',
+      message: 'User created successfully',
       user_id: userId,
     }), {
       status: 200,
