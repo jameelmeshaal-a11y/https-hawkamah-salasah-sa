@@ -6,11 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, UserPlus, Edit, Shield, Check, X } from "lucide-react";
 import { toast } from "sonner";
 import { logAuditEvent } from "@/services/auditService";
+import AddUserDialog from "@/components/dialogs/AddUserDialog";
 import type { Database } from "@/integrations/supabase/types";
 
 type AppRole = Database["public"]["Enums"]["app_role"];
@@ -24,6 +25,7 @@ interface UserWithRoles {
   job_title: string | null;
   status: string;
   last_login_at: string | null;
+  is_protected?: boolean;
   roles: AppRole[];
 }
 
@@ -42,13 +44,14 @@ const AdminUsersPage = () => {
   const [editingUser, setEditingUser] = useState<UserWithRoles | null>(null);
   const [selectedRole, setSelectedRole] = useState<AppRole>("user");
   const [editOpen, setEditOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
 
   const fetchUsers = async () => {
     const { data: profiles } = await supabase.from("profiles").select("*");
     const { data: allRoles } = await supabase.from("user_roles").select("user_id, role");
 
     if (profiles) {
-      const usersWithRoles: UserWithRoles[] = profiles.map((p) => ({
+      const usersWithRoles: UserWithRoles[] = profiles.map((p: any) => ({
         ...p,
         roles: (allRoles || []).filter((r) => r.user_id === p.user_id).map((r) => r.role as AppRole),
       }));
@@ -61,6 +64,10 @@ const AdminUsersPage = () => {
 
   const handleAssignRole = async () => {
     if (!editingUser) return;
+    if (editingUser.is_protected) {
+      toast.error("لا يمكن تعديل صلاحية حساب محمي");
+      return;
+    }
     const { error } = await supabase.from("user_roles").upsert({
       user_id: editingUser.user_id,
       role: selectedRole,
@@ -71,9 +78,7 @@ const AdminUsersPage = () => {
     } else {
       toast.success(`تم تعيين دور "${ROLE_LABELS[selectedRole]}" بنجاح`);
       await logAuditEvent({
-        action: "assign_role",
-        moduleKey: "admin",
-        entityType: "user_role",
+        action: "assign_role", moduleKey: "admin", entityType: "user_role",
         metadata: { target_user: editingUser.user_id, role: selectedRole },
       });
       setEditOpen(false);
@@ -82,6 +87,10 @@ const AdminUsersPage = () => {
   };
 
   const handleToggleStatus = async (user: UserWithRoles) => {
+    if (user.is_protected) {
+      toast.error("لا يمكن تعطيل حساب محمي");
+      return;
+    }
     const newStatus = user.status === "active" ? "inactive" : "active";
     const { error } = await supabase.from("profiles").update({ status: newStatus }).eq("id", user.id);
     if (error) {
@@ -89,9 +98,7 @@ const AdminUsersPage = () => {
     } else {
       toast.success(`تم تحديث حالة المستخدم إلى: ${newStatus === "active" ? "نشط" : "غير نشط"}`);
       await logAuditEvent({
-        action: "toggle_user_status",
-        moduleKey: "admin",
-        entityType: "profile",
+        action: "toggle_user_status", moduleKey: "admin", entityType: "profile",
         metadata: { target_user: user.user_id, new_status: newStatus },
       });
       fetchUsers();
@@ -117,6 +124,10 @@ const AdminUsersPage = () => {
                   <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="بحث..." className="pr-9 w-64" />
                 </div>
+                <Button onClick={() => setAddOpen(true)} className="gap-2">
+                  <UserPlus className="h-4 w-4" />
+                  إضافة مستخدم جديد
+                </Button>
               </div>
             </div>
           </CardHeader>
@@ -143,7 +154,10 @@ const AdminUsersPage = () => {
                   ) : (
                     filteredUsers.map((user) => (
                       <TableRow key={user.id}>
-                        <TableCell className="font-medium">{user.full_name || "-"}</TableCell>
+                        <TableCell className="font-medium">
+                          {user.full_name || "-"}
+                          {user.is_protected && <Shield className="inline h-3 w-3 text-primary mr-1" />}
+                        </TableCell>
                         <TableCell>{user.email || "-"}</TableCell>
                         <TableCell>{user.department || "-"}</TableCell>
                         <TableCell>{user.job_title || "-"}</TableCell>
@@ -161,14 +175,16 @@ const AdminUsersPage = () => {
                         </TableCell>
                         <TableCell className="text-xs">{user.last_login_at ? new Date(user.last_login_at).toLocaleDateString("ar-SA") : "-"}</TableCell>
                         <TableCell>
-                          <div className="flex gap-1">
-                            <Button variant="ghost" size="sm" onClick={() => { setEditingUser(user); setEditOpen(true); }}>
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm" onClick={() => handleToggleStatus(user)}>
-                              {user.status === "active" ? <X className="h-4 w-4 text-red-500" /> : <Check className="h-4 w-4 text-emerald-500" />}
-                            </Button>
-                          </div>
+                          {!user.is_protected && (
+                            <div className="flex gap-1">
+                              <Button variant="ghost" size="sm" onClick={() => { setEditingUser(user); setSelectedRole(user.roles[0] || "user"); setEditOpen(true); }}>
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                              <Button variant="ghost" size="sm" onClick={() => handleToggleStatus(user)}>
+                                {user.status === "active" ? <X className="h-4 w-4 text-destructive" /> : <Check className="h-4 w-4 text-emerald-500" />}
+                              </Button>
+                            </div>
+                          )}
                         </TableCell>
                       </TableRow>
                     ))
@@ -197,6 +213,8 @@ const AdminUsersPage = () => {
             </div>
           </DialogContent>
         </Dialog>
+
+        <AddUserDialog open={addOpen} onOpenChange={setAddOpen} onSuccess={fetchUsers} />
       </div>
     </InnerPageLayout>
   );

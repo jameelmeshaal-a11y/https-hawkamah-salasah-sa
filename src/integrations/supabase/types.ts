@@ -1533,6 +1533,7 @@ export type Database = {
           email: string | null
           full_name: string
           id: string
+          is_protected: boolean
           job_title: string | null
           last_login_at: string | null
           must_change_password: boolean
@@ -1548,6 +1549,7 @@ export type Database = {
           email?: string | null
           full_name?: string
           id?: string
+          is_protected?: boolean
           job_title?: string | null
           last_login_at?: string | null
           must_change_password?: boolean
@@ -1563,6 +1565,7 @@ export type Database = {
           email?: string | null
           full_name?: string
           id?: string
+          is_protected?: boolean
           job_title?: string | null
           last_login_at?: string | null
           must_change_password?: boolean
