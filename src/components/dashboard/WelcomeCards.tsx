@@ -15,8 +15,8 @@ const WelcomeCards = () => {
   const formatFullDate = (date: Date) => {
     const weekday = date.toLocaleDateString("ar-SA", { weekday: "long" });
     const day = date.getDate();
-    const hijriMonth = date.toLocaleDateString("ar-SA-u-ca-islamic", { month: "long" });
-    const hijriYear = date.toLocaleDateString("ar-SA-u-ca-islamic", { year: "numeric" });
+    const hijriMonth = date.toLocaleDateString("ar-SA-u-ca-islamic-umalqura", { month: "long" });
+    const hijriYear = date.toLocaleDateString("ar-SA-u-ca-islamic-umalqura", { year: "numeric" });
     const gregorianDay = date.getDate();
     const gregorianMonth = date.toLocaleDateString("ar-SA", { month: "long" });
     const gregorianYear = date.getFullYear();
