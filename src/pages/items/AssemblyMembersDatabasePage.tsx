@@ -23,7 +23,7 @@ const columns = [
 ];
 
 const AssemblyMembersDatabasePage = () => {
-  const { assemblyMembers, loading, fetchAssemblyMembers } = useAssemblyMembers();
+  const { members: assemblyMembers, loading, fetchMembers: fetchAssemblyMembers } = useAssemblyMembers();
   const [searchQuery, setSearchQuery] = useState("");
   const [viewOpen, setViewOpen] = useState(false);
   const [selected, setSelected] = useState<Record<string, string> | null>(null);

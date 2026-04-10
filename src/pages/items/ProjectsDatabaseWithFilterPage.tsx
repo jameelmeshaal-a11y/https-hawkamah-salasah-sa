@@ -4,6 +4,8 @@ import { ProjectsTable, ProjectData } from "@/components/projects/ProjectsTable"
 import { Card, CardContent } from "@/components/ui/card";
 import { useProjects } from "@/hooks/useProjects";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 type StatusFilter = "all" | "planning" | "active" | "on_hold" | "completed";
 
@@ -23,7 +25,7 @@ export default function ProjectsDatabaseWithFilterPage() {
     projectNumber: p.id.slice(0, 8),
     projectName: p.name,
     balance: p.budget - p.spent_amount,
-    status: p.status === "planning" ? "جديد" as const : p.status === "completed" ? "مكتمل" as const : p.status === "on_hold" ? "معلق" as const : "جاري" as const,
+    status: p.status === "planning" ? "جديد" as const : p.status === "completed" ? "مكتمل" as const : "جاري" as const,
     sector: p.category || "عام",
     village: "—",
     targetCategory: "—",

@@ -23,7 +23,8 @@ const columns = [
 ];
 
 const BoardMembersDatabasePage = () => {
-  const { boardMembers, loading, fetchBoardMembers } = useBoardMembers();
+  const { members: boardMembers, loading } = useBoardMembers();
+  const fetchBoardMembers = () => {};
   const [viewOpen, setViewOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState<Record<string, string> | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
