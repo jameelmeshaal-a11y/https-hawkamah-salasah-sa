@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useProjects } from "@/hooks/useProjects";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
 
 type StatusFilter = "all" | "planning" | "active" | "on_hold" | "completed";
 
