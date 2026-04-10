@@ -44,7 +44,7 @@ export default function ProjectsDatabaseWithFilterPage() {
     : mappedData.filter(p => {
         if (selectedStatus === "planning") return p.status === "جديد";
         if (selectedStatus === "completed") return p.status === "مكتمل";
-        if (selectedStatus === "on_hold") return p.status === "معلق";
+        if (selectedStatus === "on_hold") return false;
         return p.status === "جاري";
       });
 
