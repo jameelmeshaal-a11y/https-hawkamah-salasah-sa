@@ -122,7 +122,7 @@ const GenericModulePage = () => {
         .order("created_at", { ascending: false })
         .limit(100);
       if (error) throw error;
-      setData((rows || []) as Record<string, unknown>[]);
+      setData((rows || []) as unknown as Record<string, unknown>[]);
     } catch {
       toast.error("فشل في تحميل البيانات");
     } finally {
