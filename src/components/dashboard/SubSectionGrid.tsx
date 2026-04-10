@@ -24,7 +24,6 @@ const SubSectionGrid = ({ section, moduleId }: SubSectionGridProps) => {
               icon={item.icon}
               moduleId={moduleId}
               slug={item.slug}
-              onClick={() => console.log(`Clicked: ${item.title}`)}
             />
           ))}
         </div>
