@@ -17,10 +17,10 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const { email, password, full_name, role, department } = body;
 
-    // Temporary: password reset action
+    // Password reset action (requires service role key)
     if (body.action === 'reset_password' && body.target_user_id && body.new_password) {
       const bk = req.headers.get('x-bootstrap-key');
-      if ((bk && bk === serviceRoleKey) || bk === 'RESET_TEMP_2026') {
+      if (bk && bk === serviceRoleKey) {
         const { error } = await supabase.auth.admin.updateUserById(body.target_user_id, { password: body.new_password });
         if (error) return new Response(JSON.stringify({ error: error.message }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
         return new Response(JSON.stringify({ success: true }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
