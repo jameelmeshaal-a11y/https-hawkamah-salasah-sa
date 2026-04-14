@@ -56,10 +56,6 @@ Deno.serve(async (req) => {
         if (bootstrapKey && bootstrapKey === serviceRoleKey) {
           authorized = true;
         }
-        // One-time bootstrap token for initial CEO setup
-        if (!authorized && bootstrapKey === 'BOOTSTRAP_CEO_2026') {
-          authorized = true;
-        }
       }
 
       if (!authorized) {
