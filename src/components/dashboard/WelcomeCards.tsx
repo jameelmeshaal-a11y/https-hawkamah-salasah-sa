@@ -14,14 +14,14 @@ const WelcomeCards = () => {
 
   const formatFullDate = (date: Date) => {
     const weekday = date.toLocaleDateString("ar-SA", { weekday: "long" });
-    const day = date.getDate();
+    const hijriDay = date.toLocaleDateString("ar-SA-u-ca-islamic-umalqura", { day: "numeric" });
     const hijriMonth = date.toLocaleDateString("ar-SA-u-ca-islamic-umalqura", { month: "long" });
     const hijriYear = date.toLocaleDateString("ar-SA-u-ca-islamic-umalqura", { year: "numeric" });
     const gregorianDay = date.getDate();
     const gregorianMonth = date.toLocaleDateString("ar-SA", { month: "long" });
     const gregorianYear = date.getFullYear();
     
-    return `${weekday}، ${day} ${hijriMonth} ${hijriYear}هـ، ${gregorianDay} ${gregorianMonth} ${gregorianYear}م`;
+    return `${weekday}، ${hijriDay} ${hijriMonth} ${hijriYear}هـ، ${gregorianDay} ${gregorianMonth} ${gregorianYear}م`;
   };
 
   const formatTime = (date: Date) => {
