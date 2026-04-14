@@ -31,27 +31,34 @@ Deno.serve(async (req) => {
       .limit(1);
 
     if (existingAdmins && existingAdmins.length > 0) {
-      // Verify caller is admin
+      let authorized = false;
+      
+      // Check Authorization header first
       const authHeader = req.headers.get('Authorization');
       if (authHeader) {
         const token = authHeader.replace('Bearer ', '');
         const { data: { user } } = await supabase.auth.getUser(token);
-        if (!user) {
-          return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-            status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          });
+        if (user) {
+          const { data: callerRoles } = await supabase
+            .from('user_roles')
+            .select('role')
+            .eq('user_id', user.id)
+            .in('role', ['system_admin', 'admin']);
+          if (callerRoles && callerRoles.length > 0) {
+            authorized = true;
+          }
         }
-        const { data: callerRoles } = await supabase
-          .from('user_roles')
-          .select('role')
-          .eq('user_id', user.id)
-          .in('role', ['system_admin', 'admin']);
-        if (!callerRoles || callerRoles.length === 0) {
-          return new Response(JSON.stringify({ error: 'Only admins can create users' }), {
-            status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          });
+      }
+
+      // Fallback: check bootstrap_key header
+      if (!authorized) {
+        const bootstrapKey = req.headers.get('x-bootstrap-key');
+        if (bootstrapKey && bootstrapKey === serviceRoleKey) {
+          authorized = true;
         }
-      } else {
+      }
+
+      if (!authorized) {
         return new Response(JSON.stringify({ error: 'Admin already exists, auth required' }), {
           status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
