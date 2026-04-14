@@ -4,11 +4,12 @@ import InnerPageLayout from "@/components/layout/InnerPageLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, UserPlus, Edit, Shield, Check, X } from "lucide-react";
+import { Search, UserPlus, Edit, Shield, Check, X, KeyRound } from "lucide-react";
 import { toast } from "sonner";
 import { logAuditEvent } from "@/services/auditService";
 import AddUserDialog from "@/components/dialogs/AddUserDialog";
@@ -45,6 +46,10 @@ const AdminUsersPage = () => {
   const [selectedRole, setSelectedRole] = useState<AppRole>("user");
   const [editOpen, setEditOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
+  const [passwordOpen, setPasswordOpen] = useState(false);
+  const [passwordUser, setPasswordUser] = useState<UserWithRoles | null>(null);
+  const [newPassword, setNewPassword] = useState("");
+  const [passwordLoading, setPasswordLoading] = useState(false);
 
   const fetchUsers = async () => {
     const { data: profiles } = await supabase.from("profiles").select("*");
@@ -102,6 +107,35 @@ const AdminUsersPage = () => {
         metadata: { target_user: user.user_id, new_status: newStatus },
       });
       fetchUsers();
+    }
+  };
+
+  const handleResetPassword = async () => {
+    if (!passwordUser || !newPassword) return;
+    if (newPassword.length < 6) {
+      toast.error("كلمة المرور يجب أن تكون 6 أحرف على الأقل");
+      return;
+    }
+    setPasswordLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("reset-password", {
+        body: { target_user_id: passwordUser.user_id, new_password: newPassword },
+      });
+      if (error || data?.error) {
+        toast.error(data?.error || error?.message || "فشل تغيير كلمة المرور");
+      } else {
+        toast.success(`تم تغيير كلمة مرور "${passwordUser.full_name}" بنجاح`);
+        await logAuditEvent({
+          action: "reset_password", moduleKey: "admin", entityType: "profile",
+          metadata: { target_user: passwordUser.user_id },
+        });
+        setPasswordOpen(false);
+        setNewPassword("");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "حدث خطأ");
+    } finally {
+      setPasswordLoading(false);
     }
   };
 
@@ -175,16 +209,19 @@ const AdminUsersPage = () => {
                         </TableCell>
                         <TableCell className="text-xs">{user.last_login_at ? new Date(user.last_login_at).toLocaleDateString("ar-SA") : "-"}</TableCell>
                         <TableCell>
-                          {!user.is_protected && (
-                            <div className="flex gap-1">
-                              <Button variant="ghost" size="sm" onClick={() => { setEditingUser(user); setSelectedRole(user.roles[0] || "user"); setEditOpen(true); }}>
-                                <Edit className="h-4 w-4" />
-                              </Button>
-                              <Button variant="ghost" size="sm" onClick={() => handleToggleStatus(user)}>
+                          <div className="flex gap-1">
+                            <Button variant="ghost" size="sm" title="تعديل الدور" onClick={() => { setEditingUser(user); setSelectedRole(user.roles[0] || "user"); setEditOpen(true); }}>
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="sm" title="تغيير كلمة المرور" onClick={() => { setPasswordUser(user); setNewPassword(""); setPasswordOpen(true); }}>
+                              <KeyRound className="h-4 w-4" />
+                            </Button>
+                            {!user.is_protected && (
+                              <Button variant="ghost" size="sm" title={user.status === "active" ? "تعطيل" : "تفعيل"} onClick={() => handleToggleStatus(user)}>
                                 {user.status === "active" ? <X className="h-4 w-4 text-destructive" /> : <Check className="h-4 w-4 text-emerald-500" />}
                               </Button>
-                            </div>
-                          )}
+                            )}
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))
@@ -195,6 +232,7 @@ const AdminUsersPage = () => {
           </CardContent>
         </Card>
 
+        {/* Edit Role Dialog */}
         <Dialog open={editOpen} onOpenChange={setEditOpen}>
           <DialogContent dir="rtl">
             <DialogHeader>
@@ -210,6 +248,37 @@ const AdminUsersPage = () => {
                 </SelectContent>
               </Select>
               <Button onClick={handleAssignRole} className="w-full">تعيين الدور</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Reset Password Dialog */}
+        <Dialog open={passwordOpen} onOpenChange={setPasswordOpen}>
+          <DialogContent dir="rtl" className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <KeyRound className="h-5 w-5" />
+                تغيير كلمة المرور - {passwordUser?.full_name}
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>البريد الإلكتروني</Label>
+                <Input value={passwordUser?.email || ""} disabled dir="ltr" />
+              </div>
+              <div className="space-y-2">
+                <Label>كلمة المرور الجديدة <span className="text-destructive">*</span></Label>
+                <Input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="6 أحرف على الأقل"
+                  dir="ltr"
+                />
+              </div>
+              <Button onClick={handleResetPassword} disabled={passwordLoading || !newPassword} className="w-full">
+                {passwordLoading ? "جاري التحديث..." : "تغيير كلمة المرور"}
+              </Button>
             </div>
           </DialogContent>
         </Dialog>
