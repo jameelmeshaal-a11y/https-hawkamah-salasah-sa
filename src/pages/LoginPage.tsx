@@ -22,13 +22,23 @@ const LoginPage = () => {
       return;
     }
     setIsLoading(true);
-    const { error } = await signIn(email, password);
-    setIsLoading(false);
-    if (error) {
-      toast.error("فشل تسجيل الدخول: بيانات الاعتماد غير صحيحة");
-    } else {
-      toast.success("تم تسجيل الدخول بنجاح");
-      navigate("/");
+    try {
+      const { error } = await signIn(email.trim(), password);
+      if (error) {
+        const msg = error.message?.includes("Invalid login")
+          ? "البريد الإلكتروني أو كلمة المرور غير صحيحة"
+          : error.message?.includes("Email not confirmed")
+          ? "البريد الإلكتروني غير مُفعّل"
+          : `فشل تسجيل الدخول: ${error.message}`;
+        toast.error(msg);
+      } else {
+        toast.success("تم تسجيل الدخول بنجاح");
+        navigate("/");
+      }
+    } catch (err: any) {
+      toast.error("حدث خطأ غير متوقع");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -52,7 +62,7 @@ const LoginPage = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@hawkama.sa"
+                  placeholder="ceo@salasah.sa"
                   className="pr-10"
                   autoComplete="email"
                 />
