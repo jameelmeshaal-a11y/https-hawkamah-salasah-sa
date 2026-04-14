@@ -35,46 +35,70 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   const fetchProfile = async (userId: string) => {
-    const { data } = await supabase
-      .from("profiles")
-      .select("id, full_name, email, department, job_title, status, must_change_password")
-      .eq("user_id", userId)
-      .single();
-    if (data) setProfile(data);
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id, full_name, email, department, job_title, status, must_change_password")
+        .eq("user_id", userId)
+        .maybeSingle();
+      if (error) {
+        console.error("fetchProfile error:", error.message);
+        return;
+      }
+      if (data) setProfile(data);
+    } catch (err) {
+      console.error("fetchProfile exception:", err);
+    }
   };
 
   const fetchRoles = async (userId: string) => {
-    const { data } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", userId);
-    if (data) setRoles(data.map((r) => r.role));
+    try {
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId);
+      if (error) {
+        console.error("fetchRoles error:", error.message);
+        return;
+      }
+      if (data) setRoles(data.map((r) => r.role));
+    } catch (err) {
+      console.error("fetchRoles exception:", err);
+    }
   };
 
   useEffect(() => {
+    // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {
-          setTimeout(() => {
-            fetchProfile(session.user.id);
-            fetchRoles(session.user.id);
+          // Use setTimeout to avoid Supabase deadlock
+          setTimeout(async () => {
+            await Promise.all([
+              fetchProfile(session.user.id),
+              fetchRoles(session.user.id),
+            ]);
+            setLoading(false);
           }, 0);
         } else {
           setProfile(null);
           setRoles([]);
+          setLoading(false);
         }
-        setLoading(false);
       }
     );
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    // THEN check for existing session
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        fetchProfile(session.user.id);
-        fetchRoles(session.user.id);
+        await Promise.all([
+          fetchProfile(session.user.id),
+          fetchRoles(session.user.id),
+        ]);
       }
       setLoading(false);
     });
