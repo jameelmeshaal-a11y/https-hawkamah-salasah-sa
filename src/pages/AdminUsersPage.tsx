@@ -56,10 +56,12 @@ const AdminUsersPage = () => {
     const { data: allRoles } = await supabase.from("user_roles").select("user_id, role");
 
     if (profiles) {
-      const usersWithRoles: UserWithRoles[] = profiles.map((p: any) => ({
-        ...p,
-        roles: (allRoles || []).filter((r) => r.user_id === p.user_id).map((r) => r.role as AppRole),
-      }));
+      const usersWithRoles: UserWithRoles[] = profiles
+        .filter((p: any) => !p.is_protected)
+        .map((p: any) => ({
+          ...p,
+          roles: (allRoles || []).filter((r) => r.user_id === p.user_id).map((r) => r.role as AppRole),
+        }));
       setUsers(usersWithRoles);
     }
     setLoading(false);
