@@ -1,7 +1,9 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import MaskedPhone from "@/components/shared/MaskedPhone";
+import MaskedEmail from "@/components/shared/MaskedEmail";
 import { SAUDI_PHONE_REGEX } from "@/hooks/usePhonePermission";
+import { EMAIL_REGEX } from "@/hooks/useEmailPermission";
 
 interface ViewDetailsDialogProps {
   open: boolean;
@@ -45,6 +47,10 @@ const ViewDetailsDialog = ({ open, onOpenChange, title, data, labels = {} }: Vie
     // Auto-mask any string that contains a Saudi mobile number
     if (typeof value === "string" && new RegExp(SAUDI_PHONE_REGEX.source).test(value)) {
       return <MaskedPhone value={value} />;
+    }
+    // Auto-mask personal email addresses
+    if (typeof value === "string" && new RegExp(EMAIL_REGEX.source).test(value)) {
+      return <MaskedEmail value={value} />;
     }
     return String(value);
   };
