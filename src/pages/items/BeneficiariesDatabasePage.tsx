@@ -14,6 +14,7 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import MaskedPhone from "@/components/shared/MaskedPhone";
 
 const BeneficiariesDatabasePage = () => {
   const { beneficiaries, loading, addBeneficiary, deleteBeneficiary, refetch } = useBeneficiaries();
@@ -80,7 +81,7 @@ const BeneficiariesDatabasePage = () => {
                           </div>
                         </TableCell>
                         <TableCell className="font-medium">{b.full_name}</TableCell>
-                        <TableCell>{b.phone || '-'}</TableCell>
+                        <TableCell><MaskedPhone value={b.phone} /></TableCell>
                         <TableCell>{b.city || '-'}</TableCell>
                         <TableCell>{b.category || '-'}</TableCell>
                         <TableCell><Badge variant={b.status === 'active' ? 'default' : 'secondary'}>{b.status === 'active' ? 'نشط' : b.status}</Badge></TableCell>

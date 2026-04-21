@@ -2,6 +2,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import MaskedPhone from "@/components/shared/MaskedPhone";
+import { SAUDI_PHONE_REGEX } from "@/hooks/usePhonePermission";
 
 interface ProfileField {
   label: string;
@@ -69,19 +71,24 @@ const ProfileCard = ({
       </div>
       <CardContent className="p-6">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {fields.map((field, index) => (
-            <div key={index} className="space-y-1">
-              <p className="text-xs text-muted-foreground">{field.label}</p>
-              <p
-                className={cn(
-                  "text-sm font-medium",
-                  field.highlight && "text-primary"
-                )}
-              >
-                {field.value}
-              </p>
-            </div>
-          ))}
+          {fields.map((field, index) => {
+            const looksLikePhone =
+              /جوال|هاتف|phone|mobile/i.test(field.label) ||
+              (typeof field.value === "string" && new RegExp(SAUDI_PHONE_REGEX.source).test(field.value));
+            return (
+              <div key={index} className="space-y-1">
+                <p className="text-xs text-muted-foreground">{field.label}</p>
+                <p
+                  className={cn(
+                    "text-sm font-medium",
+                    field.highlight && "text-primary"
+                  )}
+                >
+                  {looksLikePhone ? <MaskedPhone value={String(field.value)} /> : field.value}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </CardContent>
     </Card>

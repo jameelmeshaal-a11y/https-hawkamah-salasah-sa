@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,6 +11,7 @@ import {
   Heart, GraduationCap, Briefcase, Home, Edit, Download 
 } from "lucide-react";
 import { toast } from "sonner";
+import MaskedPhone from "@/components/shared/MaskedPhone";
 
 const BeneficiaryProfilePage = () => {
   const beneficiary = {
@@ -59,7 +60,7 @@ const BeneficiaryProfilePage = () => {
     { id: "documents", label: "المستندات", icon: FileText },
   ];
 
-  const DataRow = ({ label, value }: { label: string; value: string | number }) => (
+  const DataRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
     <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
       <span className="text-muted-foreground text-sm">{label}</span>
       <span className="text-foreground font-medium text-sm">{value}</span>
@@ -103,7 +104,7 @@ const BeneficiaryProfilePage = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <Phone className="h-4 w-4" />
-                    <span>{beneficiary.phone}</span>
+                    <span><MaskedPhone value={beneficiary.phone} /></span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4" />
@@ -168,7 +169,7 @@ const BeneficiaryProfilePage = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <DataRow label="الجوال" value={beneficiary.phone} />
+                  <DataRow label="الجوال" value={<MaskedPhone value={beneficiary.phone} />} />
                   <DataRow label="البريد الإلكتروني" value={beneficiary.email} />
                   <DataRow label="المدينة" value={beneficiary.city} />
                   <DataRow label="الحي" value={beneficiary.district} />

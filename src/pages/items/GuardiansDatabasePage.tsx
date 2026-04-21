@@ -9,6 +9,7 @@ import { useState } from "react";
 import ExportDropdown from "@/components/shared/ExportDropdown";
 import { useGuardians } from "@/hooks/useGuardians";
 import ViewDetailsDialog from "@/components/dialogs/ViewDetailsDialog";
+import MaskedPhone from "@/components/shared/MaskedPhone";
 
 const exportColumns = [
   { key: "full_name", label: "الإسم" },
@@ -78,7 +79,7 @@ const GuardiansDatabasePage = () => {
                             <Eye className="h-3 w-3" />معاينة
                           </Button>
                         </TableCell>
-                        <TableCell>{g.phone || "—"}</TableCell>
+                        <TableCell><MaskedPhone value={g.phone} /></TableCell>
                         <TableCell>{g.email || "—"}</TableCell>
                         <TableCell>{g.relationship || "—"}</TableCell>
                         <TableCell>{g.status}</TableCell>

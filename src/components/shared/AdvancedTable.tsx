@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Search, Download, Filter, ChevronLeft, ChevronRight, FileText, Eye, Edit, Trash2 } from "lucide-react";
 import StatusBadge from "./StatusBadge";
+import MaskedPhone from "./MaskedPhone";
 
 export interface TableColumn {
   key: string;
@@ -70,6 +71,10 @@ const AdvancedTable = ({
   const paginatedData = filteredData.slice(startIndex, startIndex + parseInt(pageSize));
 
   const renderCellContent = (column: TableColumn, value: unknown) => {
+    // Auto-mask any phone-like column
+    if (column.key === "phone" || /phone|جوال|هاتف/i.test(column.key) || /phone|جوال|هاتف/.test(column.label)) {
+      return <MaskedPhone value={value == null ? "" : String(value)} />;
+    }
     switch (column.type) {
       case "status":
         return <StatusBadge status={String(value)} />;

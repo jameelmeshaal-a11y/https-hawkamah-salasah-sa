@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import EmptyState from "@/components/shared/EmptyState";
+import MaskedPhone from "@/components/shared/MaskedPhone";
 import { Search, Download, Eye } from "lucide-react";
 
 export interface SupplierData {
@@ -106,7 +107,7 @@ export function SuppliersTable({
                   <TableCell className="text-right">{supplier.country}</TableCell>
                   <TableCell className="text-right">{supplier.taxNumber}</TableCell>
                   <TableCell className="text-right">{supplier.commercialRegister}</TableCell>
-                  <TableCell className="text-right">{supplier.phone}</TableCell>
+                  <TableCell className="text-right"><MaskedPhone value={supplier.phone} /></TableCell>
                   <TableCell className="text-right">{supplier.email}</TableCell>
                   <TableCell className="text-right">{supplier.fax}</TableCell>
                   <TableCell className="text-right">{supplier.currency}</TableCell>

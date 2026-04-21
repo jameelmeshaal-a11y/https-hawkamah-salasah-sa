@@ -10,6 +10,7 @@ import { Search, RefreshCw, Filter, Eye, SlidersHorizontal, Loader2 } from "luci
 import ExportDropdown from "@/components/shared/ExportDropdown";
 import { useAssemblyMembers } from "@/hooks/useAssemblyMembers";
 import ViewDetailsDialog from "@/components/dialogs/ViewDetailsDialog";
+import MaskedPhone from "@/components/shared/MaskedPhone";
 
 const columns = [
   { key: "full_name", label: "الإسم" },
@@ -86,7 +87,7 @@ const AssemblyMembersDatabasePage = () => {
                         </TableCell>
                         <TableCell>{member.membership_number || "—"}</TableCell>
                         <TableCell>{member.membership_type || "—"}</TableCell>
-                        <TableCell dir="ltr">{member.phone || "—"}</TableCell>
+                        <TableCell><MaskedPhone value={member.phone} /></TableCell>
                         <TableCell>{member.email || "—"}</TableCell>
                         <TableCell>{member.join_date || "—"}</TableCell>
                         <TableCell>

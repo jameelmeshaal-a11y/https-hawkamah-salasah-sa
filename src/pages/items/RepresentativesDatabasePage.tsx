@@ -7,6 +7,7 @@ import { Users, Search, Filter, RefreshCw, Eye } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import ExportDropdown from "@/components/shared/ExportDropdown";
 import EmptyState from "@/components/shared/EmptyState";
+import MaskedPhone from "@/components/shared/MaskedPhone";
 
 const RepresentativesDatabasePage = () => {
   const representatives = [
@@ -92,7 +93,7 @@ const RepresentativesDatabasePage = () => {
                           </div>
                         </TableCell>
                         <TableCell>{rep.idNumber}</TableCell>
-                        <TableCell>{rep.phone}</TableCell>
+                        <TableCell><MaskedPhone value={rep.phone} /></TableCell>
                         <TableCell className="max-w-[200px] truncate" title={rep.email}>{rep.email}</TableCell>
                       </TableRow>
                     ))}
