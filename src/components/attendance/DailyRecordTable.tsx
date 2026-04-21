@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -7,15 +8,31 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAttendance } from "@/hooks/useAttendance";
+import { useAuth } from "@/contexts/AuthContext";
+
+const formatTime = (iso: string | null) =>
+  iso ? new Date(iso).toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" }) : "-";
 
 const DailyRecordTable = () => {
-  // Empty state for today's records
-  const dailyRecords: Array<{
-    id: number;
-    operation: string;
-    time: string;
-    type: string;
-  }> = [];
+  const { records, loading } = useAttendance();
+  const { user } = useAuth();
+
+  const todayStr = new Date().toISOString().split("T")[0];
+
+  const rows = useMemo(() => {
+    if (!user) return [];
+    const todayRecords = records.filter(
+      (r) => r.employee_id === user.id && r.date === todayStr
+    );
+    const ops: { id: number; operation: string; time: string; type: string }[] = [];
+    let counter = 1;
+    todayRecords.forEach((r) => {
+      if (r.check_in) ops.push({ id: counter++, operation: "تسجيل حضور", time: formatTime(r.check_in), type: "حضور" });
+      if (r.check_out) ops.push({ id: counter++, operation: "تسجيل انصراف", time: formatTime(r.check_out), type: "انصراف" });
+    });
+    return ops;
+  }, [records, user, todayStr]);
 
   return (
     <Card>
@@ -34,14 +51,18 @@ const DailyRecordTable = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {dailyRecords.length === 0 ? (
+              {loading ? (
+                <TableRow>
+                  <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">جاري التحميل...</TableCell>
+                </TableRow>
+              ) : rows.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
                     لا توجد سجلات حضور أو انصراف اليوم
                   </TableCell>
                 </TableRow>
               ) : (
-                dailyRecords.map((record) => (
+                rows.map((record) => (
                   <TableRow key={record.id}>
                     <TableCell className="text-center">{record.id}</TableCell>
                     <TableCell>{record.operation}</TableCell>

@@ -61,7 +61,9 @@ const AdminUsersPage = () => {
         .map((p: any) => ({
           ...p,
           roles: (allRoles || []).filter((r) => r.user_id === p.user_id).map((r) => r.role as AppRole),
-        }));
+        }))
+        // Hide system_admin accounts from the list entirely (defence in depth)
+        .filter((u) => !u.roles.includes("system_admin"));
       setUsers(usersWithRoles);
     }
     setLoading(false);
