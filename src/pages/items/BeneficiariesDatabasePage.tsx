@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Search, Plus, Eye, Trash2, RefreshCw } from "lucide-react";
 import StatCard from "@/components/shared/StatCard";
-import { Users, Heart, DollarSign, TrendingUp } from "lucide-react";
+import { Users, Heart, Banknote, TrendingUp } from "lucide-react";
 import { useBeneficiaries } from "@/hooks/useBeneficiaries";
 import { AddBeneficiaryDialog } from "@/components/dialogs/AddBeneficiaryDialog";
 import {
@@ -35,7 +35,7 @@ const BeneficiariesDatabasePage = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <StatCard title="إجمالي المستفيدين" value={total} icon={Users} variant="info" />
           <StatCard title="مستفيدون نشطون" value={active} icon={Heart} variant="success" />
-          <StatCard title="قيد المراجعة" value={beneficiaries.filter(b => b.status === 'pending').length} icon={DollarSign} variant="warning" />
+          <StatCard title="قيد المراجعة" value={beneficiaries.filter(b => b.status === 'pending').length} icon={Banknote} variant="warning" />
           <StatCard title="المدن" value={new Set(beneficiaries.map(b => b.city).filter(Boolean)).size} icon={TrendingUp} variant="default" />
         </div>
 

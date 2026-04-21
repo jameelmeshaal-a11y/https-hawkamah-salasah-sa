@@ -1,7 +1,7 @@
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
 import RequestForm, { RequestField } from "@/components/requests/RequestForm";
 import RequestsTable, { RequestRecord } from "@/components/requests/RequestsTable";
-import { DollarSign } from "lucide-react";
+import { Banknote } from "lucide-react";
 import { useState } from "react";
 
 const financialFields: RequestField[] = [
@@ -52,7 +52,7 @@ const FinancialRequestPage = () => {
     >
       <div className="space-y-6">
         <div className="flex items-center gap-2">
-          <DollarSign className="h-5 w-5 text-primary" />
+          <Banknote className="h-5 w-5 text-primary" />
           <h2 className="text-xl font-semibold text-foreground">تقديم طلب مالي</h2>
         </div>
 
@@ -67,7 +67,7 @@ const FinancialRequestPage = () => {
           <RequestsTable 
             requests={requests}
             emptyMessage="لا توجد طلبات مالية سابقة"
-            emptyIcon={DollarSign}
+            emptyIcon={Banknote}
           />
         </div>
       </div>

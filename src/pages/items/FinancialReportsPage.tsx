@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import StatCard from "@/components/shared/StatCard";
-import { DollarSign, TrendingUp, TrendingDown, PieChart, Download, FileText } from "lucide-react";
+import { Banknote, TrendingUp, TrendingDown, PieChart, Download, FileText } from "lucide-react";
 import { toast } from "sonner";
 
 const FinancialReportsPage = () => {
@@ -111,7 +111,7 @@ const FinancialReportsPage = () => {
           <StatCard
             title="صافي الرصيد"
             value={`${stats.netBalance.toLocaleString()} ﷼`}
-            icon={DollarSign}
+            icon={Banknote}
             variant="info"
           />
           <StatCard

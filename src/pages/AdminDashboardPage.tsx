@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Users, DollarSign, Heart, FileText, Activity, Shield, Search, Download, BarChart3, TrendingUp, TrendingDown, Clock } from "lucide-react";
+import { Users, Banknote, Heart, FileText, Activity, Shield, Search, Download, BarChart3, TrendingUp, TrendingDown, Clock } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from "recharts";
 import { toast } from "sonner";
 
@@ -46,7 +46,7 @@ const AdminDashboardPage = () => {
   const kpiCards = [
     { icon: <Users className="h-6 w-6" />, label: "المستخدمون", value: kpis.users, color: "bg-blue-500" },
     { icon: <Heart className="h-6 w-6" />, label: "المستفيدون", value: kpis.beneficiaries, color: "bg-emerald-500" },
-    { icon: <DollarSign className="h-6 w-6" />, label: "الكفالات", value: kpis.sponsorships, color: "bg-amber-500" },
+    { icon: <Banknote className="h-6 w-6" />, label: "الكفالات", value: kpis.sponsorships, color: "bg-amber-500" },
     { icon: <FileText className="h-6 w-6" />, label: "الحسابات المالية", value: kpis.accounts, color: "bg-purple-500" },
     { icon: <Activity className="h-6 w-6" />, label: "القيود المحاسبية", value: kpis.journalEntries, color: "bg-teal-500" },
     { icon: <Shield className="h-6 w-6" />, label: "سجلات المراجعة", value: kpis.auditEvents, color: "bg-red-500" },

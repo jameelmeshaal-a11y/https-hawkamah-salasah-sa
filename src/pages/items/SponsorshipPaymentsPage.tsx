@@ -3,7 +3,7 @@ import InnerPageLayout from "@/components/layout/InnerPageLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import AdvancedTable, { TableColumn, TableAction } from "@/components/shared/AdvancedTable";
 import StatCard from "@/components/shared/StatCard";
-import { DollarSign, CheckCircle, Clock, AlertTriangle } from "lucide-react";
+import { Banknote, CheckCircle, Clock, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 
 interface PaymentRecord {
@@ -119,7 +119,7 @@ const SponsorshipPaymentsPage = () => {
           <StatCard
             title="إجمالي الدفعات"
             value={totalPayments}
-            icon={DollarSign}
+            icon={Banknote}
             variant="info"
           />
           <StatCard
