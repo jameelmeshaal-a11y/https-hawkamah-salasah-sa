@@ -2251,6 +2251,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_manage_attendance: { Args: { _user_id: string }; Returns: boolean }
       ensure_employee_for_current_user: { Args: never; Returns: string }
       has_role: {
         Args: {
@@ -2260,6 +2261,7 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_my_employee_id: { Args: { _employee_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "system_admin" | "admin" | "supervisor" | "user" | "auditor"

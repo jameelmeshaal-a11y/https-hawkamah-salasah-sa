@@ -8,6 +8,7 @@ import { lazy, Suspense, ReactNode } from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ModuleItemPage from "./pages/ModuleItemPage";
+import ModuleOverviewPage from "./pages/ModuleOverviewPage";
 import LoginPage from "./pages/LoginPage";
 
 const AdminDashboardPage = lazy(() => import("./pages/AdminDashboardPage"));
@@ -38,6 +39,7 @@ const AppRoutes = () => (
       <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboardPage /></ProtectedRoute>} />
       <Route path="/admin/users" element={<ProtectedRoute><AdminUsersPage /></ProtectedRoute>} />
       <Route path="/admin/permissions" element={<ProtectedRoute><AdminPermissionsPage /></ProtectedRoute>} />
+      <Route path="/module/:moduleId" element={<ProtectedRoute><ModuleOverviewPage /></ProtectedRoute>} />
       <Route path="/module/:moduleId/:itemSlug" element={<ProtectedRoute><ModuleItemPage /></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
