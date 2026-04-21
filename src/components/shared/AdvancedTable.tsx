@@ -19,6 +19,7 @@ import {
 import { Search, Download, Filter, ChevronLeft, ChevronRight, FileText, Eye, Edit, Trash2 } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 import MaskedPhone from "./MaskedPhone";
+import MaskedEmail from "./MaskedEmail";
 
 export interface TableColumn {
   key: string;
@@ -74,6 +75,10 @@ const AdvancedTable = ({
     // Auto-mask any phone-like column
     if (column.key === "phone" || /phone|جوال|هاتف/i.test(column.key) || /phone|جوال|هاتف/.test(column.label)) {
       return <MaskedPhone value={value == null ? "" : String(value)} />;
+    }
+    // Auto-mask any email-like column (only personal addresses are hidden)
+    if (column.key === "email" || /email|بريد/i.test(column.key) || /email|بريد/.test(column.label)) {
+      return <MaskedEmail value={value == null ? "" : String(value)} />;
     }
     switch (column.type) {
       case "status":
