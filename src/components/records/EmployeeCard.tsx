@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { User, Phone, Mail, Building2, Briefcase, Calendar, Hash } from "lucide-react";
+import MaskedPhone from "@/components/shared/MaskedPhone";
 
 export interface EmployeeInfo {
   id: string;
@@ -145,7 +146,7 @@ const EmployeeCard = ({ employee, variant = "full" }: EmployeeCardProps) => {
             <Phone className="h-4 w-4 text-muted-foreground" />
             <div>
               <p className="text-xs text-muted-foreground">رقم الهاتف</p>
-              <p className="font-medium">{employee.phone}</p>
+              <p className="font-medium"><MaskedPhone value={employee.phone} /></p>
             </div>
           </div>
 

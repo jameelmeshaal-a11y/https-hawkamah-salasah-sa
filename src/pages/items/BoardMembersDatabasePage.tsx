@@ -9,6 +9,7 @@ import { Search, RefreshCw, Filter, SlidersHorizontal, Eye, Loader2 } from "luci
 import ExportDropdown from "@/components/shared/ExportDropdown";
 import { useBoardMembers } from "@/hooks/useBoardMembers";
 import ViewDetailsDialog from "@/components/dialogs/ViewDetailsDialog";
+import MaskedPhone from "@/components/shared/MaskedPhone";
 import { useState } from "react";
 
 const columns = [
@@ -98,7 +99,7 @@ const BoardMembersDatabasePage = () => {
                           </Button>
                         </TableCell>
                         <TableCell>{member.position}</TableCell>
-                        <TableCell dir="ltr">{member.phone || "—"}</TableCell>
+                        <TableCell><MaskedPhone value={member.phone} /></TableCell>
                         <TableCell>{member.email || "—"}</TableCell>
                         <TableCell>{member.appointment_date || "—"}</TableCell>
                         <TableCell>{member.status}</TableCell>
