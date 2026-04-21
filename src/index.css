@@ -118,6 +118,17 @@
 }
 
 @layer utilities {
+  /* Phone privacy masking — disables selection, copy, and visual reveal */
+  .phone-masked {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -ms-user-select: none !important;
+    -webkit-touch-callout: none;
+    cursor: not-allowed;
+  }
+  .phone-masked::selection { background: transparent; color: transparent; }
+  .phone-masked::-moz-selection { background: transparent; color: transparent; }
+
   .scrollbar-thin {
     scrollbar-width: thin;
   }

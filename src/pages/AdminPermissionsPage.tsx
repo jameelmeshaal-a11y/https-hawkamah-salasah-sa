@@ -28,7 +28,10 @@ const ACTION_LABELS: Record<string, string> = {
   delete: "حذف",
   approve: "اعتماد",
   export: "تصدير",
+  view_phone_numbers: "عرض أرقام التواصل",
 };
+
+const ACTION_ORDER = ["view", "create", "edit", "delete", "approve", "export", "view_phone_numbers"];
 
 interface ModulePerms {
   moduleId: string;
@@ -155,7 +158,7 @@ const AdminPermissionsPage = () => {
                     {modulePerms.map((mp, mIdx) => (
                       <TableRow key={mp.moduleId}>
                         <TableCell className="font-medium">{mp.moduleName}</TableCell>
-                        {["view", "create", "edit", "delete", "approve", "export"].map((action) => {
+                        {ACTION_ORDER.map((action) => {
                           const pIdx = mp.permissions.findIndex((p) => p.action === action);
                           const perm = pIdx >= 0 ? mp.permissions[pIdx] : null;
                           return (
