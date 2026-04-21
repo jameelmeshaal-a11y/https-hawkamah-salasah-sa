@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
 
 export interface AttendanceRecord {
   id: string;
@@ -16,8 +17,31 @@ export interface AttendanceRecord {
 }
 
 export const useAttendance = () => {
+  const { user } = useAuth();
   const [records, setRecords] = useState<AttendanceRecord[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentEmployeeId, setCurrentEmployeeId] = useState<string | null>(null);
+  const [resolvingEmployee, setResolvingEmployee] = useState(false);
+
+  const ensureCurrentEmployeeId = useCallback(async () => {
+    if (!user) {
+      setCurrentEmployeeId(null);
+      return null;
+    }
+
+    setResolvingEmployee(true);
+    const { data, error } = await supabase.rpc('ensure_employee_for_current_user');
+
+    if (error || !data) {
+      toast.error('تعذر تهيئة ملف الموظف المرتبط بالحساب');
+      setResolvingEmployee(false);
+      return null;
+    }
+
+    setCurrentEmployeeId(data);
+    setResolvingEmployee(false);
+    return data as string;
+  }, [user]);
 
   const fetchRecords = useCallback(async () => {
     setLoading(true);
@@ -32,7 +56,20 @@ export const useAttendance = () => {
   }, []);
 
   const addRecord = async (record: Partial<AttendanceRecord>) => {
-    const { error } = await supabase.from('attendance').insert(record as any);
+    const employeeId = record.employee_id && record.employee_id !== user?.id
+      ? record.employee_id
+      : currentEmployeeId || await ensureCurrentEmployeeId();
+
+    if (!employeeId) {
+      toast.error('لا يوجد ملف موظف مرتبط بهذا الحساب');
+      return false;
+    }
+
+    const { error } = await supabase.from('attendance').insert({
+      ...record,
+      employee_id: employeeId,
+    } as any);
+
     if (error) { toast.error('فشل في تسجيل الحضور'); return false; }
     toast.success('تم تسجيل الحضور بنجاح');
     await fetchRecords();
@@ -56,6 +93,23 @@ export const useAttendance = () => {
   };
 
   useEffect(() => { fetchRecords(); }, [fetchRecords]);
+  useEffect(() => {
+    if (!user) {
+      setCurrentEmployeeId(null);
+      return;
+    }
 
-  return { records, loading, fetchRecords, addRecord, updateRecord, deleteRecord };
+    void ensureCurrentEmployeeId();
+  }, [user, ensureCurrentEmployeeId]);
+
+  return {
+    records,
+    loading,
+    currentEmployeeId,
+    resolvingEmployee,
+    fetchRecords,
+    addRecord,
+    updateRecord,
+    deleteRecord,
+  };
 };
