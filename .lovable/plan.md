@@ -1,80 +1,217 @@
+<final-text>## خطة الإصلاح والتنفيذ الفعلي
 
+## التشخيص المؤكد
+1. **تسجيل الحضور موجود فعلاً في قاعدة البيانات**  
+   يوجد سجل اليوم للمستخدم `admin@salasah.sa` مع حضور وانصراف، لذلك المشكلة ليست في إنشاء السجل نفسه فقط.
 
-# خطة الإصلاح الشاملة
+2. **سبب ظهور رسالة: "لم تقم بتسجيل حضورك اليوم"**
+   - `AttendanceAlert.tsx` حالياً **ثابت** ويعرض الرسالة دائماً.
+   - لا يقرأ حالة الحضور الفعلية من `useAttendance`.
 
-## 1) مشكلة "تبديل المستخدمين" (الأهم)
-**السبب الجذري:** يوجد 3 حسابات في قاعدة البيانات:
-- `ceo@salasah.sa` (المدير التنفيذي) — محمي ✅
-- `admin@salasa.sa` (مدير النظام) — system_admin غير محمي ❌
-- `admin@salasah.sa` (م. خالد السعيد) — admin غير محمي ❌
+3. **سبب تعطل الحضور/الانصراف لبعض المستخدمين**
+   - سياسة الوصول الحالية تسمح لأي مستخدم بـ `INSERT` على جدول `attendance`
+   - لكن **لا تسمح للمستخدم العادي بتحديث سجله** عند الانصراف
+   - هذا يعني:
+     - الحضور قد ينجح
+     - الانصراف قد يفشل لغير الأدمن
+   - كذلك القراءة الحالية مفتوحة للجميع (`SELECT true`) وهذا غير صحيح وظيفياً وأمنياً.
 
-عند تسجيل الدخول كـ CEO، الـ Session أحياناً يلتقط cache من حساب آخر بسبب عدم تنظيف الـ localStorage. كذلك صفحة "إدارة المستخدمين" تعرض حساب خالد لأنه ليس محمياً.
+4. **سبب 404 في الرجوع**
+   - النظام يربط بعض الروابط إلى مسارات **غير موجودة** مثل:
+     - `/module/office`
+     - `/module/:moduleId`
+   - بينما الـ router الحالي يعرف فقط:
+     - `/`
+     - `/login`
+     - `/admin/...`
+     - `/module/:moduleId/:itemSlug`
+   - لذلك أي رجوع إلى صفحة قسم/وحدة ينتهي بـ 404.
 
-**الحل:**
-- **تنظيف الجلسة بقوة** في `signOut`: استدعاء `supabase.auth.signOut({ scope: 'global' })` + مسح `localStorage` يدوياً لمفاتيح Supabase + إعادة تحميل الصفحة لمنع أي state عالق.
-- **إصلاح `onAuthStateChange`:** عند `SIGNED_OUT` نمسح كل state ونعيد التوجيه لـ `/login`.
-- **حماية حساب خالد السعيد:** تعيين `is_protected = true` في DB كي لا يظهر لباقي المستخدمين (بما فيهم الـ CEO).
-- **حذف الحساب المكرر** `admin@salasa.sa` (مدير النظام) لأنه سبب الالتباس.
-- **إخفاء حسابات system_admin** من قائمة المستخدمين تلقائياً (إخفاء مزدوج: `is_protected` + الدور `system_admin`).
+5. **التصدير الحالي غير مكتمل**
+   - أزرار التصدير العامة في الجداول ليست موصولة بتقرير حضور فعلي.
+   - `AttendanceRecordsPage` و `CurrentAttendancePage` ما زالت صفحات شبه فارغة/placeholder.
 
-## 2) صلاحية رؤية أرقام الجوال
-- التأكد من أن `view_phone_numbers` ممنوحة لـ `system_admin` و `admin` فقط افتراضياً عبر migration (الإعدادات الحالية تمنحها لـ `system_admin` فقط — سنضيف `admin` كذلك حسب طلبك).
-- باقي الأدوار (`supervisor`, `user`, `auditor`) → الأرقام محجوبة كاملاً.
-- التحقق العملي: تسجيل دخول كـ user → فتح قاعدة المستفيدين → التأكد من ظهور الشريط الأسود.
+---
 
-## 3) زر اللوقو يعود للصفحة الرئيسية
-في `DashboardHeader.tsx`: لف القسم اليميني (الأيقونة + النص "نظام حوكمة") بـ `<Link to="/">` مع cursor-pointer.
+## ما سيتم بناؤه
 
-## 4) Breadcrumb قابل للنقر بالكامل
-في `InnerPageLayout.tsx`:
-- `sectionTitle` يصبح `<Link>` يرجّع لصفحة الموديول عند توفر `sectionSlug` اختياري — وإلا نستخدم `navigate(-1)`.
-- إضافة prop جديد `sectionPath?: string` لربط القسم برابط فعلي عند الحاجة.
-- صفحة الحضور: `الرئيسية ← المكتب الإلكتروني ← الخدمات المكتبية (clickable) ← تسجيل الحضور`.
+### 1) إصلاح الحضور والانصراف بشكل صحيح
+- جعل الموظف يسجل **لنفسه** حضور وانصراف بشكل سليم.
+- إضافة وضع **التسجيل بالنيابة** للمدير والأدمن فقط:
+  - الدور `admin`
+  - الدور `system_admin`
+- عرض الحالة الصحيحة فوراً:
+  - لم تسجل اليوم
+  - تسجيل حضور
+  - تسجيل انصراف
+  - تم التسجيل اليوم
 
-## 5) إصلاح "تسجيل الحضور والانصراف"
-**المشكلة:** `WeeklyRecordTable` و `DailyRecordTable` يستخدمان بيانات ثابتة (mock) ولا يقرآن من جدول `attendance` فعلياً.
+### 2) إصلاح الصلاحيات من الجذر
+سيتم تعديل صلاحيات جدول `attendance` بحيث تصبح:
 
-**الحل:**
-- تعديل `WeeklyRecordTable` و `DailyRecordTable` لاستخدام `useAttendance` وفلترة سجلات المستخدم الحالي (`employee_id = user.id`) لآخر 7 أيام / اليوم الحالي.
-- `AttendanceButton` يميّز تلقائياً بين تسجيل **حضور** (إذا لم يوجد سجل اليوم) أو **انصراف** (تحديث `check_out` إذا يوجد check_in بدون check_out).
-- إظهار toast واضح + إعادة جلب البيانات فوراً بعد التسجيل.
-- حساب صافي ساعات العمل تلقائياً من `check_in` و `check_out`.
+- **الموظف العادي**
+  - يرى **سجلاته فقط**
+  - يسجل حضور **لنفسه فقط**
+  - يسجل انصراف **لسجله المفتوح فقط**
 
-## الملفات المعدّلة
-| الملف | التعديل |
-|------|--------|
-| `src/contexts/AuthContext.tsx` | تنظيف قوي للجلسة + معالجة SIGNED_OUT |
-| `src/components/dashboard/AdminNavMenu.tsx` | إعادة توجيه إجبارية بعد signOut |
-| `src/components/dashboard/DashboardHeader.tsx` | تحويل اللوقو إلى Link |
-| `src/components/layout/InnerPageLayout.tsx` | breadcrumb قابل للنقر |
-| `src/pages/AdminUsersPage.tsx` | إخفاء system_admin أيضاً |
-| `src/components/attendance/WeeklyRecordTable.tsx` | ربط بـ useAttendance |
-| `src/components/attendance/DailyRecordTable.tsx` | ربط بـ useAttendance |
-| `src/components/attendance/AttendanceButton.tsx` | منطق حضور/انصراف ذكي |
-| `src/pages/items/AttendancePage.tsx` | تمرير sectionPath لـ breadcrumb |
+- **المدير والأدمن**
+  - يرون جميع السجلات
+  - يسجلون حضور/انصراف **بالنيابة عن الموظفين**
+  - يصدرون تقارير الدوام
 
-## Migration قاعدة البيانات
-```sql
--- حماية حساب خالد السعيد (إخفاؤه)
-UPDATE profiles SET is_protected = true 
-WHERE email = 'admin@salasah.sa';
+### 3) إضافة تحضير الموظفين بالنيابة
+في شاشة الحضور أو شاشة السجل الحالي:
+- يظهر **اختيار موظف** فقط للمدير/الأدمن
+- يمكن:
+  - تسجيل حضور لموظف
+  - تسجيل انصراف لموظف
+  - رؤية حالته الحالية اليوم
 
--- حذف الحساب المكرر admin@salasa.sa
-DELETE FROM user_roles WHERE user_id = (SELECT user_id FROM profiles WHERE email='admin@salasa.sa');
-DELETE FROM profiles WHERE email = 'admin@salasa.sa';
--- (auth.users سيُحذف عبر cascade أو يدوياً في Edge Function إن لزم)
+### 4) إضافة تصدير كشف الدوام
+سيتم دعم:
+- **كل الموظفين**
+- **موظف محدد**
+- **من تاريخ إلى تاريخ**
+- التصدير:
+  - Excel/CSV
+  - PDF
 
--- منح admin صلاحية رؤية أرقام الجوال
-INSERT INTO role_permissions (role, permission_id)
-SELECT 'admin', id FROM permissions WHERE action='view_phone_numbers'
-ON CONFLICT DO NOTHING;
-```
+### 5) إصلاح 404 في الرجوع على مستوى النظام كله
+سيتم علاج المشكلة مرة واحدة عبر:
+- إنشاء Route صحيح للوحدات: `/module/:moduleId`
+- جعل Breadcrumbs ترجع إلى:
+  - الرئيسية
+  - الوحدة
+  - القسم
+- اشتقاق روابط الأقسام تلقائياً من بيانات `sectionSlug` بدلاً من كتابة روابط خاطئة يدوياً
 
-## التحقق
-1. تسجيل دخول كـ CEO → فتح "إدارة المستخدمين" → يجب ألا يظهر CEO ولا خالد السعيد ولا admin@salasa.sa.
-2. تسجيل خروج ثم دخول → يجب ألا يحدث "قفز" بين الحسابات.
-3. الضغط على اللوقو → يعود للرئيسية.
-4. في صفحة الحضور: الضغط على "الخدمات المكتبية" في breadcrumb → يعود لصفحة المكتب الإداري.
-5. الضغط على زر "تسجيل الحضور" → يُسجَّل في DB ويظهر فوراً في الجدول اليومي والأسبوعي.
-6. تسجيل دخول كمستخدم عادي → الأرقام محجوبة بشريط أسود.
+---
 
+## التنفيذ الفني
+
+### أ) تعديلات قاعدة البيانات
+إنشاء Migration جديدة تتضمن:
+
+1. **دوال صلاحيات الحضور**
+- دالة تتحقق أن `employee_id` يخص المستخدم الحالي
+- دالة تتحقق أن المستخدم يستطيع إدارة حضور الآخرين (`admin` أو `system_admin`)
+
+2. **إصلاح سياسات RLS لجدول attendance**
+- إزالة القراءة المفتوحة للجميع
+- السماح للمستخدم بقراءة/إدراج/تحديث **سجله فقط**
+- السماح للمدير/الأدمن بإدارة جميع السجلات
+
+3. **التحضير بالنيابة**
+- لا نحتاج دور جديد
+- سنستخدم الأدوار الحالية:
+  - `admin` = مدير
+  - `system_admin` = أدمن النظام
+
+### ب) إصلاح Hook الحضور
+تعديل `useAttendance.ts` ليصبح:
+- قادراً على جلب:
+  - سجلاتي فقط للمستخدم العادي
+  - أو جميع السجلات للمدير/الأدمن
+- يدعم:
+  - self check-in / self check-out
+  - proxy check-in / proxy check-out
+- يعرض أسماء الموظفين بدل UUID عند الحاجة للتقارير والجداول
+
+### ج) إصلاح واجهة الحضور
+تعديل الملفات التالية:
+- `src/components/attendance/AttendanceAlert.tsx`
+- `src/components/attendance/AttendanceButton.tsx`
+- `src/components/attendance/DailyRecordTable.tsx`
+- `src/components/attendance/WeeklyRecordTable.tsx`
+- `src/pages/items/AttendancePage.tsx`
+
+النتيجة:
+- التنبيه يقرأ الحالة الحقيقية
+- الزر يعمل فعلياً
+- الجداول تتحدث فوراً بعد العملية
+
+### د) إضافة واجهة التحضير بالنيابة
+تعديل/إكمال:
+- `src/pages/items/CurrentAttendancePage.tsx`
+- وربما مكوّن جديد لاختيار الموظف وتنفيذ الحضور/الانصراف
+
+النتيجة:
+- المدير/الأدمن فقط يرى اختيار الموظف
+- الموظف العادي لا يرى هذا الجزء
+
+### هـ) تقارير وتصدير الدوام
+تعديل:
+- `src/pages/items/AttendanceLogsPage.tsx`
+- `src/pages/items/AttendanceRecordsPage.tsx`
+- `src/services/reportService.ts`
+- `supabase/functions/generate-report/index.ts`
+
+وسيتم:
+- إضافة `reportType = attendance`
+- دعم `fromDate`, `toDate`, `employeeId`
+- إخراج اسم الموظف + التاريخ + الحضور + الانصراف + صافي الساعات + الحالة
+
+### و) إصلاح 404 عالمياً
+تعديل:
+- `src/App.tsx`
+- إنشاء صفحة جديدة مثل `src/pages/ModuleOverviewPage.tsx`
+- `src/components/layout/InnerPageLayout.tsx`
+
+وسيتم:
+- إضافة Route للوحدة نفسها `/module/:moduleId`
+- جعل رابط القسم مثلاً:
+  - `/module/office?section=office-services`
+- بناء breadcrumb صحيح تلقائياً من `moduleId + itemSlug + sectionSlug`
+- إزالة الاعتماد على روابط يدوية خاطئة مثل `/module/office` بدون Route
+
+---
+
+## الملفات المتأثرة غالباً
+- `supabase/migrations/*.sql`
+- `src/hooks/useAttendance.ts`
+- `src/components/attendance/AttendanceAlert.tsx`
+- `src/components/attendance/AttendanceButton.tsx`
+- `src/components/attendance/DailyRecordTable.tsx`
+- `src/components/attendance/WeeklyRecordTable.tsx`
+- `src/pages/items/AttendancePage.tsx`
+- `src/pages/items/CurrentAttendancePage.tsx`
+- `src/pages/items/AttendanceLogsPage.tsx`
+- `src/pages/items/AttendanceRecordsPage.tsx`
+- `src/services/reportService.ts`
+- `supabase/functions/generate-report/index.ts`
+- `src/App.tsx`
+- `src/components/layout/InnerPageLayout.tsx`
+- `src/pages/ModuleOverviewPage.tsx` (جديد)
+
+---
+
+## التحقق العملي بعد التنفيذ
+سيتم إجراء تجربة فعلية تشمل:
+1. تسجيل دخول كموظف عادي
+   - تسجيل حضور لنفسه
+   - تسجيل انصراف لنفسه
+   - التأكد من اختفاء رسالة الخطأ وظهور الحالة الصحيحة
+
+2. تسجيل دخول كمدير/أدمن
+   - تحضير موظف بالنيابة
+   - تسجيل انصراف له
+   - رؤية السجل محدثاً فوراً
+
+3. تجربة التصدير
+   - كل الموظفين
+   - موظف محدد
+   - فترة من تاريخ إلى تاريخ
+
+4. تجربة التنقل
+   - الضغط على اللوقو → الرئيسية
+   - الضغط على الوحدة → صفحة الوحدة
+   - الضغط على القسم → صفحة القسم
+   - التأكد من اختفاء 404 من كامل النظام
+
+## النتيجة النهائية المتوقعة
+- الحضور والانصراف يعمل فعلياً وبشكل واضح
+- الموظف يستطيع التحضير لنفسه
+- المدير والأدمن يستطيعان التحضير بالنيابة
+- تنبيه الحضور اليومي يصبح صحيحاً
+- تصدير كشف الدوام يعمل لكل الموظفين أو لموظف محدد خلال فترة
+- مشكلة 404 في الرجوع تُحل من جذورها على مستوى النظام كله</final-text>
