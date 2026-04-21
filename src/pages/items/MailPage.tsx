@@ -4,16 +4,15 @@ import MailSidebar from "@/components/mail/MailSidebar";
 import MailTable, { MailRecord } from "@/components/mail/MailTable";
 import { Button } from "@/components/ui/button";
 import { Trash2, Archive, Tag } from "lucide-react";
+import NewMailDialog from "@/components/dialogs/NewMailDialog";
 
 const MailPage = () => {
   const [activeTab, setActiveTab] = useState<"inbox" | "sent" | "drafts" | "trash" | "archive">("inbox");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [mails] = useState<MailRecord[]>([]);
+  const [newMailOpen, setNewMailOpen] = useState(false);
 
-  const handleNewMail = () => {
-    // TODO: Open new mail dialog
-    console.log("New mail");
-  };
+  const handleNewMail = () => setNewMailOpen(true);
 
   const handleDelete = () => {
     console.log("Delete", selectedIds);
@@ -86,6 +85,7 @@ const MailPage = () => {
           />
         </div>
       </div>
+      <NewMailDialog open={newMailOpen} onOpenChange={setNewMailOpen} />
     </InnerPageLayout>
   );
 };
