@@ -111,7 +111,7 @@ const IssueGeneralPaymentPage = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="amount">المبلغ (ريال) *</Label>
+                    <Label htmlFor="amount">المبلغ (﷼) *</Label>
                     <Input
                       id="amount"
                       type="number"
@@ -232,7 +232,7 @@ const IssueGeneralPaymentPage = () => {
                 <div className="text-center border-b pb-4">
                   <div className="text-sm text-muted-foreground">سند صرف</div>
                   <div className="text-2xl font-bold text-red-800">
-                    {amount ? parseFloat(amount).toLocaleString("ar-SA") : "0"} ر.س
+                    {amount ? parseFloat(amount).toLocaleString("ar-SA") : "0"} ﷼
                   </div>
                 </div>
                 <div className="space-y-2 text-sm">

@@ -3,7 +3,7 @@ import InnerPageLayout from "@/components/layout/InnerPageLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import AdvancedTable, { TableColumn, TableAction } from "@/components/shared/AdvancedTable";
 import StatCard from "@/components/shared/StatCard";
-import { Heart, DollarSign, Users, Calendar } from "lucide-react";
+import { Heart, Banknote, Users, Calendar } from "lucide-react";
 import { toast } from "sonner";
 
 interface SponsorshipRecord {
@@ -121,14 +121,14 @@ const SponsorshipsTablePage = () => {
           />
           <StatCard
             title="المبلغ الشهري"
-            value={`${totalMonthlyAmount.toLocaleString()} ريال`}
+            value={`${totalMonthlyAmount.toLocaleString()} ﷼`}
             icon={Calendar}
             variant="warning"
           />
           <StatCard
             title="إجمالي المدفوع"
-            value={`${totalPaidAmount.toLocaleString()} ريال`}
-            icon={DollarSign}
+            value={`${totalPaidAmount.toLocaleString()} ﷼`}
+            icon={Banknote}
             variant="default"
           />
         </div>

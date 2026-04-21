@@ -122,7 +122,7 @@ const ReviewCashExpensesPage = () => {
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("ar-SA").format(amount) + " ر.س";
+    return new Intl.NumberFormat("ar-SA").format(amount) + " ﷼";
   };
 
   const filteredExpenses = expenses.filter((expense) => {

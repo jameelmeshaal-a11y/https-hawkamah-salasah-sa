@@ -143,7 +143,7 @@ const PaymentConfirmationsRecordsPage = () => {
                         </span>
                       </TableCell>
                       <TableCell>{record.paymentType}</TableCell>
-                      <TableCell>{record.amount.toFixed(2)} ريال</TableCell>
+                      <TableCell>{record.amount.toFixed(2)} ﷼</TableCell>
                       <TableCell>
                         <div className="text-sm">
                           <div>{record.createdAtHijri}</div>

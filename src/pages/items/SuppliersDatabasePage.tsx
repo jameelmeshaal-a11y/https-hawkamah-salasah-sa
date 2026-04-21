@@ -20,7 +20,7 @@ export default function SuppliersDatabasePage() {
     phone: s.phone || "—",
     email: s.email || "—",
     fax: "—",
-    currency: "ريال",
+    currency: "﷼",
   }));
 
   const handlePreview = (id: string) => {

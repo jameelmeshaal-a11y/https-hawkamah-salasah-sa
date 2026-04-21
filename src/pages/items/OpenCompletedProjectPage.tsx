@@ -13,7 +13,7 @@ const projectsData: ProjectData[] = [
     village: "حي الصفا",
     targetCategory: "طلاب",
     supportType: "عيني",
-    currency: "ريال",
+    currency: "﷼",
   },
 ];
 

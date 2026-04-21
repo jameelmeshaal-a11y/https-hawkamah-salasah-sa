@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import StatCard from "@/components/shared/StatCard";
-import { DollarSign, TrendingUp, TrendingDown, PieChart, Download, FileText } from "lucide-react";
+import { Banknote, TrendingUp, TrendingDown, PieChart, Download, FileText } from "lucide-react";
 import { toast } from "sonner";
 
 const FinancialReportsPage = () => {
@@ -98,20 +98,20 @@ const FinancialReportsPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <StatCard
             title="إجمالي الإيرادات"
-            value={`${stats.totalIncome.toLocaleString()} ريال`}
+            value={`${stats.totalIncome.toLocaleString()} ﷼`}
             icon={TrendingUp}
             variant="success"
           />
           <StatCard
             title="إجمالي المصروفات"
-            value={`${stats.totalExpenses.toLocaleString()} ريال`}
+            value={`${stats.totalExpenses.toLocaleString()} ﷼`}
             icon={TrendingDown}
             variant="danger"
           />
           <StatCard
             title="صافي الرصيد"
-            value={`${stats.netBalance.toLocaleString()} ريال`}
-            icon={DollarSign}
+            value={`${stats.netBalance.toLocaleString()} ﷼`}
+            icon={Banknote}
             variant="info"
           />
           <StatCard
@@ -134,15 +134,15 @@ const FinancialReportsPage = () => {
             <CardContent className="space-y-4">
               <div className="flex justify-between items-center p-3 bg-emerald-50 rounded-lg">
                 <span>إيرادات الكفالات</span>
-                <span className="font-bold text-emerald-600">{stats.sponsorshipsIncome.toLocaleString()} ريال</span>
+                <span className="font-bold text-emerald-600">{stats.sponsorshipsIncome.toLocaleString()} ﷼</span>
               </div>
               <div className="flex justify-between items-center p-3 bg-emerald-50 rounded-lg">
                 <span>التبرعات</span>
-                <span className="font-bold text-emerald-600">{stats.donationsIncome.toLocaleString()} ريال</span>
+                <span className="font-bold text-emerald-600">{stats.donationsIncome.toLocaleString()} ﷼</span>
               </div>
               <div className="flex justify-between items-center p-3 bg-emerald-100 rounded-lg font-bold">
                 <span>الإجمالي</span>
-                <span className="text-emerald-700">{stats.totalIncome.toLocaleString()} ريال</span>
+                <span className="text-emerald-700">{stats.totalIncome.toLocaleString()} ﷼</span>
               </div>
             </CardContent>
           </Card>
@@ -157,15 +157,15 @@ const FinancialReportsPage = () => {
             <CardContent className="space-y-4">
               <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg">
                 <span>المساعدات المصروفة</span>
-                <span className="font-bold text-red-600">{stats.aidExpenses.toLocaleString()} ريال</span>
+                <span className="font-bold text-red-600">{stats.aidExpenses.toLocaleString()} ﷼</span>
               </div>
               <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg">
                 <span>المصروفات التشغيلية</span>
-                <span className="font-bold text-red-600">{stats.operationalExpenses.toLocaleString()} ريال</span>
+                <span className="font-bold text-red-600">{stats.operationalExpenses.toLocaleString()} ﷼</span>
               </div>
               <div className="flex justify-between items-center p-3 bg-red-100 rounded-lg font-bold">
                 <span>الإجمالي</span>
-                <span className="text-red-700">{stats.totalExpenses.toLocaleString()} ريال</span>
+                <span className="text-red-700">{stats.totalExpenses.toLocaleString()} ﷼</span>
               </div>
             </CardContent>
           </Card>

@@ -79,7 +79,7 @@ const ShareholdersSettingsPage = () => {
                     <Label htmlFor="maxPurchase">الحد الأقصى لشراء الأسهم</Label>
                     <div className="relative">
                       <Input id="maxPurchase" type="number" placeholder="أدخل الحد الأقصى" className="pl-12" />
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">ريال</span>
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">﷼</span>
                     </div>
                   </div>
                 </div>

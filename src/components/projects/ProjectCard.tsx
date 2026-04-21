@@ -116,7 +116,7 @@ const ProjectCard = ({
         {/* Budget Info */}
         <div className="flex items-center justify-between pt-2 border-t border-gray-100">
           <span className="text-sm text-gray-600">متبقي بالميزانية:</span>
-          <span className="font-semibold text-primary">{remainingBudget.toLocaleString()} ريال</span>
+          <span className="font-semibold text-primary">{remainingBudget.toLocaleString()} ﷼</span>
         </div>
       </CardContent>
     </Card>

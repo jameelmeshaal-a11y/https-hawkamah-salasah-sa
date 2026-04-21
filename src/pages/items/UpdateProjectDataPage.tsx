@@ -12,7 +12,7 @@ const projectsData: ProjectData[] = [
     village: "أخرى",
     targetCategory: "أخرى",
     supportType: "أخرى",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "2",
@@ -24,7 +24,7 @@ const projectsData: ProjectData[] = [
     village: "الرياض",
     targetCategory: "أسر",
     supportType: "تمليك سكن",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "3",
@@ -36,7 +36,7 @@ const projectsData: ProjectData[] = [
     village: "جدة",
     targetCategory: "أيتام",
     supportType: "دعم مالي",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "4",
@@ -48,7 +48,7 @@ const projectsData: ProjectData[] = [
     village: "الدمام",
     targetCategory: "شباب",
     supportType: "تدريب",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "5",
@@ -60,7 +60,7 @@ const projectsData: ProjectData[] = [
     village: "الخرج",
     targetCategory: "أسر محتاجة",
     supportType: "عيني",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "6",
@@ -72,7 +72,7 @@ const projectsData: ProjectData[] = [
     village: "بريدة",
     targetCategory: "أسر",
     supportType: "عيني",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "7",
@@ -84,7 +84,7 @@ const projectsData: ProjectData[] = [
     village: "الرياض",
     targetCategory: "طلاب",
     supportType: "دعم مالي",
-    currency: "ريال",
+    currency: "﷼",
   },
 ];
 

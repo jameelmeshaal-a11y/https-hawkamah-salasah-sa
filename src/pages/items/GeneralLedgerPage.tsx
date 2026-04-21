@@ -201,7 +201,7 @@ const GeneralLedgerPage = () => {
             <div className="mb-4 p-3 bg-muted/50 rounded-lg flex justify-between items-center">
               <span className="font-medium">الرصيد الافتتاحي</span>
               <span className="font-mono font-bold text-lg">
-                {formatCurrency(ledgerData.openingBalance)} ر.س
+                {formatCurrency(ledgerData.openingBalance)} ﷼
               </span>
             </div>
 
@@ -255,7 +255,7 @@ const GeneralLedgerPage = () => {
             <div className="mt-4 p-3 bg-primary/10 rounded-lg flex justify-between items-center">
               <span className="font-medium">الرصيد الختامي</span>
               <span className="font-mono font-bold text-lg text-primary">
-                {formatCurrency(ledgerData.closingBalance)} ر.س
+                {formatCurrency(ledgerData.closingBalance)} ﷼
               </span>
             </div>
 
@@ -264,19 +264,19 @@ const GeneralLedgerPage = () => {
               <div className="p-3 border rounded-lg text-center">
                 <div className="text-sm text-muted-foreground">إجمالي المدين</div>
                 <div className="text-lg font-bold text-green-600">
-                  {formatCurrency(totalDebit)} ر.س
+                  {formatCurrency(totalDebit)} ﷼
                 </div>
               </div>
               <div className="p-3 border rounded-lg text-center">
                 <div className="text-sm text-muted-foreground">إجمالي الدائن</div>
                 <div className="text-lg font-bold text-red-600">
-                  {formatCurrency(totalCredit)} ر.س
+                  {formatCurrency(totalCredit)} ﷼
                 </div>
               </div>
               <div className="p-3 border rounded-lg text-center">
                 <div className="text-sm text-muted-foreground">صافي الحركة</div>
                 <div className="text-lg font-bold">
-                  {formatCurrency(totalDebit - totalCredit)} ر.س
+                  {formatCurrency(totalDebit - totalCredit)} ﷼
                 </div>
               </div>
             </div>

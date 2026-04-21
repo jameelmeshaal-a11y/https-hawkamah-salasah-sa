@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import AdvancedTable, { TableColumn, TableAction } from "@/components/shared/AdvancedTable";
 import StatCard from "@/components/shared/StatCard";
-import { Users, Heart, DollarSign, TrendingUp, Plus } from "lucide-react";
+import { Users, Heart, Banknote, TrendingUp, Plus } from "lucide-react";
 import { useDonors } from "@/hooks/useDonors";
 import { AddDonorDialog } from "@/components/dialogs/AddDonorDialog";
 import {
@@ -48,7 +48,7 @@ const SponsorsListPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <StatCard title="إجمالي المتبرعين" value={donors.length} icon={Users} variant="info" />
           <StatCard title="متبرعون نشطون" value={donors.filter(d => d.status === 'active').length} icon={Heart} variant="success" />
-          <StatCard title="إجمالي التبرعات" value={`${totalDonations.toLocaleString()} ريال`} icon={DollarSign} variant="warning" />
+          <StatCard title="إجمالي التبرعات" value={`${totalDonations.toLocaleString()} ﷼`} icon={Banknote} variant="warning" />
           <StatCard title="المدن" value={new Set(donors.map(d => d.city).filter(Boolean)).size} icon={TrendingUp} variant="default" />
         </div>
 

@@ -152,7 +152,7 @@ const GeneralMaintenanceRequestsPage = () => {
                       <TableCell>{request.requestStatement}</TableCell>
                       <TableCell>{request.classification}</TableCell>
                       <TableCell>{request.priceQuotes}</TableCell>
-                      <TableCell>{request.finalCost.toFixed(2)} ريال</TableCell>
+                      <TableCell>{request.finalCost.toFixed(2)} ﷼</TableCell>
                       <TableCell>{request.managementComment}</TableCell>
                       <TableCell>{request.createdAt}</TableCell>
                     </TableRow>

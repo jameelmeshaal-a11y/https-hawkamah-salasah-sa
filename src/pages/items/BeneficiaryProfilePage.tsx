@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { 
-  User, Phone, MapPin, FileText, Users, DollarSign, 
+  User, Phone, MapPin, FileText, Users, Banknote, 
   Heart, GraduationCap, Briefcase, Home, Edit, Download 
 } from "lucide-react";
 import { toast } from "sonner";
@@ -55,7 +55,7 @@ const BeneficiaryProfilePage = () => {
   const tabs = [
     { id: "personal", label: "البيانات الشخصية", icon: User },
     { id: "dependents", label: "التابعين", icon: Users },
-    { id: "financial", label: "البيانات المالية", icon: DollarSign },
+    { id: "financial", label: "البيانات المالية", icon: Banknote },
     { id: "aid-history", label: "سجل المساعدات", icon: Heart },
     { id: "documents", label: "المستندات", icon: FileText },
   ];
@@ -247,16 +247,16 @@ const BeneficiaryProfilePage = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <DollarSign className="h-5 w-5" />
+                  <Banknote className="h-5 w-5" />
                   مصادر الدخل
                 </CardTitle>
               </CardHeader>
               <CardContent className="grid md:grid-cols-2 gap-4">
-                <DataRow label="الراتب" value={`${beneficiary.salary.toLocaleString()} ريال`} />
-                <DataRow label="التقاعد" value={`${beneficiary.pension.toLocaleString()} ريال`} />
-                <DataRow label="الضمان الاجتماعي" value={`${beneficiary.socialSecurity.toLocaleString()} ريال`} />
-                <DataRow label="التأمينات" value={`${beneficiary.insurance.toLocaleString()} ريال`} />
-                <DataRow label="إجمالي الدخل" value={`${(beneficiary.salary + beneficiary.pension + beneficiary.socialSecurity + beneficiary.insurance).toLocaleString()} ريال`} />
+                <DataRow label="الراتب" value={`${beneficiary.salary.toLocaleString()} ﷼`} />
+                <DataRow label="التقاعد" value={`${beneficiary.pension.toLocaleString()} ﷼`} />
+                <DataRow label="الضمان الاجتماعي" value={`${beneficiary.socialSecurity.toLocaleString()} ﷼`} />
+                <DataRow label="التأمينات" value={`${beneficiary.insurance.toLocaleString()} ﷼`} />
+                <DataRow label="إجمالي الدخل" value={`${(beneficiary.salary + beneficiary.pension + beneficiary.socialSecurity + beneficiary.insurance).toLocaleString()} ﷼`} />
                 <DataRow label="عدد التابعين" value={beneficiary.dependentsCount} />
               </CardContent>
             </Card>
@@ -284,7 +284,7 @@ const BeneficiaryProfilePage = () => {
                     {aidHistory.map((aid) => (
                       <TableRow key={aid.id}>
                         <TableCell className="font-medium">{aid.type}</TableCell>
-                        <TableCell>{aid.amount.toLocaleString()} ريال</TableCell>
+                        <TableCell>{aid.amount.toLocaleString()} ﷼</TableCell>
                         <TableCell>{aid.date}</TableCell>
                         <TableCell>
                           <Badge className={aid.status === "مسلمة" ? "bg-emerald-100 text-emerald-800" : "bg-blue-100 text-blue-800"}>

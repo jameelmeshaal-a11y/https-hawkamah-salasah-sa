@@ -346,7 +346,7 @@ const FinancialPerformanceIndicatorsPage = () => {
                     {accountBalancesData.map((item, index) => (
                       <TableRow key={index}>
                         <TableCell className="font-medium">{item.account}</TableCell>
-                        <TableCell>{item.balance.toLocaleString('ar-SA')} ريال</TableCell>
+                        <TableCell>{item.balance.toLocaleString('ar-SA')} ﷼</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
