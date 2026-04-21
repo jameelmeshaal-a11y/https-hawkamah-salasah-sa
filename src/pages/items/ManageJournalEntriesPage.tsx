@@ -122,7 +122,7 @@ const ManageJournalEntriesPage = () => {
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("ar-SA").format(amount) + " ر.س";
+    return new Intl.NumberFormat("ar-SA").format(amount) + " ﷼";
   };
 
   const filteredEntries = entries.filter((entry) => {

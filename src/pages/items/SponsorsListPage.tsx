@@ -48,7 +48,7 @@ const SponsorsListPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <StatCard title="إجمالي المتبرعين" value={donors.length} icon={Users} variant="info" />
           <StatCard title="متبرعون نشطون" value={donors.filter(d => d.status === 'active').length} icon={Heart} variant="success" />
-          <StatCard title="إجمالي التبرعات" value={`${totalDonations.toLocaleString()} ريال`} icon={DollarSign} variant="warning" />
+          <StatCard title="إجمالي التبرعات" value={`${totalDonations.toLocaleString()} ﷼`} icon={DollarSign} variant="warning" />
           <StatCard title="المدن" value={new Set(donors.map(d => d.city).filter(Boolean)).size} icon={TrendingUp} variant="default" />
         </div>
 

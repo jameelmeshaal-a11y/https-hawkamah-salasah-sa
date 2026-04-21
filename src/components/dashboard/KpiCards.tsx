@@ -63,7 +63,7 @@ const KpiCards = () => {
     { icon: <AlertTriangle className="h-7 w-7" />, label: "المتطوعون", value: stats.volunteers, bgColor: "bg-teal-500", link: "/module/volunteering/volunteers-database", loading },
     { icon: <HandCoins className="h-7 w-7" />, label: "المتبرعون", value: stats.donors, bgColor: "bg-blue-500", link: "/module/financial-resources/sponsors-list", loading },
     { icon: <Timer className="h-7 w-7" />, label: "الطلبات المعلقة", value: stats.requests_pending, bgColor: "bg-amber-400", link: "/module/office/pending-requests", loading },
-    { icon: <CheckCircle className="h-7 w-7" />, label: "إجمالي التبرعات (ر.س)", value: stats.donations, bgColor: "bg-green-600", link: "/module/financial-resources/manage-donations", loading },
+    { icon: <CheckCircle className="h-7 w-7" />, label: "إجمالي التبرعات (﷼)", value: stats.donations, bgColor: "bg-green-600", link: "/module/financial-resources/manage-donations", loading },
   ];
 
   return (

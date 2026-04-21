@@ -13,7 +13,7 @@ const projectsData: ProjectData[] = [
     village: "حي النخيل",
     targetCategory: "أسر محتاجة",
     supportType: "نقدي",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "3",
@@ -25,7 +25,7 @@ const projectsData: ProjectData[] = [
     village: "حي الفيصلية",
     targetCategory: "أيتام",
     supportType: "عيني",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "5",
@@ -37,7 +37,7 @@ const projectsData: ProjectData[] = [
     village: "حي الشرقية",
     targetCategory: "أسر محتاجة",
     supportType: "عيني",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "6",
@@ -49,7 +49,7 @@ const projectsData: ProjectData[] = [
     village: "حي النزهة",
     targetCategory: "أسر محتاجة",
     supportType: "عيني",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "7",
@@ -61,7 +61,7 @@ const projectsData: ProjectData[] = [
     village: "حي المروج",
     targetCategory: "أيتام",
     supportType: "نقدي",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "8",
@@ -73,7 +73,7 @@ const projectsData: ProjectData[] = [
     village: "حي الراكة",
     targetCategory: "أسر منتجة",
     supportType: "نقدي",
-    currency: "ريال",
+    currency: "﷼",
   },
 ];
 

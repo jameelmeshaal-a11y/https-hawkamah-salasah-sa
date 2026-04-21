@@ -121,13 +121,13 @@ const SponsorshipsTablePage = () => {
           />
           <StatCard
             title="المبلغ الشهري"
-            value={`${totalMonthlyAmount.toLocaleString()} ريال`}
+            value={`${totalMonthlyAmount.toLocaleString()} ﷼`}
             icon={Calendar}
             variant="warning"
           />
           <StatCard
             title="إجمالي المدفوع"
-            value={`${totalPaidAmount.toLocaleString()} ريال`}
+            value={`${totalPaidAmount.toLocaleString()} ﷼`}
             icon={DollarSign}
             variant="default"
           />

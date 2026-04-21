@@ -67,7 +67,7 @@ const AidCommitteeBalancePage = () => {
           <div className="flex items-center gap-2">
             <span className="text-yellow-800 font-medium">الرصيد الحالي:</span>
             <span className={`font-bold text-xl ${currentBalance < 0 ? 'text-red-600' : 'text-yellow-900'}`}>
-              {currentBalance.toLocaleString()} ريال سعودي
+              {currentBalance.toLocaleString()} ﷼ سعودي
             </span>
           </div>
         </div>

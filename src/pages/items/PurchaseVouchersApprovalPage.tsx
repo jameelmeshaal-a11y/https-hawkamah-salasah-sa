@@ -149,7 +149,7 @@ const PurchaseVouchersApprovalPage = () => {
                           <div className="text-muted-foreground">{voucher.endDateGregorian}</div>
                         </div>
                       </TableCell>
-                      <TableCell>{voucher.voucherValue} ريال</TableCell>
+                      <TableCell>{voucher.voucherValue} ﷼</TableCell>
                       <TableCell>
                         <span className="text-muted-foreground">
                           {voucher.notes || "غير متاح"}

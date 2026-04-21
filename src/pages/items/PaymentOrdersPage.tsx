@@ -128,7 +128,7 @@ const PaymentOrdersPage = () => {
           />
           <StatCard
             title="إجمالي المبالغ"
-            value={`${totalAmount.toLocaleString()} ريال`}
+            value={`${totalAmount.toLocaleString()} ﷼`}
             icon={DollarSign}
             variant="default"
           />

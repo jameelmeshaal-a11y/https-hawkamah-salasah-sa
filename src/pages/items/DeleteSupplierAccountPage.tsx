@@ -13,7 +13,7 @@ const suppliersData: SupplierData[] = [
     phone: "0512345678",
     email: "nsma@example.com",
     fax: "011234567",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "2",
@@ -25,7 +25,7 @@ const suppliersData: SupplierData[] = [
     phone: "0598765432",
     email: "masader@example.com",
     fax: "012345678",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "3",
@@ -37,7 +37,7 @@ const suppliersData: SupplierData[] = [
     phone: "0551112223",
     email: "qawaji@example.com",
     fax: "011112223",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "4",
@@ -49,7 +49,7 @@ const suppliersData: SupplierData[] = [
     phone: "0544445556",
     email: "anmalhi@example.com",
     fax: "014445556",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "5",
@@ -61,7 +61,7 @@ const suppliersData: SupplierData[] = [
     phone: "0577788899",
     email: "general@example.com",
     fax: "017778889",
-    currency: "ريال",
+    currency: "﷼",
   },
 ];
 

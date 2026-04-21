@@ -29,7 +29,7 @@ export default function ProjectsDatabaseWithFilterPage() {
     village: "—",
     targetCategory: "—",
     supportType: "—",
-    currency: "ريال",
+    currency: "﷼",
   }));
 
   const statusCounts: StatusCount[] = [

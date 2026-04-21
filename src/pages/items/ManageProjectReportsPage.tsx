@@ -12,7 +12,7 @@ const projectsData = [
     village: "محافظة الرياض",
     targetCategory: "أخرى",
     supportType: "نوع احدائي",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "2",
@@ -24,7 +24,7 @@ const projectsData = [
     village: "محافظة الخرج",
     targetCategory: "أيتام",
     supportType: "دعم مالي",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "3",
@@ -36,7 +36,7 @@ const projectsData = [
     village: "محافظة الرياض",
     targetCategory: "طلاب",
     supportType: "دعم عيني",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "4",
@@ -48,7 +48,7 @@ const projectsData = [
     village: "محافظة جدة",
     targetCategory: "أسر محتاجة",
     supportType: "دعم عيني",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "5",
@@ -60,7 +60,7 @@ const projectsData = [
     village: "محافظة الرياض",
     targetCategory: "عموم المسلمين",
     supportType: "دعم عيني",
-    currency: "ريال",
+    currency: "﷼",
   },
 ];
 

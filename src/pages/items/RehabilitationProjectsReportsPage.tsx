@@ -134,7 +134,7 @@ const RehabilitationProjectsReportsPage = () => {
                         </Button>
                       </TableCell>
                       <TableCell className="font-medium">{project.projectName}</TableCell>
-                      <TableCell>{project.balance} ر.س</TableCell>
+                      <TableCell>{project.balance} ﷼</TableCell>
                       <TableCell>
                         <StatusBadge status={project.status} />
                       </TableCell>

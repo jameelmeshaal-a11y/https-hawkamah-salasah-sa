@@ -54,7 +54,7 @@ export const AddEmployeeDialog = ({ open, onClose, onSubmit }: Props) => {
           </div>
           <div><Label>المسمى الوظيفي</Label><Input value={form.position} onChange={e => setForm({...form, position: e.target.value})} /></div>
           <div><Label>تاريخ التوظيف</Label><Input type="date" value={form.hire_date} onChange={e => setForm({...form, hire_date: e.target.value})} /></div>
-          <div><Label>الراتب (ريال)</Label><Input type="number" value={form.salary} onChange={e => setForm({...form, salary: Number(e.target.value)})} /></div>
+          <div><Label>الراتب (﷼)</Label><Input type="number" value={form.salary} onChange={e => setForm({...form, salary: Number(e.target.value)})} /></div>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>إلغاء</Button>

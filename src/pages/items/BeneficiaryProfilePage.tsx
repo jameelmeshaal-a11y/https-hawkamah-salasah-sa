@@ -252,11 +252,11 @@ const BeneficiaryProfilePage = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="grid md:grid-cols-2 gap-4">
-                <DataRow label="الراتب" value={`${beneficiary.salary.toLocaleString()} ريال`} />
-                <DataRow label="التقاعد" value={`${beneficiary.pension.toLocaleString()} ريال`} />
-                <DataRow label="الضمان الاجتماعي" value={`${beneficiary.socialSecurity.toLocaleString()} ريال`} />
-                <DataRow label="التأمينات" value={`${beneficiary.insurance.toLocaleString()} ريال`} />
-                <DataRow label="إجمالي الدخل" value={`${(beneficiary.salary + beneficiary.pension + beneficiary.socialSecurity + beneficiary.insurance).toLocaleString()} ريال`} />
+                <DataRow label="الراتب" value={`${beneficiary.salary.toLocaleString()} ﷼`} />
+                <DataRow label="التقاعد" value={`${beneficiary.pension.toLocaleString()} ﷼`} />
+                <DataRow label="الضمان الاجتماعي" value={`${beneficiary.socialSecurity.toLocaleString()} ﷼`} />
+                <DataRow label="التأمينات" value={`${beneficiary.insurance.toLocaleString()} ﷼`} />
+                <DataRow label="إجمالي الدخل" value={`${(beneficiary.salary + beneficiary.pension + beneficiary.socialSecurity + beneficiary.insurance).toLocaleString()} ﷼`} />
                 <DataRow label="عدد التابعين" value={beneficiary.dependentsCount} />
               </CardContent>
             </Card>
@@ -284,7 +284,7 @@ const BeneficiaryProfilePage = () => {
                     {aidHistory.map((aid) => (
                       <TableRow key={aid.id}>
                         <TableCell className="font-medium">{aid.type}</TableCell>
-                        <TableCell>{aid.amount.toLocaleString()} ريال</TableCell>
+                        <TableCell>{aid.amount.toLocaleString()} ﷼</TableCell>
                         <TableCell>{aid.date}</TableCell>
                         <TableCell>
                           <Badge className={aid.status === "مسلمة" ? "bg-emerald-100 text-emerald-800" : "bg-blue-100 text-blue-800"}>

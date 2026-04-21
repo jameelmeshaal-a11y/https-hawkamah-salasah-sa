@@ -136,7 +136,7 @@ const SponsorshipPaymentsPage = () => {
           />
           <StatCard
             title="إجمالي المحصل"
-            value={`${totalAmount.toLocaleString()} ريال`}
+            value={`${totalAmount.toLocaleString()} ﷼`}
             icon={Clock}
             variant="default"
           />

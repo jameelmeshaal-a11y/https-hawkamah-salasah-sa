@@ -128,7 +128,7 @@ const CollectGeneralDonationPage = () => {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="amount">مبلغ التبرع (ريال) *</Label>
+                    <Label htmlFor="amount">مبلغ التبرع (﷼) *</Label>
                     <Input
                       id="amount"
                       type="number"
@@ -237,7 +237,7 @@ const CollectGeneralDonationPage = () => {
                   <div className="flex justify-between items-center text-lg font-bold">
                     <span>المبلغ الإجمالي</span>
                     <span className="text-primary">
-                      {amount ? parseFloat(amount).toLocaleString("ar-SA") : "0"} ر.س
+                      {amount ? parseFloat(amount).toLocaleString("ar-SA") : "0"} ﷼
                     </span>
                   </div>
                 </div>

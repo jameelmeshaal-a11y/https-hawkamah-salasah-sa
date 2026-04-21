@@ -47,7 +47,7 @@ const EmployeesListPage = () => {
             <StatCard title="إجمالي الموظفين" value={totalEmployees} icon={Users} variant="info" />
             <StatCard title="موظفون نشطون" value={activeEmployees} icon={UserCheck} variant="success" />
             <StatCard title="عدد الأقسام" value={departments} icon={Building} variant="warning" />
-            <StatCard title="إجمالي الرواتب" value={`${employees.reduce((s, e) => s + (e.salary || 0), 0).toLocaleString()} ريال`} icon={Briefcase} variant="default" />
+            <StatCard title="إجمالي الرواتب" value={`${employees.reduce((s, e) => s + (e.salary || 0), 0).toLocaleString()} ﷼`} icon={Briefcase} variant="default" />
           </div>
         </div>
 

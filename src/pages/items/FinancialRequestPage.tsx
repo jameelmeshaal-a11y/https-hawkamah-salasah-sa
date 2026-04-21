@@ -28,7 +28,7 @@ const financialFields: RequestField[] = [
     name: "amount",
     label: "المبلغ",
     type: "number",
-    placeholder: "المبلغ بالريال",
+    placeholder: "المبلغ بال﷼",
     required: true,
   },
   {

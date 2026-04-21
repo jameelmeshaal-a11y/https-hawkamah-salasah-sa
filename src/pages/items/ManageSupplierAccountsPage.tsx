@@ -25,7 +25,7 @@ const suppliersData: SupplierData[] = [
     phone: "0512345678",
     email: "nsma@example.com",
     fax: "011234567",
-    currency: "ريال",
+    currency: "﷼",
   },
   {
     id: "2",
@@ -37,7 +37,7 @@ const suppliersData: SupplierData[] = [
     phone: "0598765432",
     email: "masader@example.com",
     fax: "012345678",
-    currency: "ريال",
+    currency: "﷼",
   },
 ];
 

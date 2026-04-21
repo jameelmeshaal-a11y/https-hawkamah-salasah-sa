@@ -19,7 +19,7 @@ const ManageCostCentersPage = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  const formatCurrency = (amount: number) => new Intl.NumberFormat("ar-SA").format(amount) + " ر.س";
+  const formatCurrency = (amount: number) => new Intl.NumberFormat("ar-SA").format(amount) + " ﷼";
 
   const filteredCenters = costCenters.filter(c => c.name.includes(searchQuery) || c.code.includes(searchQuery));
 
