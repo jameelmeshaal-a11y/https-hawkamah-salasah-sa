@@ -2251,6 +2251,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      ensure_employee_for_current_user: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
