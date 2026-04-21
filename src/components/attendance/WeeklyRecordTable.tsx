@@ -26,7 +26,7 @@ const calcNetHours = (checkIn: string | null, checkOut: string | null) => {
 };
 
 const WeeklyRecordTable = () => {
-  const { records, loading } = useAttendance();
+  const { records, loading, currentEmployeeId, resolvingEmployee } = useAttendance();
   const { user } = useAuth();
 
   const weeklyData = useMemo(() => {
@@ -45,8 +45,8 @@ const WeeklyRecordTable = () => {
       date.setDate(date.getDate() - i);
       const dateStr = date.toISOString().split("T")[0];
 
-      const userRecord = user
-        ? records.find((r) => r.employee_id === user.id && r.date === dateStr)
+      const userRecord = user && currentEmployeeId
+        ? records.find((r) => r.employee_id === currentEmployeeId && r.date === dateStr)
         : null;
 
       data.push({
@@ -60,7 +60,7 @@ const WeeklyRecordTable = () => {
       });
     }
     return data;
-  }, [records, user]);
+  }, [records, user, currentEmployeeId]);
 
   return (
     <Card>
@@ -81,7 +81,7 @@ const WeeklyRecordTable = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {loading ? (
+              {loading || resolvingEmployee ? (
                 <TableRow>
                   <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">جاري التحميل...</TableCell>
                 </TableRow>

@@ -15,15 +15,15 @@ const formatTime = (iso: string | null) =>
   iso ? new Date(iso).toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" }) : "-";
 
 const DailyRecordTable = () => {
-  const { records, loading } = useAttendance();
+  const { records, loading, currentEmployeeId, resolvingEmployee } = useAttendance();
   const { user } = useAuth();
 
   const todayStr = new Date().toISOString().split("T")[0];
 
   const rows = useMemo(() => {
-    if (!user) return [];
+    if (!user || !currentEmployeeId) return [];
     const todayRecords = records.filter(
-      (r) => r.employee_id === user.id && r.date === todayStr
+      (r) => r.employee_id === currentEmployeeId && r.date === todayStr
     );
     const ops: { id: number; operation: string; time: string; type: string }[] = [];
     let counter = 1;
@@ -32,7 +32,7 @@ const DailyRecordTable = () => {
       if (r.check_out) ops.push({ id: counter++, operation: "تسجيل انصراف", time: formatTime(r.check_out), type: "انصراف" });
     });
     return ops;
-  }, [records, user, todayStr]);
+  }, [records, user, currentEmployeeId, todayStr]);
 
   return (
     <Card>
@@ -51,7 +51,7 @@ const DailyRecordTable = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {loading ? (
+              {loading || resolvingEmployee ? (
                 <TableRow>
                   <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">جاري التحميل...</TableCell>
                 </TableRow>

@@ -6,7 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 
 const AttendanceButton = () => {
-  const { records, addRecord, updateRecord } = useAttendance();
+  const { records, addRecord, updateRecord, currentEmployeeId, resolvingEmployee } = useAttendance();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
 
@@ -14,11 +14,11 @@ const AttendanceButton = () => {
 
   // Find today's open record for this user (check_in set, check_out null)
   const todayRecord = useMemo(() => {
-    if (!user) return null;
+    if (!user || !currentEmployeeId) return null;
     return records.find(
-      (r) => r.employee_id === user.id && r.date === todayStr
+      (r) => r.employee_id === currentEmployeeId && r.date === todayStr
     );
-  }, [records, user, todayStr]);
+  }, [records, user, currentEmployeeId, todayStr]);
 
   const isCheckOut = !!todayRecord && !!todayRecord.check_in && !todayRecord.check_out;
   const isDoneForToday = !!todayRecord && !!todayRecord.check_in && !!todayRecord.check_out;
@@ -26,6 +26,10 @@ const AttendanceButton = () => {
   const handleAttendance = async () => {
     if (!user) {
       toast.error("يجب تسجيل الدخول أولاً");
+      return;
+    }
+    if (!currentEmployeeId) {
+      toast.error("جاري تهيئة ملف الموظف، حاول مرة أخرى خلال لحظات");
       return;
     }
     if (isDoneForToday) {
@@ -38,7 +42,7 @@ const AttendanceButton = () => {
         await updateRecord(todayRecord.id, { check_out: new Date().toISOString() });
       } else {
         await addRecord({
-          employee_id: user.id,
+          employee_id: currentEmployeeId,
           date: todayStr,
           check_in: new Date().toISOString(),
           status: "present",
@@ -51,6 +55,8 @@ const AttendanceButton = () => {
 
   const label = loading
     ? "جاري التسجيل..."
+    : resolvingEmployee
+    ? "جاري التهيئة..."
     : isDoneForToday
     ? "تم التسجيل اليوم"
     : isCheckOut
@@ -63,7 +69,7 @@ const AttendanceButton = () => {
     <div className="flex justify-center">
       <Button
         onClick={handleAttendance}
-        disabled={loading || isDoneForToday}
+        disabled={loading || resolvingEmployee || isDoneForToday || !currentEmployeeId}
         size="lg"
         className={`text-white px-12 py-6 text-lg font-bold rounded-lg shadow-lg hover:shadow-xl transition-all ${
           isCheckOut ? "bg-orange-600 hover:bg-orange-700" : "bg-emerald-600 hover:bg-emerald-700"
