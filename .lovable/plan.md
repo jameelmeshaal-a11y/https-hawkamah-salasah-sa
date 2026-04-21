@@ -1,45 +1,65 @@
 
 
-# خطة إنشاء حساب الأدمن وإصلاح تسجيل الدخول/الخروج وإضافة المستخدمين
+# خطة إضافة أزرار "إضافة" لجميع الشاشات الناقصة
 
 ## التشخيص
 
-1. **لا يوجد حساب بالبريد `ceo@salasah.sa`** — الحسابات الموجودة هي `admin@salasah.sa` و `admin@salasa.sa`
-2. **Edge Function `bootstrap-admin` تعمل بشكل صحيح** من حيث الكود — تنشئ المستخدم في Auth + profile + role
-3. **تسجيل الدخول يعمل تقنياً** عبر `supabase.auth.signInWithPassword` — المشكلة المحتملة أن الحسابات الحالية غير مؤكدة أو كلمات المرور خاطئة
-4. **تسجيل الخروج يعمل** عبر `AdminNavMenu` → `signOut()`
-5. **AddUserDialog يستدعي `bootstrap-admin`** بشكل صحيح
+بعد فحص الكود، تم اكتشاف أن:
 
-## المطلوب تنفيذه
+1. **`GenericModulePage`** (محرك CRUD العام) يخدم ~120 صفحة عبر slug. حالياً قد لا يعرض زر "إضافة جديد" لكل الجداول، أو يظهر زراً لا يحفظ فعلياً.
 
-### 1. إنشاء حساب الأدمن الرئيسي
-- استدعاء Edge Function `bootstrap-admin` لإنشاء حساب `ceo@salasah.sa` بكلمة مرور `Admin@2026!` مع دور `system_admin` وتفعيل `is_protected`
-- يجب تنفيذ هذا عبر `curl` مباشرة للـ Edge Function (بدون auth header لأنه أول system_admin — لكن يوجد بالفعل system_admin، لذلك يجب إما حذف الحسابات القديمة أو استدعاء الـ function بصلاحيات admin موجود)
-- الحل الأفضل: استخدام migration لإنشاء المستخدم مباشرة عبر `auth.users` ثم إضافة profile + role
+2. **صفحات بجداول ثابتة بدون زر إضافة** — تعرض `<table>` أو `<EmptyState>` فقط:
+   - `RestoreDeletedProjectPage`, `RestoreSupplierAccountPage` (إجراء استعادة فقط — صحيح)
+   - `RegisterProjectExpensePage` — يحتاج "تسجيل مصروف" بدلاً من "إدارة"
+   - `RegisterProjectRevenuePage` — يحتاج "تسجيل إيراد" بدلاً من "إدارة"
+   - `MailPage` — `onNewMail` فيه `console.log` فقط (مخالف للسياسة)
+   - `CancelledTransactionsPage`, `CompletedTransactionsPage`, `CancelTransactionPage` — صفحات عرض فقط (صحيح، لا تحتاج زر إضافة)
+   - صفحات `Issue*`, `Add*`, `Create*`, `Manage*` المختلفة
 
-### 2. إصلاح AuthContext — race condition
-- `fetchProfile` يستخدم `.single()` بدون error handling — إذا لم يوجد profile يعلق
-- إضافة error handling وضمان `setLoading(false)` في كل الحالات
+3. **`InnerPageLayout`** يدعم خاصية `headerAction` لكنها غير مستخدمة في معظم الصفحات.
 
-### 3. إصلاح عملية تسجيل الخروج
-- بعد `signOut()` يجب التأكد من إعادة التوجيه لـ `/login`
-- حالياً `signOut` تمسح الحالة لكن لا تعيد التوجيه — `ProtectedRoute` يتكفل بذلك عبر `Navigate`
+4. **سياسة Zero Placeholder** تمنع أي زر بدون handler حقيقي مرتبط بـ Supabase.
 
-### 4. إصلاح AddUserDialog
-- التأكد من أن `bootstrap-admin` Edge Function منشورة وتعمل
-- إعادة نشر الـ function إذا لزم الأمر
+## النطاق المطلوب
+
+### أ — إصلاح GenericModulePage (يغطي ~120 صفحة دفعة واحدة)
+- التأكد من ظهور زر **"إضافة سجل جديد"** أعلى يسار كل جدول
+- ربطه بـ Dialog ديناميكي يحفظ فعلياً في الجدول المُستهدف عبر `slug → table` mapping
+- إضافة toast نجاح + إعادة تحميل البيانات
+
+### ب — إصلاح صفحات المعاملات والمشاريع المالية
+| الصفحة | الزر المطلوب | الإجراء |
+|--------|-------------|---------|
+| `RegisterProjectExpensePage` | "تسجيل مصروف" | فتح Dialog إدخال مبلغ + سبب + حفظ في `journal_entries` |
+| `RegisterProjectRevenuePage` | "تسجيل إيراد" | نفس المنطق لكن للإيرادات |
+| `MailPage` | "رسالة جديدة" | فتح Dialog إنشاء بريد + حفظ في `mail_messages` |
+
+### ج — صفحات الإصدار (Issue Pages)
+- `IssueGeneralPaymentPage`, `IssueGeneralReceiptPage`, `CollectGeneralDonationPage` — التحقق من وجود زر إضافة وأنه يحفظ في الجداول الصحيحة (`donations`, `journal_entries`)
+
+### د — صفحات الإدارة (Manage Pages)
+- `ManageBankAccountsPage`, `ManageCostCentersPage`, `ManageBudgetsPage`, `ManageContractsPaymentsPage`, إلخ — كلها تحتاج زر "إضافة" مرتبط بجدول DB
+
+### هـ — صفحات الطلبات والمهام
+- التأكد من أن جميع صفحات `*Request*Page` و`*Task*Page` تحتوي على زر "إضافة طلب جديد" / "إضافة مهمة جديدة" مرتبط بـ `requests` / `tasks`
 
 ## التنفيذ
 
 | الملف | التعديل |
 |-------|---------|
-| Edge Function call (curl) | إنشاء حساب `ceo@salasah.sa` |
-| `src/contexts/AuthContext.tsx` | إضافة error handling لـ fetchProfile/fetchRoles |
-| `supabase/functions/bootstrap-admin/index.ts` | إعادة نشر + تأكيد أنها تعمل |
-| `src/pages/LoginPage.tsx` | تحسين رسائل الخطأ |
+| `src/pages/items/GenericModulePage.tsx` | إضافة/تأكيد زر "إضافة سجل جديد" + Dialog ديناميكي يحفظ في الجدول المحدد بالـ slug |
+| `src/pages/items/RegisterProjectExpensePage.tsx` | استبدال زر "إدارة" بزر "تسجيل مصروف" + Dialog حفظ في `journal_entries` |
+| `src/pages/items/RegisterProjectRevenuePage.tsx` | استبدال زر "إدارة" بزر "تسجيل إيراد" + Dialog حفظ في `journal_entries` |
+| `src/pages/items/MailPage.tsx` | ربط `onNewMail` بـ Dialog إنشاء بريد فعلي يحفظ في `mail_messages` |
+| `src/components/dialogs/NewMailDialog.tsx` (جديد) | Dialog إرسال بريد داخلي |
+| `src/components/dialogs/RegisterFinancialDialog.tsx` (جديد) | Dialog موحد لتسجيل مصروف/إيراد |
+| `src/components/dialogs/GenericAddRecordDialog.tsx` (جديد إن لم يوجد) | Dialog ديناميكي يولد الحقول بناء على slug |
+| `src/utils/slugToTable.ts` (جديد إن لم يوجد) | Mapping من slug → table name + حقول |
 
 ## النتيجة المتوقعة
-- حساب `ceo@salasah.sa` يعمل ويمكن تسجيل الدخول به
-- تسجيل الخروج يعيد لصفحة الدخول
-- إضافة مستخدم جديد من إدارة المستخدمين ينشئ حساب حقيقي يمكنه تسجيل الدخول
+- كل شاشة جدول تحتوي على زر "إضافة" واضح في الأعلى
+- كل زر إضافة يفتح Dialog حقيقي يحفظ في DB
+- toast نجاح + تحديث القائمة فوراً بعد الحفظ
+- لا يوجد أي زر بدون وظيفة (التزام كامل بسياسة Zero Placeholder)
+- صفحات العرض فقط (الملغاة/المكتملة/المؤرشفة) لا تحتوي على زر إضافة (سلوك صحيح)
 
