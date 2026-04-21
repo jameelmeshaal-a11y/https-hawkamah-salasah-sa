@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import InnerPageLayout from "@/components/layout/InnerPageLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -60,7 +60,7 @@ const BeneficiaryProfilePage = () => {
     { id: "documents", label: "المستندات", icon: FileText },
   ];
 
-  const DataRow = ({ label, value }: { label: string; value: string | number }) => (
+  const DataRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
     <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
       <span className="text-muted-foreground text-sm">{label}</span>
       <span className="text-foreground font-medium text-sm">{value}</span>
