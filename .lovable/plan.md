@@ -1,93 +1,80 @@
 
 
-# خطة حجب أرقام الجوالات وحماية الخصوصية
+# خطة الإصلاح الشاملة
 
-## الفكرة العامة
-كل رقم سعودي (يبدأ بـ `05` ويتكون من 10 أرقام) سيُحجب تلقائياً في كل أنحاء النظام (جداول، حوارات، تقارير، نماذج العرض)، ويظهر كشريط أسود مع رسالة "ليس لديك صلاحية الاطلاع على رقم التواصل".  
-الاستثناء الوحيد: مستخدم يملك صلاحية خاصة جديدة اسمها **`view_phone_numbers`** يمنحها الـ System Admin.
+## 1) مشكلة "تبديل المستخدمين" (الأهم)
+**السبب الجذري:** يوجد 3 حسابات في قاعدة البيانات:
+- `ceo@salasah.sa` (المدير التنفيذي) — محمي ✅
+- `admin@salasa.sa` (مدير النظام) — system_admin غير محمي ❌
+- `admin@salasah.sa` (م. خالد السعيد) — admin غير محمي ❌
 
-## 1) تعديل قاعدة البيانات (Migration)
+عند تسجيل الدخول كـ CEO، الـ Session أحياناً يلتقط cache من حساب آخر بسبب عدم تنظيف الـ localStorage. كذلك صفحة "إدارة المستخدمين" تعرض حساب خالد لأنه ليس محمياً.
 
-**أ — إضافة الصلاحية الجديدة في جدول `permissions`:**
+**الحل:**
+- **تنظيف الجلسة بقوة** في `signOut`: استدعاء `supabase.auth.signOut({ scope: 'global' })` + مسح `localStorage` يدوياً لمفاتيح Supabase + إعادة تحميل الصفحة لمنع أي state عالق.
+- **إصلاح `onAuthStateChange`:** عند `SIGNED_OUT` نمسح كل state ونعيد التوجيه لـ `/login`.
+- **حماية حساب خالد السعيد:** تعيين `is_protected = true` في DB كي لا يظهر لباقي المستخدمين (بما فيهم الـ CEO).
+- **حذف الحساب المكرر** `admin@salasa.sa` (مدير النظام) لأنه سبب الالتباس.
+- **إخفاء حسابات system_admin** من قائمة المستخدمين تلقائياً (إخفاء مزدوج: `is_protected` + الدور `system_admin`).
+
+## 2) صلاحية رؤية أرقام الجوال
+- التأكد من أن `view_phone_numbers` ممنوحة لـ `system_admin` و `admin` فقط افتراضياً عبر migration (الإعدادات الحالية تمنحها لـ `system_admin` فقط — سنضيف `admin` كذلك حسب طلبك).
+- باقي الأدوار (`supervisor`, `user`, `auditor`) → الأرقام محجوبة كاملاً.
+- التحقق العملي: تسجيل دخول كـ user → فتح قاعدة المستفيدين → التأكد من ظهور الشريط الأسود.
+
+## 3) زر اللوقو يعود للصفحة الرئيسية
+في `DashboardHeader.tsx`: لف القسم اليميني (الأيقونة + النص "نظام حوكمة") بـ `<Link to="/">` مع cursor-pointer.
+
+## 4) Breadcrumb قابل للنقر بالكامل
+في `InnerPageLayout.tsx`:
+- `sectionTitle` يصبح `<Link>` يرجّع لصفحة الموديول عند توفر `sectionSlug` اختياري — وإلا نستخدم `navigate(-1)`.
+- إضافة prop جديد `sectionPath?: string` لربط القسم برابط فعلي عند الحاجة.
+- صفحة الحضور: `الرئيسية ← المكتب الإلكتروني ← الخدمات المكتبية (clickable) ← تسجيل الحضور`.
+
+## 5) إصلاح "تسجيل الحضور والانصراف"
+**المشكلة:** `WeeklyRecordTable` و `DailyRecordTable` يستخدمان بيانات ثابتة (mock) ولا يقرآن من جدول `attendance` فعلياً.
+
+**الحل:**
+- تعديل `WeeklyRecordTable` و `DailyRecordTable` لاستخدام `useAttendance` وفلترة سجلات المستخدم الحالي (`employee_id = user.id`) لآخر 7 أيام / اليوم الحالي.
+- `AttendanceButton` يميّز تلقائياً بين تسجيل **حضور** (إذا لم يوجد سجل اليوم) أو **انصراف** (تحديث `check_out` إذا يوجد check_in بدون check_out).
+- إظهار toast واضح + إعادة جلب البيانات فوراً بعد التسجيل.
+- حساب صافي ساعات العمل تلقائياً من `check_in` و `check_out`.
+
+## الملفات المعدّلة
+| الملف | التعديل |
+|------|--------|
+| `src/contexts/AuthContext.tsx` | تنظيف قوي للجلسة + معالجة SIGNED_OUT |
+| `src/components/dashboard/AdminNavMenu.tsx` | إعادة توجيه إجبارية بعد signOut |
+| `src/components/dashboard/DashboardHeader.tsx` | تحويل اللوقو إلى Link |
+| `src/components/layout/InnerPageLayout.tsx` | breadcrumb قابل للنقر |
+| `src/pages/AdminUsersPage.tsx` | إخفاء system_admin أيضاً |
+| `src/components/attendance/WeeklyRecordTable.tsx` | ربط بـ useAttendance |
+| `src/components/attendance/DailyRecordTable.tsx` | ربط بـ useAttendance |
+| `src/components/attendance/AttendanceButton.tsx` | منطق حضور/انصراف ذكي |
+| `src/pages/items/AttendancePage.tsx` | تمرير sectionPath لـ breadcrumb |
+
+## Migration قاعدة البيانات
 ```sql
-INSERT INTO permissions (action, module_id) 
-SELECT 'view_phone_numbers', id FROM modules WHERE key = 'system';
+-- حماية حساب خالد السعيد (إخفاؤه)
+UPDATE profiles SET is_protected = true 
+WHERE email = 'admin@salasah.sa';
+
+-- حذف الحساب المكرر admin@salasa.sa
+DELETE FROM user_roles WHERE user_id = (SELECT user_id FROM profiles WHERE email='admin@salasa.sa');
+DELETE FROM profiles WHERE email = 'admin@salasa.sa';
+-- (auth.users سيُحذف عبر cascade أو يدوياً في Edge Function إن لزم)
+
+-- منح admin صلاحية رؤية أرقام الجوال
+INSERT INTO role_permissions (role, permission_id)
+SELECT 'admin', id FROM permissions WHERE action='view_phone_numbers'
+ON CONFLICT DO NOTHING;
 ```
 
-**ب — منحها فقط للـ system_admin افتراضياً:**
-```sql
-INSERT INTO role_permissions (role, permission_id) ...
-```
-أي مستخدم آخر (admin / manager / user...) لن يحصل عليها افتراضياً → الأرقام محجوبة.
-
-## 2) Hook جديد: `usePhonePermission`
-ملف: `src/hooks/usePhonePermission.ts`
-- يُرجع `canViewPhones: boolean`
-- `system_admin` → دائماً `true`
-- باقي المستخدمين → يستعلم عن `view_phone_numbers` من `role_permissions`
-
-## 3) مكوّن `MaskedPhone` (الحاجب الأمني)
-ملف: `src/components/shared/MaskedPhone.tsx`
-
-**السلوك عند عدم وجود الصلاحية:**
-- يطابق Regex: `/05\d{8}/g` ويستبدل كل تطابق بشريط أسود
-- الشريط يحتوي على نص الرقم بنفس عرضه لكن:
-  - `color: black; background: black;` (لون النص = الخلفية)
-  - `user-select: none` + `pointer-events: none`
-  - `onCopy={e => e.preventDefault()}`
-  - `onContextMenu={e => e.preventDefault()}`
-  - يُعرض النص كـ pseudo-element عبر CSS `content` في DOM منفصل (لا يدخل في clipboard)
-  - Tooltip عند hover: "ليس لديك صلاحية الاطلاع على رقم التواصل لحفظ الخصوصية"
-
-**السلوك مع الصلاحية:** يعرض الرقم عادياً مع `dir="ltr"`.
-
-## 4) منع النسخ على مستوى الصفحة
-إضافة CSS عام `.phone-masked { user-select: none; -webkit-user-select: none; }` في `src/index.css` + معالج `copy` يفلتر أي نص يحتوي رقم 05 من الـ clipboard إذا لم تكن الصلاحية متوفرة.
-
-## 5) استبدال عرض الأرقام في كل الشاشات
-التعديل عبر **بحث وتطبيق** على الجداول والحوارات الحساسة:
-
-| الملف | الحقل |
-|------|------|
-| `BeneficiariesDatabasePage` + `useBeneficiaries` | `phone` |
-| `DonorsListPage` / `useDonors` | `phone` |
-| `GuardiansDatabasePage` / `useGuardians` | `phone` |
-| `AssemblyMembersDatabasePage` | `phone` |
-| `BoardMembersDatabasePage` | `phone` |
-| `SuppliersDatabasePage` + `SuppliersTable` | `phone` |
-| `EmployeesListPage` / `useEmployees` | `phone` |
-| `ShareholdersAccountsPage` | `phone` |
-| `ManageRepresentativesAccountsPage` | `phone` |
-| `ManageGuardiansAccountsPage` | `phone` |
-| `ManageSupplierAccountsPage` | `phone` |
-| `ViewDetailsDialog` | يفحص أي قيمة تطابق Regex جوال |
-| `ProfileCard` / `EmployeeCard` | `phone` |
-
-**الاستراتيجية:** تعديل `ViewDetailsDialog` ليفحص كل `value` تلقائياً → يغطي معظم الحوارات بدون تعديل فردي. للجداول، استبدال `<TableCell>{x.phone}</TableCell>` بـ `<TableCell><MaskedPhone value={x.phone} /></TableCell>`.
-
-## 6) واجهة الإدارة
-في `AdminPermissionsPage`:
-- ستظهر صلاحية جديدة باسم **"الاطلاع على أرقام التواصل"** ضمن صلاحيات النظام
-- الأدمن يقدر يفعّلها لأي دور بنقرة واحدة
-- التغيير يطبّق فوراً (RLS + UI re-fetch)
-
-## 7) الفحص النهائي
-- مستخدم بدون الصلاحية: يرى شريط أسود في كل مكان، لا يستطيع نسخ الرقم، لا يظهر في DOM inspector كنص واضح (مُخزّن في CSS attribute فقط).
-- مستخدم بالصلاحية: يرى الأرقام طبيعية.
-- النموذج (Input) عند الإدخال يبقى يعمل عادي لأن المستخدم يكتب رقمه بنفسه.
-
-## الملفات المتأثرة
-**جديدة:**
-- `src/hooks/usePhonePermission.ts`
-- `src/components/shared/MaskedPhone.tsx`
-- Migration: إضافة `view_phone_numbers` لجدول permissions
-
-**معدلة:**
-- `src/index.css` (CSS الحماية)
-- `src/components/dialogs/ViewDetailsDialog.tsx` (فحص تلقائي)
-- ~12 صفحة جداول تعرض أرقام جوال
-- `src/pages/AdminPermissionsPage.tsx` (إظهار الصلاحية الجديدة بالعربي)
-
-## الناتج
-خصوصية كاملة لأرقام التواصل + نظام صلاحيات مرن + حماية ضد النسخ والـ DevTools snooping البسيط.
+## التحقق
+1. تسجيل دخول كـ CEO → فتح "إدارة المستخدمين" → يجب ألا يظهر CEO ولا خالد السعيد ولا admin@salasa.sa.
+2. تسجيل خروج ثم دخول → يجب ألا يحدث "قفز" بين الحسابات.
+3. الضغط على اللوقو → يعود للرئيسية.
+4. في صفحة الحضور: الضغط على "الخدمات المكتبية" في breadcrumb → يعود لصفحة المكتب الإداري.
+5. الضغط على زر "تسجيل الحضور" → يُسجَّل في DB ويظهر فوراً في الجدول اليومي والأسبوعي.
+6. تسجيل دخول كمستخدم عادي → الأرقام محجوبة بشريط أسود.
 
