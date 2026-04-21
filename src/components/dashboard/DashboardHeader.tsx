@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import TasksPopover from "@/components/dashboard/TasksPopover";
 import AdminNavMenu from "@/components/dashboard/AdminNavMenu";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
+import ThemeSwitcher from "@/components/dashboard/ThemeSwitcher";
 
 interface DashboardHeaderProps {
   onMenuToggle: () => void;
@@ -38,6 +39,8 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
           <TasksPopover />
 
           <NotificationBell />
+
+          <ThemeSwitcher />
 
           <Button variant="ghost" size="sm" className="text-header-foreground hover:bg-sidebar-hover gap-2 rounded-full px-3">
             <span className="text-sm hidden md:inline">الموقع الإلكتروني</span>
