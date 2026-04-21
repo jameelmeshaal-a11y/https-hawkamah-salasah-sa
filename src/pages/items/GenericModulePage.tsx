@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import ViewDetailsDialog from "@/components/dialogs/ViewDetailsDialog";
 import ConfirmDeleteDialog from "@/components/dialogs/ConfirmDeleteDialog";
 import ExportDropdown from "@/components/shared/ExportDropdown";
+import GenericAddRecordDialog from "@/components/dialogs/GenericAddRecordDialog";
 
 interface PageInfo {
   itemTitle: string;
@@ -108,6 +109,7 @@ const GenericModulePage = () => {
   const [viewOpen, setViewOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
+  const [addOpen, setAddOpen] = useState(false);
 
   const resolvedSlug = slugAliases[itemSlug] || itemSlug;
   const tableConfig = slugToTable[resolvedSlug];
@@ -168,6 +170,12 @@ const GenericModulePage = () => {
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
           <CardTitle className="text-lg font-medium">{pageInfo.itemTitle}</CardTitle>
           <div className="flex items-center gap-2">
+            {tableConfig && (
+              <Button onClick={() => setAddOpen(true)} className="gap-2">
+                <Plus className="h-4 w-4" />
+                إضافة سجل جديد
+              </Button>
+            )}
             {tableConfig && <ExportDropdown columns={columns} />}
             <Button variant="outline" size="icon" onClick={fetchData} title="تحديث">
               <RefreshCw className="h-4 w-4" />
@@ -251,6 +259,17 @@ const GenericModulePage = () => {
         title="تأكيد الحذف"
         description="هل أنت متأكد من حذف هذا السجل؟ لا يمكن التراجع عن هذا الإجراء."
       />
+
+      {tableConfig && (
+        <GenericAddRecordDialog
+          open={addOpen}
+          onOpenChange={setAddOpen}
+          table={tableConfig.table}
+          title={`إضافة - ${pageInfo.itemTitle}`}
+          fields={tableConfig.formFields || tableConfig.columns.map(c => ({ key: c.key, label: c.label }))}
+          onSuccess={fetchData}
+        />
+      )}
     </InnerPageLayout>
   );
 };
