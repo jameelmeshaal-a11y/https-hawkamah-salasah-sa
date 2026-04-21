@@ -11,10 +11,11 @@ interface InnerPageLayoutProps {
   itemSlug?: string;
   title?: string;
   sectionTitle?: string;
+  sectionPath?: string;
   moduleTitle?: string;
 }
 
-const InnerPageLayout = ({ children, moduleId, itemSlug, title, sectionTitle, moduleTitle }: InnerPageLayoutProps) => {
+const InnerPageLayout = ({ children, moduleId, itemSlug, title, sectionTitle, sectionPath, moduleTitle }: InnerPageLayoutProps) => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -44,7 +45,19 @@ const InnerPageLayout = ({ children, moduleId, itemSlug, title, sectionTitle, mo
               {sectionTitle && (
                 <>
                   <ChevronLeft className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-muted-foreground">{sectionTitle}</span>
+                  {sectionPath ? (
+                    <Link to={sectionPath} className="text-primary hover:text-primary/80 transition-colors">
+                      {sectionTitle}
+                    </Link>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => navigate(-1)}
+                      className="text-primary hover:text-primary/80 transition-colors cursor-pointer bg-transparent border-0 p-0"
+                    >
+                      {sectionTitle}
+                    </button>
+                  )}
                 </>
               )}
               {title && (

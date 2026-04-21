@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -7,45 +8,59 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAttendance } from "@/hooks/useAttendance";
+import { useAuth } from "@/contexts/AuthContext";
 
-// Generate last 7 days data
-const generateWeeklyData = () => {
-  const days = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
-  const data = [];
-  
-  for (let i = 0; i < 7; i++) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    
-    const dayName = days[date.getDay()];
-    const gregorianDate = date.toLocaleDateString("ar-SA", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-    
-    // Hijri date (approximate)
-    const hijriDate = date.toLocaleDateString("ar-SA-u-ca-islamic", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-    
-    data.push({
-      day: dayName,
-      gregorianDate,
-      hijriDate,
-      firstAttendance: "-",
-      lastDeparture: "-",
-      netHours: "-",
-    });
-  }
-  
-  return data;
+const ARABIC_DAYS = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+
+const formatTime = (iso: string | null) =>
+  iso ? new Date(iso).toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" }) : "-";
+
+const calcNetHours = (checkIn: string | null, checkOut: string | null) => {
+  if (!checkIn || !checkOut) return "-";
+  const ms = new Date(checkOut).getTime() - new Date(checkIn).getTime();
+  if (ms <= 0) return "-";
+  const hours = Math.floor(ms / 3600000);
+  const minutes = Math.floor((ms % 3600000) / 60000);
+  return `${hours}س ${minutes}د`;
 };
 
 const WeeklyRecordTable = () => {
-  const weeklyData = generateWeeklyData();
+  const { records, loading } = useAttendance();
+  const { user } = useAuth();
+
+  const weeklyData = useMemo(() => {
+    const data: Array<{
+      day: string;
+      gregorianDate: string;
+      hijriDate: string;
+      firstAttendance: string;
+      lastDeparture: string;
+      netHours: string;
+      isToday: boolean;
+    }> = [];
+
+    for (let i = 0; i < 7; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      const dateStr = date.toISOString().split("T")[0];
+
+      const userRecord = user
+        ? records.find((r) => r.employee_id === user.id && r.date === dateStr)
+        : null;
+
+      data.push({
+        day: ARABIC_DAYS[date.getDay()],
+        gregorianDate: date.toLocaleDateString("ar-SA", { year: "numeric", month: "long", day: "numeric" }),
+        hijriDate: date.toLocaleDateString("ar-SA-u-ca-islamic", { year: "numeric", month: "long", day: "numeric" }),
+        firstAttendance: formatTime(userRecord?.check_in ?? null),
+        lastDeparture: formatTime(userRecord?.check_out ?? null),
+        netHours: calcNetHours(userRecord?.check_in ?? null, userRecord?.check_out ?? null),
+        isToday: i === 0,
+      });
+    }
+    return data;
+  }, [records, user]);
 
   return (
     <Card>
@@ -66,16 +81,22 @@ const WeeklyRecordTable = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {weeklyData.map((row, index) => (
-                <TableRow key={index} className={index === 0 ? "bg-primary/5" : ""}>
-                  <TableCell className="font-medium">{row.day}</TableCell>
-                  <TableCell>{row.gregorianDate}</TableCell>
-                  <TableCell>{row.hijriDate}</TableCell>
-                  <TableCell className="text-center text-muted-foreground">{row.firstAttendance}</TableCell>
-                  <TableCell className="text-center text-muted-foreground">{row.lastDeparture}</TableCell>
-                  <TableCell className="text-center text-muted-foreground">{row.netHours}</TableCell>
+              {loading ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">جاري التحميل...</TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                weeklyData.map((row, index) => (
+                  <TableRow key={index} className={row.isToday ? "bg-primary/5" : ""}>
+                    <TableCell className="font-medium">{row.day}</TableCell>
+                    <TableCell>{row.gregorianDate}</TableCell>
+                    <TableCell>{row.hijriDate}</TableCell>
+                    <TableCell className="text-center">{row.firstAttendance}</TableCell>
+                    <TableCell className="text-center">{row.lastDeparture}</TableCell>
+                    <TableCell className="text-center">{row.netHours}</TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </div>

@@ -10,6 +10,7 @@ const AttendancePage = () => {
       itemSlug="attendance"
       title="تسجيل الحضور والانصراف"
       sectionTitle="الخدمات المكتبية"
+      sectionPath="/module/office"
       moduleTitle="المكتب الإلكتروني"
     >
       <div className="max-w-6xl mx-auto space-y-6">

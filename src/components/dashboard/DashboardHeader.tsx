@@ -1,4 +1,5 @@
 import { Globe, Menu, Search } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import TasksPopover from "@/components/dashboard/TasksPopover";
 import AdminNavMenu from "@/components/dashboard/AdminNavMenu";
@@ -12,8 +13,8 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
   return (
     <header className="bg-header text-header-foreground">
       <div className="flex items-center justify-between px-4 py-2">
-        {/* Right side - Brand */}
-        <div className="flex items-center gap-3">
+        {/* Right side - Brand (clickable → home) */}
+        <Link to="/" className="flex items-center gap-3 cursor-pointer hover:opacity-90 transition-opacity" aria-label="الصفحة الرئيسية">
           <div className="w-10 h-10 bg-primary-foreground/20 rounded-lg flex items-center justify-center flex-shrink-0">
             <span className="text-lg font-bold">ح</span>
           </div>
@@ -21,7 +22,7 @@ const DashboardHeader = ({ onMenuToggle }: DashboardHeaderProps) => {
             <div className="text-sm font-bold">نظام حوكمة</div>
             <div className="text-xs opacity-70">منصة حوكمة القطاع غير الربحي</div>
           </div>
-        </div>
+        </Link>
 
         {/* Left side - Actions */}
         <div className="flex items-center gap-1">

@@ -70,10 +70,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      async (event, session) => {
+        if (event === "SIGNED_OUT") {
+          setSession(null);
+          setUser(null);
+          setProfile(null);
+          setRoles([]);
+          setLoading(false);
+          return;
+        }
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {
+          // Clear any stale profile/roles from previous user immediately
+          setProfile(null);
+          setRoles([]);
           // Use setTimeout to avoid Supabase deadlock
           setTimeout(async () => {
             await Promise.all([
@@ -112,11 +123,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut({ scope: "global" });
+    } catch (e) {
+      console.error("signOut error:", e);
+    }
+    // Hard-clear any stale Supabase auth keys from localStorage
+    try {
+      Object.keys(localStorage).forEach((k) => {
+        if (k.startsWith("sb-") || k.includes("supabase.auth")) {
+          localStorage.removeItem(k);
+        }
+      });
+    } catch {}
     setUser(null);
     setSession(null);
     setProfile(null);
     setRoles([]);
+    // Force a full reload to drop any cached state from previous session
+    window.location.replace("/login");
   };
 
   const isAdmin = roles.includes("system_admin") || roles.includes("admin");
