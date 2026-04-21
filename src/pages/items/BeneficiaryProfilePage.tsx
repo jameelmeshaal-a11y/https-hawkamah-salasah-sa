@@ -11,6 +11,7 @@ import {
   Heart, GraduationCap, Briefcase, Home, Edit, Download 
 } from "lucide-react";
 import { toast } from "sonner";
+import MaskedPhone from "@/components/shared/MaskedPhone";
 
 const BeneficiaryProfilePage = () => {
   const beneficiary = {
@@ -103,7 +104,7 @@ const BeneficiaryProfilePage = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <Phone className="h-4 w-4" />
-                    <span>{beneficiary.phone}</span>
+                    <span><MaskedPhone value={beneficiary.phone} /></span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4" />
@@ -168,7 +169,7 @@ const BeneficiaryProfilePage = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <DataRow label="الجوال" value={beneficiary.phone} />
+                  <DataRow label="الجوال" value={<MaskedPhone value={beneficiary.phone} />} />
                   <DataRow label="البريد الإلكتروني" value={beneficiary.email} />
                   <DataRow label="المدينة" value={beneficiary.city} />
                   <DataRow label="الحي" value={beneficiary.district} />
