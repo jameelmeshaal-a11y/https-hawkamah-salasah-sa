@@ -1,65 +1,93 @@
 
 
-# خطة إضافة أزرار "إضافة" لجميع الشاشات الناقصة
+# خطة حجب أرقام الجوالات وحماية الخصوصية
 
-## التشخيص
+## الفكرة العامة
+كل رقم سعودي (يبدأ بـ `05` ويتكون من 10 أرقام) سيُحجب تلقائياً في كل أنحاء النظام (جداول، حوارات، تقارير، نماذج العرض)، ويظهر كشريط أسود مع رسالة "ليس لديك صلاحية الاطلاع على رقم التواصل".  
+الاستثناء الوحيد: مستخدم يملك صلاحية خاصة جديدة اسمها **`view_phone_numbers`** يمنحها الـ System Admin.
 
-بعد فحص الكود، تم اكتشاف أن:
+## 1) تعديل قاعدة البيانات (Migration)
 
-1. **`GenericModulePage`** (محرك CRUD العام) يخدم ~120 صفحة عبر slug. حالياً قد لا يعرض زر "إضافة جديد" لكل الجداول، أو يظهر زراً لا يحفظ فعلياً.
+**أ — إضافة الصلاحية الجديدة في جدول `permissions`:**
+```sql
+INSERT INTO permissions (action, module_id) 
+SELECT 'view_phone_numbers', id FROM modules WHERE key = 'system';
+```
 
-2. **صفحات بجداول ثابتة بدون زر إضافة** — تعرض `<table>` أو `<EmptyState>` فقط:
-   - `RestoreDeletedProjectPage`, `RestoreSupplierAccountPage` (إجراء استعادة فقط — صحيح)
-   - `RegisterProjectExpensePage` — يحتاج "تسجيل مصروف" بدلاً من "إدارة"
-   - `RegisterProjectRevenuePage` — يحتاج "تسجيل إيراد" بدلاً من "إدارة"
-   - `MailPage` — `onNewMail` فيه `console.log` فقط (مخالف للسياسة)
-   - `CancelledTransactionsPage`, `CompletedTransactionsPage`, `CancelTransactionPage` — صفحات عرض فقط (صحيح، لا تحتاج زر إضافة)
-   - صفحات `Issue*`, `Add*`, `Create*`, `Manage*` المختلفة
+**ب — منحها فقط للـ system_admin افتراضياً:**
+```sql
+INSERT INTO role_permissions (role, permission_id) ...
+```
+أي مستخدم آخر (admin / manager / user...) لن يحصل عليها افتراضياً → الأرقام محجوبة.
 
-3. **`InnerPageLayout`** يدعم خاصية `headerAction` لكنها غير مستخدمة في معظم الصفحات.
+## 2) Hook جديد: `usePhonePermission`
+ملف: `src/hooks/usePhonePermission.ts`
+- يُرجع `canViewPhones: boolean`
+- `system_admin` → دائماً `true`
+- باقي المستخدمين → يستعلم عن `view_phone_numbers` من `role_permissions`
 
-4. **سياسة Zero Placeholder** تمنع أي زر بدون handler حقيقي مرتبط بـ Supabase.
+## 3) مكوّن `MaskedPhone` (الحاجب الأمني)
+ملف: `src/components/shared/MaskedPhone.tsx`
 
-## النطاق المطلوب
+**السلوك عند عدم وجود الصلاحية:**
+- يطابق Regex: `/05\d{8}/g` ويستبدل كل تطابق بشريط أسود
+- الشريط يحتوي على نص الرقم بنفس عرضه لكن:
+  - `color: black; background: black;` (لون النص = الخلفية)
+  - `user-select: none` + `pointer-events: none`
+  - `onCopy={e => e.preventDefault()}`
+  - `onContextMenu={e => e.preventDefault()}`
+  - يُعرض النص كـ pseudo-element عبر CSS `content` في DOM منفصل (لا يدخل في clipboard)
+  - Tooltip عند hover: "ليس لديك صلاحية الاطلاع على رقم التواصل لحفظ الخصوصية"
 
-### أ — إصلاح GenericModulePage (يغطي ~120 صفحة دفعة واحدة)
-- التأكد من ظهور زر **"إضافة سجل جديد"** أعلى يسار كل جدول
-- ربطه بـ Dialog ديناميكي يحفظ فعلياً في الجدول المُستهدف عبر `slug → table` mapping
-- إضافة toast نجاح + إعادة تحميل البيانات
+**السلوك مع الصلاحية:** يعرض الرقم عادياً مع `dir="ltr"`.
 
-### ب — إصلاح صفحات المعاملات والمشاريع المالية
-| الصفحة | الزر المطلوب | الإجراء |
-|--------|-------------|---------|
-| `RegisterProjectExpensePage` | "تسجيل مصروف" | فتح Dialog إدخال مبلغ + سبب + حفظ في `journal_entries` |
-| `RegisterProjectRevenuePage` | "تسجيل إيراد" | نفس المنطق لكن للإيرادات |
-| `MailPage` | "رسالة جديدة" | فتح Dialog إنشاء بريد + حفظ في `mail_messages` |
+## 4) منع النسخ على مستوى الصفحة
+إضافة CSS عام `.phone-masked { user-select: none; -webkit-user-select: none; }` في `src/index.css` + معالج `copy` يفلتر أي نص يحتوي رقم 05 من الـ clipboard إذا لم تكن الصلاحية متوفرة.
 
-### ج — صفحات الإصدار (Issue Pages)
-- `IssueGeneralPaymentPage`, `IssueGeneralReceiptPage`, `CollectGeneralDonationPage` — التحقق من وجود زر إضافة وأنه يحفظ في الجداول الصحيحة (`donations`, `journal_entries`)
+## 5) استبدال عرض الأرقام في كل الشاشات
+التعديل عبر **بحث وتطبيق** على الجداول والحوارات الحساسة:
 
-### د — صفحات الإدارة (Manage Pages)
-- `ManageBankAccountsPage`, `ManageCostCentersPage`, `ManageBudgetsPage`, `ManageContractsPaymentsPage`, إلخ — كلها تحتاج زر "إضافة" مرتبط بجدول DB
+| الملف | الحقل |
+|------|------|
+| `BeneficiariesDatabasePage` + `useBeneficiaries` | `phone` |
+| `DonorsListPage` / `useDonors` | `phone` |
+| `GuardiansDatabasePage` / `useGuardians` | `phone` |
+| `AssemblyMembersDatabasePage` | `phone` |
+| `BoardMembersDatabasePage` | `phone` |
+| `SuppliersDatabasePage` + `SuppliersTable` | `phone` |
+| `EmployeesListPage` / `useEmployees` | `phone` |
+| `ShareholdersAccountsPage` | `phone` |
+| `ManageRepresentativesAccountsPage` | `phone` |
+| `ManageGuardiansAccountsPage` | `phone` |
+| `ManageSupplierAccountsPage` | `phone` |
+| `ViewDetailsDialog` | يفحص أي قيمة تطابق Regex جوال |
+| `ProfileCard` / `EmployeeCard` | `phone` |
 
-### هـ — صفحات الطلبات والمهام
-- التأكد من أن جميع صفحات `*Request*Page` و`*Task*Page` تحتوي على زر "إضافة طلب جديد" / "إضافة مهمة جديدة" مرتبط بـ `requests` / `tasks`
+**الاستراتيجية:** تعديل `ViewDetailsDialog` ليفحص كل `value` تلقائياً → يغطي معظم الحوارات بدون تعديل فردي. للجداول، استبدال `<TableCell>{x.phone}</TableCell>` بـ `<TableCell><MaskedPhone value={x.phone} /></TableCell>`.
 
-## التنفيذ
+## 6) واجهة الإدارة
+في `AdminPermissionsPage`:
+- ستظهر صلاحية جديدة باسم **"الاطلاع على أرقام التواصل"** ضمن صلاحيات النظام
+- الأدمن يقدر يفعّلها لأي دور بنقرة واحدة
+- التغيير يطبّق فوراً (RLS + UI re-fetch)
 
-| الملف | التعديل |
-|-------|---------|
-| `src/pages/items/GenericModulePage.tsx` | إضافة/تأكيد زر "إضافة سجل جديد" + Dialog ديناميكي يحفظ في الجدول المحدد بالـ slug |
-| `src/pages/items/RegisterProjectExpensePage.tsx` | استبدال زر "إدارة" بزر "تسجيل مصروف" + Dialog حفظ في `journal_entries` |
-| `src/pages/items/RegisterProjectRevenuePage.tsx` | استبدال زر "إدارة" بزر "تسجيل إيراد" + Dialog حفظ في `journal_entries` |
-| `src/pages/items/MailPage.tsx` | ربط `onNewMail` بـ Dialog إنشاء بريد فعلي يحفظ في `mail_messages` |
-| `src/components/dialogs/NewMailDialog.tsx` (جديد) | Dialog إرسال بريد داخلي |
-| `src/components/dialogs/RegisterFinancialDialog.tsx` (جديد) | Dialog موحد لتسجيل مصروف/إيراد |
-| `src/components/dialogs/GenericAddRecordDialog.tsx` (جديد إن لم يوجد) | Dialog ديناميكي يولد الحقول بناء على slug |
-| `src/utils/slugToTable.ts` (جديد إن لم يوجد) | Mapping من slug → table name + حقول |
+## 7) الفحص النهائي
+- مستخدم بدون الصلاحية: يرى شريط أسود في كل مكان، لا يستطيع نسخ الرقم، لا يظهر في DOM inspector كنص واضح (مُخزّن في CSS attribute فقط).
+- مستخدم بالصلاحية: يرى الأرقام طبيعية.
+- النموذج (Input) عند الإدخال يبقى يعمل عادي لأن المستخدم يكتب رقمه بنفسه.
 
-## النتيجة المتوقعة
-- كل شاشة جدول تحتوي على زر "إضافة" واضح في الأعلى
-- كل زر إضافة يفتح Dialog حقيقي يحفظ في DB
-- toast نجاح + تحديث القائمة فوراً بعد الحفظ
-- لا يوجد أي زر بدون وظيفة (التزام كامل بسياسة Zero Placeholder)
-- صفحات العرض فقط (الملغاة/المكتملة/المؤرشفة) لا تحتوي على زر إضافة (سلوك صحيح)
+## الملفات المتأثرة
+**جديدة:**
+- `src/hooks/usePhonePermission.ts`
+- `src/components/shared/MaskedPhone.tsx`
+- Migration: إضافة `view_phone_numbers` لجدول permissions
+
+**معدلة:**
+- `src/index.css` (CSS الحماية)
+- `src/components/dialogs/ViewDetailsDialog.tsx` (فحص تلقائي)
+- ~12 صفحة جداول تعرض أرقام جوال
+- `src/pages/AdminPermissionsPage.tsx` (إظهار الصلاحية الجديدة بالعربي)
+
+## الناتج
+خصوصية كاملة لأرقام التواصل + نظام صلاحيات مرن + حماية ضد النسخ والـ DevTools snooping البسيط.
 
